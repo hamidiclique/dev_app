@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.test.app.dao.HotelMapper">
+ 
+<resultMap type="hotel" id="result">
+<id property="hotelId" column="HOTEL_ID" />
+<result property="hotelName" column="HOTEL_NAME" />
+<result property="totalRooms" column="TOTAL_ROOMS" />
+<result property="status" column="STATUS" />
+<result property="city" column="CITY" />
+</resultMap>
+ 
+<select id="getAllHotels" resultType="hotel" resultMap="result">
+SELECT * FROM T_MASTER_HOTEL
+</select>
+ 
+<insert id="insertHotel" parameterType="hotel" keyProperty="hotelId" useGeneratedKeys="true">
+INSERT INTO T_MASTER_HOTEL(HOTEL_ID, HOTEL_NAME, TOTAL_ROOMS, STATUS, CITY)
+VALUES(#{hotelId}, #{hotelName}, #{totalRooms}, #{status}, #{city})
+</insert>
+ 
+<update id="updateHotel" parameterType="hotel">
+UPDATE T_MASTER_HOTEL SET HOTEL_NAME = #{hotelName}, TOTAL_ROOMS = #{totalRooms}, STATUS = #{status}, CITY = #{city}
+WHERE HOTEL_ID = #{hotelId}
+</update>
+ 
+<delete id="deleteHotel" parameterType="String">
+DELETE FROM T_MASTER_HOTEL WHERE HOTEL_ID = #{hotelId}
+</delete>
+ 
+<select id="findById" parameterType="String" resultType="hotel" resultMap="result">
+SELECT * FROM T_MASTER_HOTEL WHERE HOTEL_ID = #{hotelId}
+</select>
+</mapper>
