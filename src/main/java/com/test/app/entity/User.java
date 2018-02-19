@@ -21,9 +21,9 @@ public class User implements Serializable {
 	@Column(name="USER_ID")
 	private String userId;
 
-	@Temporal(TemporalType.DATE)
 	@Column(name="ACCOUNT_EXP_DATE")
-	private Date accountExpDate;
+	//private Date accountExpDate;
+	private String accountExpDate;
 
 	@Column(name="CONTACT_NUMBER")
 	private String contactNumber;
@@ -39,7 +39,10 @@ public class User implements Serializable {
 
 	@Column(name="LAST_LOGIN")
 	private Timestamp lastLogin;
-
+	
+	@Column(name="LOGIN_ATTEMPT")
+	private BigDecimal loginAttempt;
+	
 	@Column(name="MODIFY_BY")
 	private String modifyBy;
 
@@ -96,11 +99,11 @@ public class User implements Serializable {
 		this.userId = userId;
 	}
 
-	public Date getAccountExpDate() {
+	public String getAccountExpDate() {
 		return this.accountExpDate;
 	}
 
-	public void setAccountExpDate(Date accountExpDate) {
+	public void setAccountExpDate(String accountExpDate) {
 		this.accountExpDate = accountExpDate;
 	}
 
@@ -270,6 +273,14 @@ public class User implements Serializable {
 
 	public void setViewSensitiveData(String viewSensitiveData) {
 		this.viewSensitiveData = viewSensitiveData;
+	}
+
+	public BigDecimal getLoginAttempt() {
+		return loginAttempt;
+	}
+
+	public void setLoginAttempt(BigDecimal loginAttempt) {
+		this.loginAttempt = loginAttempt;
 	}
 
 }

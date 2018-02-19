@@ -5,6 +5,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 <configuration>
 	<typeAliases>
 		<typeAlias type="com.test.app.entity.Hotel" alias="hotel" />
+		<typeAlias type="com.test.app.entity.User" alias="user" />
 	</typeAliases>
 	<environments default="development">
 		<environment id="development">
@@ -20,5 +21,6 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 	</environments>
 	<mappers>
 		<mapper resource="com/test/app/mapper/HotelMapper.xml" />
+		<mapper resource="com/test/app/mapper/UserMapper.xml" />
 	</mappers>
 </configuration>

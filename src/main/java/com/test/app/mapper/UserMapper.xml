@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.test.app.dao.UserMapper">
+
+	<resultMap type="user" id="result">
+		<id property="userId" column="USER_ID" />
+		<result property="accountExpDate" column="ACCOUNT_EXP_DATE" />
+		<result property="contactNumber" column="CONTACT_NUMBER" />
+		<result property="department" column="DEPARTMENT" />
+		<result property="designation" column="DESIGNATION" />
+		<result property="email" column="EMAIL" />
+		<result property="failCount" column="FAIL_COUNT" />
+		<result property="lastLogin" column="LAST_LOGIN" />
+		<result property="loginAttempt" column="LOGIN_ATTEMPT" />
+		<result property="modifyBy" column="MODIFY_BY" />
+		<result property="modifyTime" column="MODIFY_TIME" />
+		<result property="password" column="PASSWORD" />
+		<result property="passwordCreDate" column="PASSWORD_CRE_DATE" />
+		<result property="passwordExpDate" column="PASSWORD_EXP_DATE" />
+		<result property="passwordExpiry" column="PASSWORD_EXPIRY" />
+		<result property="printPan" column="PRINT_PAN" />
+		<result property="printPanOnlineRepProf" column="PRINT_PAN_ONLINE_REP_PROF" />
+		<result property="staffId" column="STAFF_ID" />
+		<result property="status" column="STATUS" />
+		<result property="userName" column="USER_NAME" />
+		<result property="userRoleId" column="USER_ROLE_ID" />
+		<result property="viewPan" column="VIEW_PAN" />
+		<result property="viewPanFuncProf" column="VIEW_PAN_FUNC_PROF" />
+		<result property="viewSensitiveData" column="VIEW_SENSITIVE_DATA" />
+	</resultMap>
+
+	<select id="getAllUsers" resultType="user" resultMap="result">
+		SELECT * FROM T_USER
+	</select>
+
+	<insert id="insertNewUser" parameterType="user" keyProperty="userId"
+		useGeneratedKeys="true">
+		INSERT INTO T_USER(USER_ID, ACCOUNT_EXP_DATE, CONTACT_NUMBER, DEPARTMENT, DESIGNATION, EMAIL, FAIL_COUNT, LAST_LOGIN, LOGIN_ATTEMPT, MODIFY_BY, MODIFY_TIME, PASSWORD, PASSWORD_CRE_DATE, PASSWORD_EXP_DATE, PASSWORD_EXPIRY, PRINT_PAN, STAFF_ID, STATUS, USER_NAME, USER_ROLE_ID, VIEW_PAN, VIEW_SENSITIVE_DATA)
+			VALUES(#{userId}, #{accountExpDate}, #{contactNumber}, #{department}, #{designation}, #{email}, #{failCount}, #{lastLogin}, #{loginAttempt}, #{modifyBy}, #{modifyTime}, #{password}, #{passwordCreDate}, #{passwordExpDate}, #{passwordExpiry}, #{printPan}, #{staffId}, #{status}, #{userName}, #{userRoleId}, #{viewPan}, #{viewSensitiveData})
+	</insert>
+
+	<update id="updateUserInfo" parameterType="user">
+		UPDATE T_USER SET
+		USER_NAME = #{userName}, STAFF_ID = #{staffId}, PASSWORD_EXPIRY =
+		#{passwordExpiry}, STATUS = #{status}, DEPARTMENT = #{department},
+		DESIGNATION = #{designation},
+		VIEW_SENSITIVE_DATA = #{viewSensitiveData}, EMAIL = #{email}, CONTACT_NUMBER = #{contactNumber}, 
+		USER_ROLE_ID = #{userRoleId}, ACCOUNT_EXP_DATE = #{accountExpDate}, PRINT_PAN = #{printPan}, 
+		VIEW_PAN = #{viewPan}, MODIFY_TIME = #{modifyTime}, MODIFY_BY = #{modifyBy} WHERE USER_ID = #{userId}
+	</update>
+
+	<delete id="deleteUser" parameterType="String">
+		DELETE FROM
+		T_USER WHERE USER_ID = #{userId}
+	</delete>
+
+	<select id="findUserById" parameterType="String" resultType="user"
+		resultMap="result">
+		SELECT * FROM T_USER WHERE USER_ID = #{userId}
+	</select> 
+
+</mapper>
