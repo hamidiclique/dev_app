@@ -6,6 +6,14 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 	<typeAliases>
 		<typeAlias type="com.test.app.entity.Hotel" alias="hotel" />
 		<typeAlias type="com.test.app.entity.User" alias="user" />
+		<typeAlias type="com.test.app.entity.SysLoginParam" alias="sysloginparam" />
+		<typeAlias type="com.test.app.entity.Function" alias="function" />
+		<typeAlias type="com.test.app.entity.Functiongrp" alias="functiongrp" />
+		<typeAlias type="com.test.app.entity.FungrpFunMap" alias="fungrpfunmap" />
+		<typeAlias type="com.test.app.entity.Module" alias="module" />
+		<typeAlias type="com.test.app.entity.Role" alias="role" />
+		<typeAlias type="com.test.app.entity.RoleFungrpMap" alias="rolefungrpmap" />
+		<typeAlias type="com.test.app.entity.UserRoleMap" alias="userrolemap" />
 	</typeAliases>
 	<environments default="development">
 		<environment id="development">
@@ -22,5 +30,8 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 	<mappers>
 		<mapper resource="com/test/app/mapper/HotelMapper.xml" />
 		<mapper resource="com/test/app/mapper/UserMapper.xml" />
+		<mapper resource="com/test/app/mapper/SysLoginParamMapper.xml" />
+		<mapper resource="com/test/app/mapper/ModuleMapper.xml"/>
+		<mapper resource="com/test/app/mapper/FunctionMapper.xml"/>
 	</mappers>
 </configuration>

@@ -2,8 +2,6 @@ package com.test.app.controller;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -11,6 +9,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Controller;
@@ -20,27 +21,39 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.test.app.entity.User;
 import com.test.app.service.UserService;
+import com.test.app.util.SessionUtil;
+import com.test.app.util.StringUtil;
 
 @Controller
 public class AccessControlListController {
+	
+	private static final Logger logger = Logger.getLogger(AccessControlListController.class);
 	
 	@Autowired
 	UserService userService;
 	
 	@RequestMapping(value = "/addNewUser", method = RequestMethod.GET)
-	public String showAddUserScreen(ModelMap model) {
+	public String showAddUserScreen(ModelMap model, HttpSession session, RedirectAttributes red) {
 		try {
-			User user = new User();
-			model.addAttribute("user", user);
-		} catch (Exception ex) {
-			ex.toString();
+			if(SessionUtil.sessionValid(session, red).equalsIgnoreCase(StringUtil.SESSION_VALID)) {
+				User user = new User();
+				model.addAttribute("user", user);
+			}
+			else {
+				return "redirect:/login";
+			}			
+		} catch (Exception e) {
+			logger.debug(e.toString());			
+			red.addFlashAttribute("cause", StringUtil.UNKNOW_REASON);
+			return "redirect:/login";			
 		}
 		return "add_new_user";
 	}
-	
+
 	@RequestMapping(value = "/saveNewUser", method = RequestMethod.POST)
 	public String handleAddNewUser(@ModelAttribute("user") User user, BindingResult result, ModelMap model) {
 		User newUser = user;
@@ -111,8 +124,8 @@ public class AccessControlListController {
 	@ModelAttribute("commonStatus")
 	protected Map<String, String> getCommonStatusVariables() {
 		Map<String, String> commonVarList = new HashMap<String, String>();
-		commonVarList.put("N", "No");
 		commonVarList.put("Y", "Yes");
+		commonVarList.put("N", "No");		
         return commonVarList;
     }
 	
@@ -142,5 +155,7 @@ public class AccessControlListController {
 		statusOptions.put("LOCKED", "LOCKED");
         return statusOptions;
     }
-
+	
+	
+	
 }

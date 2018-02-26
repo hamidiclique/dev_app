@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.test.app.dao.ModuleMapper">
+
+	<resultMap type="module" id="result">
+		<id property="moduleId" column="MODULE_ID" />
+		<result property="moduleDesc" column="MODULE_DESC" />
+		<result property="modifyBy" column="MODIFY_BY" />
+		<result property="modifyTime" column="MODIFY_TIME" />
+	</resultMap>
+
+	<select id="getModulesByUser" parameterType="String" resultType="module"
+		resultMap="result">
+		SELECT * FROM T_MODULE WHERE MODULE_ID IN
+			(SELECT MODULE_ID FROM T_FUNCTION WHERE FUNCTION_ID IN
+				(SELECT FUNCTION_ID FROM T_FUNGRP_FUN_MAP WHERE FUNCTIONGRP_ID IN
+					(SELECT FUNCTIONGRP_ID FROM T_ROLE_FUNGRP_MAP WHERE ROLE_ID IN
+						(SELECT USER_ROLE_ID FROM T_USER WHERE USER_ID = #{userId} )
+					)
+				)
+			)
+	</select> 
+ 	
+ 	<select id="getAllModules" resultType="module" resultMap="result">
+		SELECT * FROM T_MODULE
+	</select>
+
+<!--
+	<insert id="insertNewUser" parameterType="user" keyProperty="userId"
+		useGeneratedKeys="true">
+		INSERT INTO T_USER(USER_ID, ACCOUNT_EXP_DATE, CONTACT_NUMBER, DEPARTMENT, DESIGNATION, EMAIL, FAIL_COUNT, LAST_LOGIN, LOGIN_ATTEMPT, MODIFY_BY, MODIFY_TIME, PASSWORD, PASSWORD_CRE_DATE, PASSWORD_EXP_DATE, PASSWORD_EXPIRY, PRINT_PAN, STAFF_ID, STATUS, USER_NAME, USER_ROLE_ID, VIEW_PAN, VIEW_SENSITIVE_DATA)
+			VALUES(#{userId}, #{accountExpDate}, #{contactNumber}, #{department}, #{designation}, #{email}, #{failCount}, #{lastLogin}, #{loginAttempt}, #{modifyBy}, #{modifyTime}, #{password}, #{passwordCreDate}, #{passwordExpDate}, #{passwordExpiry}, #{printPan}, #{staffId}, #{status}, #{userName}, #{userRoleId}, #{viewPan}, #{viewSensitiveData})
+	</insert>
+
+	<update id="updateUserInfo" parameterType="user">
+		UPDATE T_USER SET
+		USER_NAME = #{userName}, STAFF_ID = #{staffId}, PASSWORD_EXPIRY =
+		#{passwordExpiry}, STATUS = #{status}, DEPARTMENT = #{department},
+		DESIGNATION = #{designation},
+		VIEW_SENSITIVE_DATA = #{viewSensitiveData}, EMAIL = #{email}, CONTACT_NUMBER = #{contactNumber}, 
+		USER_ROLE_ID = #{userRoleId}, ACCOUNT_EXP_DATE = #{accountExpDate}, PRINT_PAN = #{printPan}, 
+		VIEW_PAN = #{viewPan}, MODIFY_TIME = #{modifyTime}, MODIFY_BY = #{modifyBy} WHERE USER_ID = #{userId}
+	</update>
+
+	<delete id="deleteUser" parameterType="String">
+		DELETE FROM
+		T_USER WHERE USER_ID = #{userId}
+	</delete> -->	
+
+</mapper>

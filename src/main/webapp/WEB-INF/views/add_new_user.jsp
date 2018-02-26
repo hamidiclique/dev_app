@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Page Title</title>
+<title>ACL demo</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -74,16 +74,13 @@
 					<tr>
 						<th>Password Never Expires:</th>
 						<td><form:select path="passwordExpiry">
-								<option value="N">No</option>
-								<option value="Y">Yes</option>
+								<form:options items="${commonStatus}" />
 							</form:select></td>
 					</tr>
 					<tr>
 						<th>Status:</th>
 						<td><form:select path="status">
-								<option value="ACTIVE">ACTIVE</option>
-								<option value="INACTIVE">INACTIVE</option>
-								<option value="LOCKED">LOCKED</option>
+								<form:options items="${statusOptions}" />
 							</form:select></td>
 					</tr>
 					<tr>
@@ -94,8 +91,7 @@
 					<tr>
 						<th>View Sensitive Data:</th>
 						<td><form:select path="viewSensitiveData">
-								<option value="N">No</option>
-								<option value="Y">Yes</option>
+								<form:options items="${commonStatus}" />
 							</form:select></td>
 					</tr>
 					<tr>
@@ -115,8 +111,7 @@
 					<tr>
 						<th><span class="required">*</span>User Role ID:</th>
 						<td><form:select path="userRoleId">
-								<option value="SUPER">Super</option>
-								<option value="TEST">Test</option>
+								<form:options items="${userRoleOptions}" />
 							</form:select></td>
 					</tr>
 					<tr>
@@ -127,17 +122,13 @@
 					<tr>
 						<th><span class="required">*</span>View PAN:</th>
 						<td><form:select path="viewPan">
-								<option value="0">0 - Mask Always</option>
-								<option value="1">1 - Conditional Masking</option>
-								<option value="2">2 - Do Not Mask</option>
+								<form:options items="${panMaskOptions}" />
 							</form:select></td>
 					</tr>
 					<tr>
 						<th><span class="required">*</span>Print PAN:</th>
 						<td><form:select path="printPan">
-								<option value="0">0 - Mask Always</option>
-								<option value="1">1 - Conditional Masking</option>
-								<option value="2">2 - Do Not Mask</option>
+								<form:options items="${panMaskOptions}" />
 							</form:select></td>
 					</tr>
 					<tr>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.test.app.dao.FunctioneMapper">
+
+	<resultMap type="function" id="result">
+		<id property="functionId" column="FUNCTION_ID" />
+		<result property="batchrunStatus" column="BATCHRUN_STATUS" />
+		<result property="functionDesc" column="FUNCTION_DESC" />
+		<result property="logInd" column="LOG_IND" />
+		<result property="modifyBy" column="MODIFY_BY" />
+		<result property="modifyTime" column="MODIFY_TIME" />
+		<result property="moduleId" column="MODULE_ID" />
+	</resultMap>
+
+	<select id="getFunctionsByUser" parameterType="String" resultType="function"
+		resultMap="result">
+		SELECT * FROM T_FUNCTION WHERE FUNCTION_ID IN
+			(SELECT FUNCTION_ID FROM T_FUNGRP_FUN_MAP WHERE FUNCTIONGRP_ID IN
+				(SELECT FUNCTIONGRP_ID FROM T_ROLE_FUNGRP_MAP WHERE ROLE_ID IN
+					(SELECT USER_ROLE_ID FROM T_USER WHERE USER_ID = #{userId} )
+				)
+			)			
+	</select> 
+
+</mapper>

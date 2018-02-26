@@ -7,16 +7,16 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import com.test.app.config.MyBatisUtil;
-import com.test.app.entity.User;
+import com.test.app.entity.SysLoginParam;
 
 @Repository
-public class UserMapper implements IUserMapper {
-	
+public class SysloginParamMapper implements ISysloginParamMapper {
+
 	@Override
-	public void saveNewUser(User user) {
+	public void addSysLoginParam(SysLoginParam slp) {
 		SqlSession session = MyBatisUtil.getSqlSessionFactory().openSession();
 		try {
-			session.insert("insertNewUser", user);
+			session.insert("addSysLoginParam", slp);
 			session.commit();
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -25,13 +25,13 @@ public class UserMapper implements IUserMapper {
 			session.close();
 		}
 	}
-	
+
 	@Override
-	public List<User> getAllUsers() {
-		List<User> userList = new ArrayList<User>();
+	public List<SysLoginParam> getAllSysLoginParams() {
+		List<SysLoginParam> slpList = new ArrayList<SysLoginParam>();
 		SqlSession session = MyBatisUtil.getSqlSessionFactory().openSession();
 		try {
-			userList = session.selectList("getAllUsers");
+			slpList = session.selectList("getAllSysLoginParams");
 			session.commit();
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -39,16 +39,16 @@ public class UserMapper implements IUserMapper {
 		} finally {
 			session.close();
 		}
-		return userList;
+		return slpList;
 	}
-	
+
 	@Override
-	public User getUserById(String searchId) {
+	public SysLoginParam getSLPById(String searchId) {
 		// TODO Auto-generated method stub
-		User userMpr = new User();
+		SysLoginParam slp = new SysLoginParam();
 		SqlSession session = MyBatisUtil.getSqlSessionFactory().openSession();
 		try {
-			userMpr = session.selectOne("findUserById", searchId);
+			slp = session.selectOne("findByParamId", searchId);
 			session.commit();
 		} catch(Exception ex) {
 			ex.toString();
@@ -56,15 +56,15 @@ public class UserMapper implements IUserMapper {
 		} finally {
 			session.close();
 		}		
-		return userMpr;
+		return slp;
 	}
-	
+
 	@Override
-	public void updateUserInfoProcess(User user) {
+	public void editSysLoginParam(SysLoginParam slp) {
 		// TODO Auto-generated method stub
 		SqlSession session = MyBatisUtil.getSqlSessionFactory().openSession();
 		try {
-			session.update("updateUserInfo", user);
+			session.update("editSysLoginParam", slp);
 			session.commit();
 		}
 		catch (Exception e) {
@@ -76,5 +76,5 @@ public class UserMapper implements IUserMapper {
 			session.close();
 		}
 	}
-	
+
 }

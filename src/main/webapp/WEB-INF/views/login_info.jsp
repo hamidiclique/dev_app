@@ -7,7 +7,9 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<%-- <p>add new hotel : ${outcome}</p> --%>
-	<a href="listOfHotel">Back to List</a> 
+	User Name : ${user.userName}<br>
+	Last Login : ${user.lastLogin}<br>
+	Last Password Change : ${user.passwordCreDate}<br>
+	<a href="showModules">Continue</a><br><a href="userLogout">Logout</a>
 </body>
 </html>
