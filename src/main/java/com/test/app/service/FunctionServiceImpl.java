@@ -29,6 +29,20 @@ public class FunctionServiceImpl implements FunctionService {
 			return listFunction;
 		}
 		return listFunction;
+	}
+
+	@Override
+	public List<Function> getAllFunctions() {
+		// TODO Auto-generated method stub
+		List<Function> listFunction = new ArrayList<Function>();
+		try {
+			listFunction = funcMapper.listFunctions();
+		}
+		catch(Exception ex) {
+			ex.toString();
+			return listFunction;
+		}
+		return listFunction;
 	}	
 
 }

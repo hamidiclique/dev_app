@@ -18,6 +18,12 @@
 <script
 	src="${pageContext.request.contextPath}/resources/js/change_password.js"></script>
 
+<style>
+.error {
+	color: red;
+}
+</style>
+
 </head>
 <body>
 	<c:set var="contextPath" value="${pageContext.request.contextPath}" />
@@ -27,9 +33,9 @@
 		<a href="userLogout">Logout</a>
 		<hr />
 
-		<form:form action="" modelAttribute="cpdto">
+		<form:form action="handlePasswordChange" modelAttribute="cpdto">
 			<table>
-				<tr style="display:none">
+				<tr style="display: none">
 					<th>User ID:</th>
 					<td><form:input type="text" name="userId" path="userId"
 							required="true" readonly="true"></form:input></td>
@@ -41,25 +47,29 @@
 				</tr>
 				<tr>
 					<th>Current Password:</th>
-					<td><form:input type="password" name="password" path="password"
-							required="true"></form:input></td>
+					<td><form:input type="password" name="password"
+							path="password" required="true"></form:input></td>
 				</tr>
 				<tr>
 					<th>New Password:</th>
-					<td><form:input type="password" name="newPassword" path="newPassword" id="newPassword"
-							required="true"></form:input></td>
+					<td><form:input type="password" name="newPassword"
+							path="newPassword" id="newPassword" required="true"></form:input></td>
 				</tr>
 				<tr>
 					<th>Confirm New Password:</th>
-					<td><form:input type="password" name="confirmPassword" path="confirmPassword" id="confirmPassword"
-							required="true"></form:input><span
-							id='message'></span></td>
+					<td><form:input type="password" name="confirmPassword"
+							path="confirmPassword" id="confirmPassword" required="true"></form:input><span
+						id='message'></span></td>
 				</tr>
 				<tr>
-						<td></td>
-						<td><input type="submit" value="Save" id="btnChangePwd" />&nbsp;
-							<input type="reset" value="Reset" /></td>
-					</tr>
+					<td></td>
+					<td><input type="submit" value="Save" id="btnChangePwd" />&nbsp;
+						<input type="reset" value="Reset" /></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td><p class="error">${error}</p></td>
+				</tr>
 			</table>
 		</form:form>
 	</center>

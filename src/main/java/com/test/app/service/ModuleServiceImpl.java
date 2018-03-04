@@ -43,4 +43,17 @@ public class ModuleServiceImpl implements ModuleService {
 		return listModule;
 	}
 
+	@Override
+	public Module getModuleById(String mid) {
+		// TODO Auto-generated method stub
+		Module module = new Module();
+		try {
+			module = moduleMapper.getModuleById(mid);
+		} catch (Exception ex) {
+			ex.toString();
+			return module;
+		}
+		return module;
+	}
+
 }

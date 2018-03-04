@@ -46,4 +46,21 @@ public class ModuleMapper implements IModuleMapper {
 		return modlist;
 	}
 
+	@Override
+	public Module getModuleById(String moduleId) {
+		// TODO Auto-generated method stub
+		Module module = new Module();
+		SqlSession session = MyBatisUtil.getSqlSessionFactory().openSession();
+		try {
+			module = session.selectOne("getModuleById", moduleId);
+			session.commit();
+		} catch (Exception ex) {
+			ex.toString();
+			session.rollback();
+		} finally {
+			session.close();
+		}
+		return module;
+	}
+
 }

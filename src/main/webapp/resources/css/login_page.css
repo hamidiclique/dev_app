@@ -1,0 +1,57 @@
+@charset "ISO-8859-1";
+
+.login-block {
+    width: 320px;
+    padding: 20px;
+    background: #fff;    
+    border-top: 5px solid #0b6e3e;
+    border: 1px solid #ccc;
+    margin: 0 auto;
+}
+
+.login-block input {
+    width: 100%;
+    height: 42px;
+    box-sizing: border-box;    
+    margin-bottom: 20px;
+    font-size: 14px;    
+    padding: 0 20px 0 50px;    
+}
+
+.login-block input#userId {
+    background: #fff url(../img/u0XmBmv.png) 20px top no-repeat;
+    background-size: 16px 80px;
+}
+
+.login-block input#userId:focus {
+    background: #fff url(../img/u0XmBmv.png) 20px bottom no-repeat;
+    background-size: 16px 80px;
+}
+
+.login-block input#password {
+    background: #fff url(../img/Qf83FTt.png) 20px top no-repeat;
+    background-size: 16px 80px;
+}
+
+.login-block input#password:focus {
+    background: #fff url(../img/Qf83FTt.png) 20px bottom no-repeat;
+    background-size: 16px 80px;
+}
+
+.login-block input:active, .login-block input:focus {
+    border: 1px solid #0b6e3e;
+}
+
+.login-block button {
+    width: 100%;
+    height: 40px;
+    background: #0b6e3e;    
+    border: 1px solid #139c5b;
+    color: #fff;    
+    font-size: 14px;
+   
+}
+
+.login-block button:hover {
+    background: #139c5b;
+}

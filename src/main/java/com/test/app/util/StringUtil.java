@@ -33,4 +33,13 @@ public class StringUtil {
 	public static final String SESSION_VALID = "VALID SESSION";
 	public static final String SESSION_NOT_VALID = "INVALID SESSION";
 	
+	public static final String SESSION_MODULES = "MODULES";
+	public static final String SESSION_FUNCTIONS = "FUNCTIONS";
+	public static final String SESSION_FUN_MOD_MAP = "FUNCTION MODULE MAP";	
+	public static final String SESSION_SCR_FUN_MAP = "SCREEN FUNCTION MAP";
+	
+	public static final String OLD_NEW_PASSWORD_MISMATCH = "INCORRECT OLD PASSWORD";
+	public static final String NO_PERMISSION_FOR_SCREEN = "USER NOT AUTHORIZED TO VIEW REQUESTED PAGE";
+	public static final String NO_ACCESS_TOKEN = "ACCESS TOKEN FOUND NULL OR EMPTY";
+	public static final String NO_MAPPING_FOUND = "COULD NOT MAP SCREEN FUNCTION PAIR TO ANY PATH";
 }

@@ -10,4 +10,6 @@ public interface ModuleService {
 
 	public List<Module> getAllModules();
 
+	public Module getModuleById(String mid);
+
 }

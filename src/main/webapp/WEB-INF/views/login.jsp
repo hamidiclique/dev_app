@@ -6,7 +6,11 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>HelloWorld page</title>
+<title>Demo App</title>
+
+<link
+	href="${pageContext.request.contextPath}/resources/css/login_page.css"
+	rel="stylesheet">
 
 <style>
 .error {
@@ -17,31 +21,22 @@
 </head>
 <body>
 	<center>
-
-		<hr />
+		<h2>LOGIN</h2>
 		<form:form action="authLogin" modelAttribute="credentials">
-			<table>
-				<tr>
-					<th>User ID:</th>
-					<td><form:input type="text" name="userId" path="userId"></form:input></td>
-				</tr>
-				<tr>
-					<th>Password:</th>
-					<td><form:input type="password" name="password"
-							path="password"></form:input></td>
-				</tr>
-				<tr>
-					<td></td>
-					<td><input type="submit" value="Submit" />&nbsp;
-						<input type="reset" value="Reset" /></td>
-				</tr>
-				<tr>
-					<td></td>
-					<td class="error">${cause}</td>
-				</tr>
-			</table>
-		</form:form>
+			<div class="login-block">				
 
+				<form:input type="text" id="userId" path="userId"
+					placeholder="Username"></form:input>
+
+				<form:input type="password" id="password" placeholder="Password"
+					path="password"></form:input>
+
+				<button type="submit" value="Submit">Submit</button>
+
+				<p class="error">${cause}</p>
+
+			</div>
+		</form:form>
 	</center>
 </body>
 </html>

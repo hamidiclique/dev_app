@@ -8,7 +8,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<id property="functionId" column="FUNCTION_ID" />
 		<result property="batchrunStatus" column="BATCHRUN_STATUS" />
 		<result property="functionDesc" column="FUNCTION_DESC" />
-		<result property="logInd" column="LOG_IND" />
+		<result property="functionFlag" column="FUNCTION_FLAG" />
 		<result property="modifyBy" column="MODIFY_BY" />
 		<result property="modifyTime" column="MODIFY_TIME" />
 		<result property="moduleId" column="MODULE_ID" />
@@ -22,6 +22,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 					(SELECT USER_ROLE_ID FROM T_USER WHERE USER_ID = #{userId} )
 				)
 			)			
+	</select>
+	<select id="getAllFunctions" resultType="function" resultMap="result">
+		SELECT * FROM T_FUNCTION
 	</select> 
 
 </mapper>

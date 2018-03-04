@@ -1,9 +1,14 @@
 $(function() {
 	$("#btnChangePwd").click(function() {
-		var pwd = $("#newPassword").val();
-		var cpwd = $("#confirmPassword").val();
-		if (pwd != cpwd) {
-			alert("Passwords do not match.");
+		var oldpwd = $("#password").val();
+		var newpwd = $("#newPassword").val();
+		var cnewpwd = $("#confirmPassword").val();
+		if (newpwd != cnewpwd) {
+			alert("Passwords do not match");
+			return false;
+		}
+		else if (oldpwd == newpwd) {
+			alert("New Password can not be same as current password");
 			return false;
 		}
 		return true;

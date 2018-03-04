@@ -9,5 +9,7 @@ public interface IModuleMapper {
 	public List<Module> listModulesByUser(String username);
 
 	public List<Module> listModules();
+
+	public Module getModuleById(String moduleId);
 	
 }

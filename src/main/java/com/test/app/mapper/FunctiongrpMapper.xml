@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.test.app.dao.FunctiongrpMapper">
+
+	<resultMap type="functiongrp" id="result">
+		<id property="functiongrpId" column="FUNCTIONGRP_ID" />
+		<result property="functiongrpDesc" column="FUNCTIONGRP_DESC" />
+		<result property="modifyBy" column="MODIFY_BY" />
+		<result property="modifyTime" column="MODIFY_TIME" />
+	</resultMap>
+
+	<select id="getAllFunctionGroups" resultType="functiongrp" resultMap="result">
+		SELECT * FROM T_FUNCTIONGRP
+	</select>
+	
+	<select id="findFunctionGroupById" parameterType="String" resultType="functiongrp"
+		resultMap="result">
+		SELECT * FROM T_FUNCTIONGRP WHERE FUNCTIONGRP_ID = #{functiongrpId}
+	</select> 
+
+</mapper>

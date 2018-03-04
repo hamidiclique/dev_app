@@ -9,5 +9,6 @@ public interface IUserMapper {
 	public void saveNewUser(User user);	
 	public List<User> getAllUsers();
 	public User getUserById(String searchId);
-	public void updateUserInfoProcess(User user); 	
+	public void updateUserInfoProcess(User user);
+	public void processPasswordChange(User temp); 	
 }

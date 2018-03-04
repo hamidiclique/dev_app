@@ -19,8 +19,6 @@
 
 <script
 	src="${pageContext.request.contextPath}/resources/js/add_new_user.js"></script>
-<link href="${pageContext.request.contextPath}/resources/css/main.css"
-	rel="stylesheet">
 
 <script>
 	$(document).ready(function() {

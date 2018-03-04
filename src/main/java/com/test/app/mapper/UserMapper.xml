@@ -50,6 +50,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		USER_ROLE_ID = #{userRoleId}, ACCOUNT_EXP_DATE = #{accountExpDate}, PRINT_PAN = #{printPan}, 
 		VIEW_PAN = #{viewPan}, MODIFY_TIME = #{modifyTime}, MODIFY_BY = #{modifyBy} WHERE USER_ID = #{userId}
 	</update>
+	
+	<update id="updateUserPasswordInfo" parameterType="user">
+		UPDATE T_USER SET
+		PASSWORD = #{password}, PASSWORD_CRE_DATE = #{passwordCreDate}, MODIFY_TIME = #{modifyTime}, MODIFY_BY = #{modifyBy} WHERE USER_ID = #{userId}
+	</update>
 
 	<delete id="deleteUser" parameterType="String">
 		DELETE FROM
@@ -59,6 +64,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="findUserById" parameterType="String" resultType="user"
 		resultMap="result">
 		SELECT * FROM T_USER WHERE USER_ID = #{userId}
-	</select> 
+	</select>
 
 </mapper>

@@ -24,7 +24,7 @@
 			</tr>
 			<c:forEach items="${funmodmap}" var="funmodmap" varStatus="count">
 				<tr>
-					<c:url var="link" value="">
+					<c:url var="link" value="viewFunctions">
 						<c:param name="moduleId" value="${funmodmap.key}" />
 					</c:url>
 					<c:set var="moduleKey">${funmodmap.key}</c:set>

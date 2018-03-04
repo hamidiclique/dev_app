@@ -25,8 +25,8 @@ public class Function implements Serializable {
 	@Column(name="FUNCTION_DESC")
 	private String functionDesc;
 
-	@Column(name="LOG_IND")
-	private String logInd;
+	@Column(name="FUNCTION_FLAG")
+	private String functionFlag;
 
 	@Column(name="MODIFY_BY")
 	private String modifyBy;
@@ -64,12 +64,12 @@ public class Function implements Serializable {
 		this.functionDesc = functionDesc;
 	}
 
-	public String getLogInd() {
-		return this.logInd;
+	public String getFunctionFlag() {
+		return this.functionFlag;
 	}
 
-	public void setLogInd(String logInd) {
-		this.logInd = logInd;
+	public void setFunctionFlag(String functionFlag) {
+		this.functionFlag = functionFlag;
 	}
 
 	public String getModifyBy() {

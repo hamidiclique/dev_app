@@ -2,6 +2,7 @@
 <!DOCTYPE configuration
 PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
 <configuration>
 	<typeAliases>
 		<typeAlias type="com.test.app.entity.Hotel" alias="hotel" />
@@ -14,6 +15,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<typeAlias type="com.test.app.entity.Role" alias="role" />
 		<typeAlias type="com.test.app.entity.RoleFungrpMap" alias="rolefungrpmap" />
 		<typeAlias type="com.test.app.entity.UserRoleMap" alias="userrolemap" />
+		<typeAlias type="com.test.app.entity.ScreenFunMap" alias="screenfunmap" />
 	</typeAliases>
 	<environments default="development">
 		<environment id="development">
@@ -23,7 +25,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 				<property name="url" value="jdbc:oracle:thin:@localhost:1521/xe" />
 				<property name="username" value="hamid" />
 				<property name="password" value="hamid" />
-				<property name="poolMaximumActiveConnections" value="50"/>
+				<property name="poolMaximumActiveConnections" value="50"/>	
 			</dataSource>
 		</environment>
 	</environments>
@@ -33,5 +35,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<mapper resource="com/test/app/mapper/SysLoginParamMapper.xml" />
 		<mapper resource="com/test/app/mapper/ModuleMapper.xml"/>
 		<mapper resource="com/test/app/mapper/FunctionMapper.xml"/>
+		<mapper resource="com/test/app/mapper/ScreenFunMapper.xml"/>
+		<mapper resource="com/test/app/mapper/FunctiongrpMapper.xml"/>
 	</mappers>
 </configuration>

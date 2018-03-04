@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.test.app.dao.ScreenFunMapper">
+
+	<resultMap type="screenfunmap" id="result">
+		<id property="id.screenId" column="SCREEN_ID" />
+		<id property="id.buttonDef" column="BUTTON_DEF" />
+		<id property="id.functionId" column="FUNCTION_ID" />
+		<result property="actlogSta" column="ACTLOG_STA" />
+		<result property="buttonDesc" column="BUTTON_DESC" />
+		<result property="resultPage" column="RESULT_PAGE" />
+	</resultMap>
+
+	<select id="getScreenFunMapsByUser" parameterType="String"
+		resultType="screenfunmap" resultMap="result">
+		SELECT * FROM T_SCREEN_FUN_MAP WHERE FUNCTION_ID IN
+			(SELECT FUNCTION_ID FROM T_FUNGRP_FUN_MAP WHERE FUNCTIONGRP_ID IN
+				(SELECT FUNCTIONGRP_ID FROM T_ROLE_FUNGRP_MAP WHERE ROLE_ID IN 
+					(SELECT USER_ROLE_ID FROM T_USER WHERE USER_ID = #{userId}
+					)
+				)
+			)
+	</select>
+
+</mapper>

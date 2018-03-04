@@ -67,5 +67,16 @@ public class UserServiceImpl implements UserService {
 			e.toString();
 		}
 	}
+
+	@Override
+	public void processPasswordChange(User temp) {
+		try {
+			userMapper.processPasswordChange(temp);
+		} 
+		catch (Exception e) {
+			// TODO: handle exception
+			e.toString();
+		}
+	}
 	
 }

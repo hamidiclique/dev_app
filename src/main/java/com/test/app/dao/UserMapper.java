@@ -76,5 +76,22 @@ public class UserMapper implements IUserMapper {
 			session.close();
 		}
 	}
+
+	@Override
+	public void processPasswordChange(User temp) {
+		SqlSession session = MyBatisUtil.getSqlSessionFactory().openSession();
+		try {
+			session.update("updateUserPasswordInfo", temp);
+			session.commit();
+		}
+		catch (Exception e) {
+			// TODO: handle exception
+			e.toString();
+			session.rollback();
+		}
+		finally {
+			session.close();
+		}
+	}
 	
 }

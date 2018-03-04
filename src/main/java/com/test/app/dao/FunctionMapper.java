@@ -29,4 +29,21 @@ public class FunctionMapper implements IFunctionMapper {
 		return funlist;
 	}
 
+	@Override
+	public List<Function> listFunctions() {
+		// TODO Auto-generated method stub
+		List<Function> funlist = new ArrayList<Function>();
+		SqlSession session = MyBatisUtil.getSqlSessionFactory().openSession();
+		try {
+			funlist = session.selectList("getAllFunctions");
+			session.commit();
+		} catch(Exception ex) {
+			ex.toString();
+			session.rollback();
+		} finally {
+			session.close();
+		}		
+		return funlist;
+	}
+
 }
