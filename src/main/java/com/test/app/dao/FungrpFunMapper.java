@@ -1,49 +1,44 @@
 package com.test.app.dao;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import com.test.app.config.MyBatisUtil;
-import com.test.app.entity.ScreenFunMap;
+import com.test.app.entity.FungrpFunMap;
 
 @Repository
-public class ScreenFunMapper implements IScreenFunMapper {
+public class FungrpFunMapper implements IFungrpFunMapper {
 
 	@Override
-	public List<ScreenFunMap> listScrFunMapsByUser(String username) {
+	public void deleteRecordsByFungrp(String functiongrpId) {
 		// TODO Auto-generated method stub
-		List<ScreenFunMap> scrnfunlist = new ArrayList<ScreenFunMap>();
 		SqlSession session = MyBatisUtil.getSqlSessionFactory().openSession();
 		try {
-			scrnfunlist = session.selectList("getScreenFunMapsByUser", username);
+			session.delete("deleteByFungrpId", functiongrpId);
 			session.commit();
 		} catch (Exception ex) {
-			ex.toString();
+			ex.printStackTrace();
 			session.rollback();
 		} finally {
 			session.close();
 		}
-		return scrnfunlist;
 	}
 
 	@Override
-	public List<ScreenFunMap> listDistinctScrFunPairByUser(String username) {
+	public void mapListedFunctionsToFungrp(List<FungrpFunMap> fungrpFunMapList) {
 		// TODO Auto-generated method stub
-		List<ScreenFunMap> scrnfunlist = new ArrayList<ScreenFunMap>();
 		SqlSession session = MyBatisUtil.getSqlSessionFactory().openSession();
-		try {
-			scrnfunlist = session.selectList("getDistinctScreenFunctionPairByUser", username);
+		try {			
+	        session.insert("mapFunctionsToFunroup", fungrpFunMapList);			
 			session.commit();
 		} catch (Exception ex) {
-			ex.toString();
+			ex.printStackTrace();
 			session.rollback();
 		} finally {
 			session.close();
 		}
-		return scrnfunlist;
 	}
 
 }

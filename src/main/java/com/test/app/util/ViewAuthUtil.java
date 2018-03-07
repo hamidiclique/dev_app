@@ -1,18 +1,32 @@
 package com.test.app.util;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.test.app.dto.ButtonDto;
 import com.test.app.dto.ViewAuthDto;
 import com.test.app.entity.ScreenFunMap;
+import com.test.app.entity.User;
+import com.test.app.service.FunctionService;
+import com.test.app.service.ScreenFunMapService;
 
+@Component
 public class ViewAuthUtil {
-	private static final Logger logger = Logger.getLogger(SessionUtil.class);
+	private static final Logger logger = Logger.getLogger(SessionUtil.class);	
+    private static ScreenFunMapService scrnfunmapService;
+
+    @Autowired
+    public ViewAuthUtil(ScreenFunMapService scrnfunmapService) {       
+        this.scrnfunmapService = scrnfunmapService;
+    }
 
 	@SuppressWarnings("unchecked")
 	public static ViewAuthDto isRequestValid(HttpServletRequest request, String function, String screen) {
@@ -24,6 +38,12 @@ public class ViewAuthUtil {
 		String resultPage = "";
 		boolean tempHasAccess = false;
 		ButtonDto btn;
+		User currentuser = (User) request.getSession().getAttribute(StringUtil.USER_SESSION);
+		List<ScreenFunMap> scrnfunList = scrnfunmapService.getDistinctScrnFunPairByUser(currentuser.getUserId());
+		Map<String, String> tempMap = new HashMap<String, String>();
+		for (ScreenFunMap sfm : scrnfunList) {
+			tempMap.put(sfm.getId().getFunctionId(), sfm.getId().getScreenId());
+		}
 		
 		try {			
 			mapScrnFunMap = (Map<String, List<ScreenFunMap>>) request.getSession().getAttribute(StringUtil.SESSION_SCR_FUN_MAP);
@@ -42,11 +62,16 @@ public class ViewAuthUtil {
 							tempBtnList = new ArrayList<ButtonDto>();
 							for (ScreenFunMap sfmforbtn : screenList) {
 								if (Integer.parseInt(sfmforbtn.getId().getButtonDef()) > 0) {
-									btn = new ButtonDto();
-									btn.setButtonDef(sfmforbtn.getId().getButtonDef());
-									btn.setButtonDesc(sfmforbtn.getButtonDesc());
-									btn.setResultPage(sfmforbtn.getResultPage());
-									tempBtnList.add(btn);
+									if (tempMap.containsValue(sfmforbtn.getResultPage())) {
+										btn = new ButtonDto();
+										btn.setButtonDef(sfmforbtn.getId().getButtonDef());
+										btn.setButtonDesc(sfmforbtn.getButtonDesc());
+										btn.setResultPage(sfmforbtn.getResultPage());
+										tempBtnList.add(btn);
+									}
+									else {
+										logger.debug("button not added :" + StringUtil.FUNCTION_NOT_IN_FUNCTION_GROUP);
+									}
 								}
 							}
 							viewDto.setBtnList(tempBtnList);
@@ -61,11 +86,13 @@ public class ViewAuthUtil {
 					}
 					else if (resultPage.equalsIgnoreCase(screen)) {
 						//has a match with child screen
-						tempBtnList = new ArrayList<ButtonDto>();
-						tempHasAccess = true;
-						viewDto.setBtnList(tempBtnList);
-						viewDto.setAllowedAccess(tempHasAccess);
-						break;
+						if (tempMap.containsValue(resultPage)) {
+							tempBtnList = new ArrayList<ButtonDto>();
+							tempHasAccess = true;
+							viewDto.setBtnList(tempBtnList);
+							viewDto.setAllowedAccess(tempHasAccess);
+							break;
+						}
 					}
 				}
 			}

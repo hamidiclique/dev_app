@@ -7,4 +7,6 @@ import com.test.app.entity.ScreenFunMap;
 public interface ScreenFunMapService {
 	
 	public List<ScreenFunMap> getAllScrnFunMapByUser(String username);
+	
+	public List<ScreenFunMap> getDistinctScrnFunPairByUser(String username);
 }

@@ -7,43 +7,47 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import com.test.app.config.MyBatisUtil;
-import com.test.app.entity.ScreenFunMap;
+import com.test.app.entity.Role;
 
 @Repository
-public class ScreenFunMapper implements IScreenFunMapper {
+public class RoleMapper implements IRoleMapper {
 
 	@Override
-	public List<ScreenFunMap> listScrFunMapsByUser(String username) {
+	public List<Role> getAllRoles() {
 		// TODO Auto-generated method stub
-		List<ScreenFunMap> scrnfunlist = new ArrayList<ScreenFunMap>();
+		List<Role> roleList = new ArrayList<Role>();
 		SqlSession session = MyBatisUtil.getSqlSessionFactory().openSession();
 		try {
-			scrnfunlist = session.selectList("getScreenFunMapsByUser", username);
+			roleList = session.selectList("listAllRoles");
 			session.commit();
-		} catch (Exception ex) {
-			ex.toString();
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.toString();
 			session.rollback();
 		} finally {
 			session.close();
 		}
-		return scrnfunlist;
+		return roleList;
 	}
 
 	@Override
-	public List<ScreenFunMap> listDistinctScrFunPairByUser(String username) {
+	public Role findRoleById(String roleId) {
 		// TODO Auto-generated method stub
-		List<ScreenFunMap> scrnfunlist = new ArrayList<ScreenFunMap>();
+		Role role = new Role();
 		SqlSession session = MyBatisUtil.getSqlSessionFactory().openSession();
 		try {
-			scrnfunlist = session.selectList("getDistinctScreenFunctionPairByUser", username);
+			role = session.selectOne("findRoleById", roleId);
 			session.commit();
-		} catch (Exception ex) {
-			ex.toString();
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.toString();
 			session.rollback();
 		} finally {
 			session.close();
 		}
-		return scrnfunlist;
+		return role;
 	}
 
 }

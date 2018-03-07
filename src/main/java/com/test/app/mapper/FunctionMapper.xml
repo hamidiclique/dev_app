@@ -23,8 +23,25 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				)
 			)			
 	</select>
+	
 	<select id="getAllFunctions" resultType="function" resultMap="result">
 		SELECT * FROM T_FUNCTION
-	</select> 
+	</select>	
+	
+	<select id="findFunctionById" parameterType="String" resultType="function" resultMap="result">
+		SELECT * FROM T_FUNCTION WHERE FUNCTION_ID = #{functionId}
+	</select>
+	
+	<select id="getFunctionsByModule" parameterType="String" resultType="function" resultMap="result">
+		SELECT * FROM T_FUNCTION WHERE MODULE_ID = #{moduleId}
+	</select>
+	
+	<select id="getFunctionsByFungrp" parameterType="String" resultMap="result" resultType="function">
+		SELECT * FROM T_FUNCTION WHERE FUNCTION_ID IN (SELECT FUNCTION_ID FROM T_FUNGRP_FUN_MAP WHERE FUNCTIONGRP_ID = #{functiongrpId})
+	</select>
+	
+	<select id="getModuleByFungrp" parameterType="String" resultMap="result" resultType="function">
+		SELECT DISTINCT MODULE_ID FROM T_FUNCTION WHERE FUNCTION_ID IN (SELECT FUNCTION_ID FROM T_FUNGRP_FUN_MAP WHERE FUNCTIONGRP_ID = #{functiongrpId})
+	</select>
 
 </mapper>

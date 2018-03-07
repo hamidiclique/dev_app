@@ -43,6 +43,62 @@ public class FunctionServiceImpl implements FunctionService {
 			return listFunction;
 		}
 		return listFunction;
+	}
+
+	@Override
+	public Function getFunctionById(String fid) {
+		// TODO Auto-generated method stub
+		Function function = new Function();
+		try {
+			function = funcMapper.getFunctionById(fid);
+		}
+		catch(Exception ex) {
+			ex.toString();
+			return function;
+		}
+		return function;
+	}
+
+	@Override
+	public List<Function> listFunctionsByModule(String mid) {
+		// TODO Auto-generated method stub
+		List<Function> listFunction = new ArrayList<Function>();
+		try {
+			listFunction = funcMapper.getFunctionsByModule(mid);
+		}
+		catch(Exception ex) {
+			ex.toString();
+			return listFunction;
+		}
+		return listFunction;
+	}
+
+	@Override
+	public List<Function> listFunctionsByFungrp(String pid) {
+		// TODO Auto-generated method stub
+		List<Function> listFunction = new ArrayList<Function>();
+		try {
+			listFunction = funcMapper.listFunctionsByFungrp(pid);
+		}
+		catch(Exception ex) {
+			ex.toString();
+			return listFunction;
+		}
+		return listFunction;
+	}
+
+	@Override
+	public Function getModuleIdByFungrp(String pid) {
+		// TODO Auto-generated method stub
+		Function fun = new Function();
+		try {
+			fun = funcMapper.findModuleIdByFungrp(pid);
+		}
+		catch(Exception ex) {
+			ex.toString();
+			return fun;
+		}
+		return fun;
 	}	
 
 }

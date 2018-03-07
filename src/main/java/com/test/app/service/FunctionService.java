@@ -10,4 +10,12 @@ public interface FunctionService {
 
 	public List<Function> getAllFunctions();
 
+	public Function getFunctionById(String fid);
+
+	public List<Function> listFunctionsByModule(String mid);
+
+	public List<Function> listFunctionsByFungrp(String pid);
+	
+	public Function getModuleIdByFungrp(String pid);
+
 }

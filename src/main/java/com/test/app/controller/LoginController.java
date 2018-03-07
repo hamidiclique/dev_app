@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -371,6 +372,13 @@ public class LoginController {
 				if (session.getAttribute(StringUtil.SESSION_FUN_MOD_MAP) != null) {
 					funModMap = (Map<String, List<String>>) session.getAttribute(StringUtil.SESSION_FUN_MOD_MAP);
 					funList = funModMap.get(moduleId);
+					Iterator<String> funIterator = funList.iterator();
+					while (funIterator.hasNext()) {
+					    String element = funIterator.next();					   
+					    if(element.length() > 8) {
+					        funIterator.remove();
+					    }
+					}
 				}
 				if (session.getAttribute(StringUtil.SESSION_FUNCTIONS) != null) {
 					functionMap = (Map<String, String>) session.getAttribute(StringUtil.SESSION_FUNCTIONS);

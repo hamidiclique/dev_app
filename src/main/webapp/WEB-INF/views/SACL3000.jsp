@@ -82,10 +82,14 @@
 			<c:forEach items="${btnList}" var="btn">
 				<c:choose>
 					<c:when test="${btn.buttonDesc eq delete}">
-						<a id="${btn.buttonDef}" onclick="if(!(confirm('Are you sure want to delete?'))) return false">${btn.buttonDesc}</a>						
+						<a id="${btn.buttonDef}" onclick="if(!(confirm('Are you sure want to delete?'))) return false">							
+							<input class="button" type="button" value="${btn.buttonDesc}" />
+						</a>						
 					</c:when>
 					<c:otherwise>
-						<a id="${btn.buttonDef}">${btn.buttonDesc}</a>
+						<a id="${btn.buttonDef}">
+							<input class="button" type="button" value="${btn.buttonDesc}" />
+						</a>
 					</c:otherwise>
 				</c:choose>				
 			</c:forEach>

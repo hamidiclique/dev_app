@@ -5,21 +5,21 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>ACL demo</title>
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/resources/css/table.css">
 </head>
 <body>
 	<c:set var="contextPath" value="${pageContext.request.contextPath}" />
 	<c:set var="modulemap" value="${modmap}" />
 
-
 	<center>
 		<h1>Main Menu</h1>
 		<a href="changePassword">Change Password</a><br> <a
-			href="userLogout">Logout</a>
-		<hr />
+			href="userLogout">Logout</a>		
 
-		<table border="1">
+		<table class="TableContent">
 			<tr>
-				<th>S/NO</th>
+				<th class="HeaderTableData">S/NO</th>
 				<th></th>
 			</tr>
 			<c:forEach items="${funmodmap}" var="funmodmap" varStatus="count">
@@ -28,8 +28,8 @@
 						<c:param name="moduleId" value="${funmodmap.key}" />
 					</c:url>
 					<c:set var="moduleKey">${funmodmap.key}</c:set>
-					<td>${count.count}</td>
-					<td><a href="${contextPath}/${link}"><c:out
+					<td class="FormInputColor">${count.count}</td>
+					<td class="FormInputColor"><a href="${contextPath}/${link}"><c:out
 								value="${modulemap[moduleKey]}" /></a></td>
 				</tr>
 			</c:forEach>

@@ -29,6 +29,20 @@ public class ScreenFunMapServiceImpl implements ScreenFunMapService {
 			return listScrnFunMap;
 		}
 		return listScrnFunMap;
+	}
+
+	@Override
+	public List<ScreenFunMap> getDistinctScrnFunPairByUser(String username) {
+		// TODO Auto-generated method stub
+		List<ScreenFunMap> listScrnFunMap = new ArrayList<ScreenFunMap>();
+		try {
+			listScrnFunMap = scrFunMapper.listDistinctScrFunPairByUser(username);
+		}
+		catch(Exception ex) {
+			ex.toString();
+			return listScrnFunMap;
+		}
+		return listScrnFunMap;
 	}	
 
 }

@@ -61,10 +61,10 @@
 	<table class="TableContent" width="80%" align="center">
 		<tr>
 			<th class="HeaderTableData">Select</th>
-			<th class="HeaderTableData">Function Group ID</th>
-			<th class="HeaderTableData">Function Group Description</th>
+			<th class="HeaderTableData">User Role ID</th>
+			<th class="HeaderTableData">User Role Name</th>
 		</tr>
-		<c:forEach items="${fungrpList}" var="fg">
+		<c:forEach items="${roleList}" var="role">
 			<%-- <c:url var="updateLink" value="">
 					<c:param name="functiongrpId" value="${fg.functiongrpId}" />
 				</c:url>
@@ -72,9 +72,9 @@
 					<c:param name="functiongrpId" value="${fg.functiongrpId}" />
 				</c:url> --%>
 			<tr>
-				<td class="CellClass"><input type="radio" name="fgRadio" value="${fg.functiongrpId}"></td>
-				<td class="CellClass">&nbsp;${fg.functiongrpId}</td>
-				<td class="CellClass">&nbsp;${fg.functiongrpDesc}</td>
+				<td class="CellClass"><input type="radio" name="roleRadio" value="${role.roleId}"></td>
+				<td class="CellClass">&nbsp;${role.roleId}</td>
+				<td class="CellClass">&nbsp;${role.roleDesc}</td>
 				<%-- <td><a href="${contextPath}/${updateLink}">Update</a> | <a href="${deleteLink}" onclick="if(!(confirm('Are you sure?))) return false">Delete</a></td> --%>
 			</tr>
 		</c:forEach>

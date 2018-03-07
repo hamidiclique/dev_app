@@ -8,4 +8,6 @@ public interface IScreenFunMapper {
 
 	List<ScreenFunMap> listScrFunMapsByUser(String username);
 
+	List<ScreenFunMap> listDistinctScrFunPairByUser(String username);
+
 }

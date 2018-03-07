@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.test.app.dao.RoleMapper">
+
+	<resultMap type="role" id="result">
+		<id property="roleId" column="ROLE_ID" />
+		<result property="roleDesc" column="ROLE_DESC" />
+		<result property="modifyTime" column="MODIFY_TIME" />
+		<result property="modifyBy" column="MODIFY_BY" />
+	</resultMap>
+
+	<select id="listAllRoles" resultType="role" resultMap="result">
+		SELECT * FROM T_ROLE
+	</select>
+
+	<select id="findRoleById" parameterType="String" resultType="role"
+		resultMap="result">
+		SELECT * FROM T_ROLE WHERE ROLE_ID = #{roleId}
+	</select>
+
+</mapper>

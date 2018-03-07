@@ -12,65 +12,96 @@
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
 <title>ACL demo</title>
+<!-- custom resources -->
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/resources/css/table.css">
+<script
+	src="${pageContext.request.contextPath}/resources/js/checkbox.js"></script>	
 <script type="text/javascript">
 
 </script>
 </head>
 <body>
 	<c:set var="contextPath" value="${pageContext.request.contextPath}" />
-	<c:set var="delete" value="DELETE"/>	
-		
-	<center>
-		<h1>User ID Maintenance</h1>
-		<a href="changePassword">Change Password</a><br> 
-		<a href="userLogout">Logout</a>
-		
-		<p>Total: <c:out value="${listsize}"></c:out></p>
-		<form:form action="submitUpdatedUserInfo" modelAttribute="functionGroup">
-			<table>
-				<tr>
-					<th>Function Group ID: </th>
-					<td><form:input type="text" name="functiongrpId" path="functiongrpId"
-							required="true" readonly="true"></form:input></td>
-				</tr>			
-				<tr>			
-					<th>Function Group Description: </th>
-					<td><form:input type="text" name="functiongrpDesc" path="functiongrpDesc"
-							required="true"></form:input></td>
-				</tr>			
-				<tr>			
-					<th>Module Name: </th>
-					<td>${module.moduleId}-${module.moduleDesc}</td>
-				</tr>			
-				<%-- 			<c:forEach items="${fungrpList}" var="fg">
-				<c:url var="updateLink" value="">
-					<c:param name="functiongrpId" value="${fg.functiongrpId}" />
-				</c:url>
-				<c:url var="deleteLink" value="">
-					<c:param name="functiongrpId" value="${fg.functiongrpId}" />
-				</c:url>
-				<tr>
-					<td><input type="radio" name="fgRadio" value="${fg.functiongrpId}"></td>
-					<td>${fg.functiongrpId}</td>
-					<td>${fg.functiongrpDesc}</td>					
-					<td><a href="${contextPath}/${updateLink}">Update</a> | <a href="${deleteLink}" onclick="if(!(confirm('Are you sure?))) return false">Delete</a></td>
-				</tr>
-			</c:forEach> --%>
-			</table>
-		</form:form>
-		<p>
-			<c:forEach items="${btnList}" var="btn">
-				<c:choose>
-					<c:when test="${btn.buttonDesc eq delete}">
-						<a id="${btn.buttonDef}" onclick="if(!(confirm('Are you sure want to delete?'))) return false">${btn.buttonDesc}</a>						
-					</c:when>
-					<c:otherwise>
-						<a id="${btn.buttonDef}">${btn.buttonDesc}</a>
-					</c:otherwise>
-				</c:choose>				
-			</c:forEach>
-		</p>
+	<c:set var="delete" value="DELETE" />
 
+	<center>
+		<h1>${functionDesc}</h1>
+		<a href="changePassword">Change Password</a><br> <a
+			href="userLogout">Logout</a>
+
+		<form:form action="submit-function-group-maintenance-update" modelAttribute="ffMapDto" onsubmit="return countCheckboxes();">
+			<table class="TableContent" width="50%">
+				<tr style="display:none">					
+					<td><form:input type="text" path="module" hidden="true" readonly="true"></form:input></td>
+					<td><form:input type="text" path="function" hidden="true" readonly="true"></form:input></td>
+					<td><form:input type="text" path="screen" hidden="true" readonly="true"></form:input></td>
+				</tr>
+				<tr>
+					<th class="FormCellBGColor">Function Group ID:</th>
+					<td class="FormInputColor"><form:input type="text" name="functiongrpId"
+							path="functiongrpId" required="true" readonly="true"></form:input></td>
+				</tr>
+				<tr>
+					<th class="FormCellBGColor">Function Group Description:</th>
+					<td class="FormInputColor"><form:input type="text" name="functiongrpDesc"
+							path="functiongrpDesc" required="true"></form:input></td>
+				</tr>
+				<tr>
+					<th class="FormCellBGColor">Module Name:</th>
+					<td class="FormInputColor">${module.moduleId}-${module.moduleDesc}</td>
+				</tr>
+			</table>
+			<br>
+			<table id="functionsTable" class="TableContent" width="50%">
+				<tr>
+					<th class="HeaderTableData">Function ID</th>
+					<th class="HeaderTableData">Function Name</th>
+					<!-- <th class="HeaderTableData">true / false</th> -->
+					<th class="HeaderTableData">Administer</th>
+				</tr>
+				<c:forEach items="${allFunctions}" var="fun">
+					<tr>
+						<td class="FormInputColor"><div style="text-align:center">${fun.functionId}</div></td>
+						<td class="FormInputColor">&nbsp;${fun.functionDesc}</td>
+						<c:set var="functionKey">${fun.functionId}</c:set>
+						<%-- <td><c:out value="${switchMap[functionKey]}" /></td> --%>
+						<c:choose>
+							<c:when test="${switchMap[functionKey]}">
+								<td class="FormInputColor">
+									<div style="text-align:center">
+										<form:checkbox path="functionList" value="${functionKey}" checked="checked"/>
+									</div>
+								</td>
+							</c:when>
+							<c:otherwise>
+								<td class="FormInputColor">
+									<div style="text-align:center">
+										<form:checkbox path="functionList" value="${functionKey}"/>
+									</div>
+								</td>
+							</c:otherwise>
+						</c:choose>						
+					</tr>
+				</c:forEach>	
+			</table>
+			<p>
+				<input type="submit" class="button" value="Update" />
+				<c:forEach items="${btnList}" var="btn">
+					<c:choose>
+						<c:when test="${btn.buttonDesc eq delete}">
+							<a id="${btn.buttonDef}"
+								onclick="if(!(confirm('Are you sure want to delete?'))) return false">${btn.buttonDesc}</a>
+						</c:when>
+						<c:otherwise>
+							<a id="${btn.buttonDef}">${btn.buttonDesc}</a>
+						</c:otherwise>
+					</c:choose>
+				</c:forEach>
+				<input type="button" class="button" onclick='selectAll()' value="Select All" /> 
+				<input type="button" class="button" onclick='unselectAll()' value="Unselect All" />
+			</p>
+		</form:form>
 	</center>
 
 </body>
