@@ -6,8 +6,8 @@ import com.test.app.entity.FungrpFunMap;
 
 public interface FungrpFunMapSercice {
 
-	public void removeElementsForFungrp(String functiongrpId);
+	public int removeElementsForFungrp(String functiongrpId);
 
-	public void mapCheckedFunctionsToGroup(List<FungrpFunMap> fungrpFunMapList);
+	public int mapCheckedFunctionsToGroup(List<FungrpFunMap> fungrpFunMapList);
 
 }

@@ -43,4 +43,32 @@ public class FunctiongrpServiceImpl implements FunctiongrpService {
 		return fungrp;
 	}
 
+	@Override
+	public int insertFunctionGroup(Functiongrp fungrp) {
+		// TODO Auto-generated method stub
+		int nora = 0;
+		try {
+			nora = fungrpMapper.addNewFunctionGroup(fungrp);			
+		} 
+		catch (Exception e) {
+			// TODO: handle exception
+			e.toString();
+		}
+		return nora;
+	}
+
+	@Override
+	public int updateFunctionGroup(Functiongrp fungrp) {
+		// TODO Auto-generated method stub
+		int nora = 0;
+		try {
+			nora = fungrpMapper.updateFunctionGroup(fungrp);			
+		} 
+		catch (Exception e) {
+			// TODO: handle exception
+			e.toString();
+		}
+		return nora;
+	}
+
 }

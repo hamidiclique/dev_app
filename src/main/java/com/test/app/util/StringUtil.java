@@ -2,7 +2,8 @@ package com.test.app.util;
 
 public class StringUtil {
 
-	public static final String SUCCESS = "SUCCESSFUL";
+	public static final String SUCCESS = "PASS";
+	public static final String FAILURE = "FAIL";
 	public static final String INVALID_USER = "INVALID USER";
 	public static final String INVALID_PASS = "INVALID PASSWORD";
 	public static final String TOO_MANY_TRY = "LOGGED IN TIMES";
@@ -43,4 +44,15 @@ public class StringUtil {
 	public static final String NO_ACCESS_TOKEN = "ACCESS TOKEN FOUND NULL OR EMPTY";
 	public static final String NO_MAPPING_FOUND = "COULD NOT MAP SCREEN FUNCTION PAIR TO ANY PATH";
 	public static final String FUNCTION_NOT_IN_FUNCTION_GROUP = "FUNCTION NOT CHECKED FOR FUNCTION GROUP";
+	
+	public static final String SACL2000A_SUCCESS = "USER ROLE ADDED SUCCESSFULLY";
+	public static final String SACL2000U_SUCCESS = "USER ROLE UPDATED SUCCESSFULLY";
+	public static final String SACL2000D_SUCCESS = "USER ROLE DELETED SUCCESSFULLY";
+	public static final String SACL1000A_SUCCESS = "FUNCTION GROUP ADDED SUCCESSFULLY";
+	public static final String SACL1000U_SUCCESS = "FUNCTION GROUP UPDATED SUCCESSFULLY";
+	public static final String SACL1000D_SUCCESS = "FUNCTION GROUP DELETED SUCCESSFULLY";
+	public static final String SACL3000A_SUCCESS = "USER ADDED SUCCESSFULLY";
+	public static final String SACL3000U_SUCCESS = "USER UPDATED SUCCESSFULLY";
+	public static final String SACL3000D_SUCCESS = "USER DELETED SUCCESSFULLY";
+	
 }

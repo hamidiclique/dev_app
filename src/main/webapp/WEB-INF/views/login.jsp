@@ -7,7 +7,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Demo App</title>
-
+<link href="${pageContext.request.contextPath}/resources/css/table.css"
+	rel="stylesheet">
 <link
 	href="${pageContext.request.contextPath}/resources/css/login_page.css"
 	rel="stylesheet">
@@ -19,11 +20,14 @@
 </style>
 
 </head>
-<body>
-	<center>
-		<h2>LOGIN</h2>
+<body>	
+		<table width="60%" align="center">
+			<tr>
+				<td class="TitleHeader" >Login</td>
+			</tr>			
+		</table>
 		<form:form action="authLogin" modelAttribute="credentials">
-			<div class="login-block">				
+			<div class="login-block">
 
 				<form:input type="text" id="userId" path="userId"
 					placeholder="Username"></form:input>
@@ -36,7 +40,6 @@
 				<p class="error">${cause}</p>
 
 			</div>
-		</form:form>
-	</center>
+		</form:form>	
 </body>
 </html>

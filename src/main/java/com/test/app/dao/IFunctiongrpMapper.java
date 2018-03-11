@@ -10,4 +10,8 @@ public interface IFunctiongrpMapper {
 
 	public Functiongrp getFungrpById(String fungrpId);
 
+	public int addNewFunctionGroup(Functiongrp fungrp);
+
+	public int updateFunctionGroup(Functiongrp fungrp);
+
 }

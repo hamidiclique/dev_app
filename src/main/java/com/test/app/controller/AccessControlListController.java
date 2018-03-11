@@ -6,11 +6,11 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,9 +22,12 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.google.gson.Gson;
 import com.test.app.dto.FungrpFunMapDto;
+import com.test.app.dto.RoleFungrpMapDto;
 import com.test.app.dto.ViewAuthDto;
 import com.test.app.entity.Function;
 import com.test.app.entity.Functiongrp;
@@ -32,11 +35,14 @@ import com.test.app.entity.FungrpFunMap;
 import com.test.app.entity.FungrpFunMapPK;
 import com.test.app.entity.Module;
 import com.test.app.entity.Role;
+import com.test.app.entity.RoleFungrpMap;
+import com.test.app.entity.RoleFungrpMapPK;
 import com.test.app.entity.User;
 import com.test.app.service.FunctionService;
 import com.test.app.service.FunctiongrpService;
 import com.test.app.service.FungrpFunMapSercice;
 import com.test.app.service.ModuleService;
+import com.test.app.service.RoleFungrpMapService;
 import com.test.app.service.RoleService;
 import com.test.app.service.UserService;
 import com.test.app.util.SessionUtil;
@@ -60,17 +66,22 @@ public class AccessControlListController {
 	FungrpFunMapSercice fungrpFunMapService;
 	@Autowired
 	RoleService roleService;
+	@Autowired
+	RoleFungrpMapService roleFungrpMapService;
 
 	@RequestMapping(value = "/user-id-maintenance-add", method = RequestMethod.GET)
-	public String showAddUserScreen(ModelMap model, @RequestParam String mid, @RequestParam String fid, @RequestParam String sid,
+	public String view_FACL3000_SACL3000A(ModelMap model, @RequestParam String mid, @RequestParam String fid, @RequestParam String sid,
 			@RequestParam String pid, HttpServletRequest request, RedirectAttributes red) {
 		try {
 			ViewAuthDto vadto = ViewAuthUtil.isRequestValid(request, fid, sid);
 			if (vadto.isAllowedAccess()) {
-				if (SessionUtil.sessionValid(request.getSession(), red).equalsIgnoreCase(StringUtil.SESSION_VALID)) {
-					//do something
+				if (SessionUtil.sessionValid(request.getSession(), red).equalsIgnoreCase(StringUtil.SESSION_VALID)) {					
 					User user = new User();
 					model.addAttribute("user", user);
+					model.addAttribute("module", mid);
+					model.addAttribute("function", fid);
+					model.addAttribute("screen", sid);
+					model.addAttribute("functionDesc", "User ID Maintenance - Add");	
 				} else {
 					return "redirect:/login";
 				}
@@ -84,42 +95,78 @@ public class AccessControlListController {
 			red.addFlashAttribute("cause", StringUtil.UNKNOW_REASON);
 			return "redirect:/login";
 		}
-		logger.debug("return "+sid+".jsp");
 		return sid;
 	}
-
-	@RequestMapping(value = "/saveNewUser", method = RequestMethod.POST)
-	public String handleAddNewUser(@ModelAttribute("user") User user, BindingResult result, ModelMap model) {
-		User newUser = user;
-		newUser.getUserId();
+	
+	@RequestMapping(value = "/user-id-maintenance-delete", method = RequestMethod.GET)
+	public String view_FACL3000_SACL3000D(ModelMap model, @RequestParam String mid, @RequestParam String fid, @RequestParam String sid,
+			@RequestParam String pid, HttpServletRequest request, RedirectAttributes red) {
+		int retval = 0;
 		try {
-			Calendar cal = Calendar.getInstance();
-			Date today = cal.getTime();
-			cal.add(Calendar.YEAR, 1);
-			Date nextYear = cal.getTime();
-			user.setPasswordCreDate(today);
-			user.setPasswordExpDate(nextYear);
-			user.setModifyBy(user.getUserId());
-			user.setModifyTime(new Timestamp(System.currentTimeMillis()));
-			user.setLastLogin(new Timestamp(System.currentTimeMillis()));
-			user.setLoginAttempt(new BigDecimal(1));
-			user.setFailCount(new BigDecimal(0));
-			String generatedSecuredPasswordHash = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt(12));
-			user.setPassword(generatedSecuredPasswordHash);
-			userService.storeNewUserData(user);
-
-			/*
-			 * String originalPassword = user.getPassword(); String
-			 * generatedSecuredPasswordHash = BCrypt.hashpw(originalPassword,
-			 * BCrypt.gensalt(12)); System.out.println(generatedSecuredPasswordHash);
-			 * boolean matched = BCrypt.checkpw(originalPassword,
-			 * generatedSecuredPasswordHash); System.out.println(matched);
-			 */
-		} catch (Exception ex) {
-			ex.toString();
-			// model.addAttribute("", );
+			ViewAuthDto vadto = ViewAuthUtil.isRequestValid(request, fid, sid);
+			if (vadto.isAllowedAccess()) {
+				if (SessionUtil.sessionValid(request.getSession(), red).equalsIgnoreCase(StringUtil.SESSION_VALID)) {					
+					retval = userService.deleteUserById(pid);
+					if (retval > 0) {
+						model.addAttribute("message", StringUtil.SACL3000D_SUCCESS);
+					}
+					else {
+						model.addAttribute("message", StringUtil.FAILURE);
+					}
+				} else {
+					return "redirect:/login";
+				}
+			} else {
+				logger.debug(StringUtil.NO_ACCESS_TOKEN);
+				red.addFlashAttribute("msg", StringUtil.NO_PERMISSION_FOR_SCREEN);
+				return "redirect:/index/notAuthorized";
+			}
+		} catch (Exception e) {
+			logger.debug(e.toString());
+			red.addFlashAttribute("cause", StringUtil.UNKNOW_REASON);
+			return "redirect:/login";
 		}
-		return "add_hotel_success";
+		return sid;
+	}	
+
+	@RequestMapping(value = "/submit-user-id-maintenance-add", method = RequestMethod.POST)
+	public String handle_FACL3000_SACL3000A(@ModelAttribute("user") User user, BindingResult result, ModelMap model,
+			HttpServletRequest req, RedirectAttributes red) {
+		int retval;		
+		try {
+			if (SessionUtil.sessionValid(req.getSession(), red).equalsIgnoreCase(StringUtil.SESSION_VALID)) {
+				retval = 0;
+				Calendar cal = Calendar.getInstance();
+				Date today = cal.getTime();
+				cal.add(Calendar.YEAR, 1);
+				Date nextYear = cal.getTime();
+				user.setPasswordCreDate(today);
+				user.setPasswordExpDate(nextYear);
+				user.setModifyBy(user.getUserId());
+				user.setModifyTime(new Timestamp(System.currentTimeMillis()));
+				user.setLastLogin(new Timestamp(System.currentTimeMillis()));
+				user.setLoginAttempt(new BigDecimal(1));
+				user.setFailCount(new BigDecimal(0));
+				String generatedSecuredPasswordHash = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt(12));
+				user.setPassword(generatedSecuredPasswordHash);				
+				retval = userService.storeNewUserData(user);
+				if (retval > 0) {
+					model.addAttribute("message", StringUtil.SACL3000A_SUCCESS);	
+				}
+				else {
+					logger.debug("ERROR : INSERT USER OPERATION WAS NOT SUCCESSFUL");
+					model.addAttribute("message", StringUtil.FAILURE);
+				}				
+			} else {
+				return "redirect:/login";
+			}
+
+		} catch (Exception ex) {
+			logger.debug(ex.toString());
+			red.addFlashAttribute("cause", StringUtil.UNKNOW_REASON);
+			return "redirect:/login";
+		}
+		return "common_result";
 	}
 
 	@RequestMapping(value = "/user-id-maintenance", method = RequestMethod.GET)
@@ -131,11 +178,13 @@ public class AccessControlListController {
 			if (vadto.isAllowedAccess()) {
 				if (SessionUtil.sessionValid(request.getSession(), red).equalsIgnoreCase(StringUtil.SESSION_VALID)) {
 					userList = userService.fetchAllUsers();
+					Function currentfunction = funService.getFunctionById(fid);
 					model.addAttribute("userList", userList);
 					model.addAttribute("listsize", userList.size());
 					model.addAttribute("btnList", vadto.getBtnList());
 					model.addAttribute("functionId", fid);
 					model.addAttribute("moduleId", mid);
+					model.addAttribute("functionDesc", currentfunction.getFunctionDesc());
 				} else {
 					return "redirect:/login";
 				}
@@ -181,78 +230,57 @@ public class AccessControlListController {
 			logger.debug(ex.toString());
 			red.addFlashAttribute("cause", StringUtil.UNKNOW_REASON);
 			return "redirect:/login";
-		}
-		logger.debug("return "+sid+".jsp");
+		}		
 		return sid;
 	}
 
 	@RequestMapping(value = "/user-id-maintenance-update", method = RequestMethod.GET)
-	public String displayUserInfoForUpdate(@RequestParam String mid, @RequestParam String fid, @RequestParam String sid, @RequestParam String pid,
-			ModelMap model) {
-		String searchId = pid;
-		User userToUpdate = userService.getUserById(searchId);
-		model.addAttribute("upUser", userToUpdate);
-		return "update_user";
-	}
-
-	@RequestMapping(value = "/submitUpdatedUserInfo", method = RequestMethod.POST)
-	public String handleUserUpdate(@ModelAttribute("upUser") User user, BindingResult result, ModelMap model) {
+	public String view_FACL3000_SACL3000U(@RequestParam String mid, @RequestParam String fid, @RequestParam String sid, @RequestParam String pid,
+			ModelMap model, HttpServletRequest request, RedirectAttributes red) {		
 		try {
-			user.setModifyBy(user.getUserId());
-			user.setModifyTime(new Timestamp(System.currentTimeMillis()));
-			userService.updateUserInfoProcess(user);
-		} catch (Exception ex) {
-			ex.toString();
-			return "redirect:showAllUsers";
-		}
-		return "redirect:showAllUsers";
-	}
-	
-	@RequestMapping(value = "/function-group-maintenance-add", method = RequestMethod.GET)
-	public String view_FACL1000_SACL1000A(ModelMap model, @RequestParam String mid, @RequestParam String fid, @RequestParam String sid,
-			@RequestParam String pid, HttpSession session, RedirectAttributes red) {
-		try {
-			if (SessionUtil.sessionValid(session, red).equalsIgnoreCase(StringUtil.SESSION_VALID)) {
-				User user = new User();
-				model.addAttribute("user", user);
+			ViewAuthDto vadto = ViewAuthUtil.isRequestValid(request, fid, sid);
+			if (vadto.isAllowedAccess()) {
+				if (SessionUtil.sessionValid(request.getSession(), red).equalsIgnoreCase(StringUtil.SESSION_VALID)) {
+					Function currentfunction = funService.getFunctionById(fid);
+					User userToUpdate = userService.getUserById(pid);
+					model.addAttribute("user", userToUpdate);
+					model.addAttribute("btnList", vadto.getBtnList());
+					model.addAttribute("function", fid);
+					model.addAttribute("module", mid);
+					model.addAttribute("screen", sid);
+					model.addAttribute("functionDesc", currentfunction.getFunctionDesc());
+				} else {
+					return "redirect:/login";
+				}
 			} else {
-				return "redirect:/login";
+				logger.debug(StringUtil.NO_ACCESS_TOKEN);
+				red.addFlashAttribute("msg", StringUtil.NO_PERMISSION_FOR_SCREEN);
+				return "redirect:/index/notAuthorized";
 			}
-		} catch (Exception e) {
-			logger.debug(e.toString());
+		} catch (Exception ex) {
+			logger.debug(ex.toString());
 			red.addFlashAttribute("cause", StringUtil.UNKNOW_REASON);
 			return "redirect:/login";
-		}
-		return "add_new_user";
+		}		
+		return sid;
 	}
-	
-	@RequestMapping(value = "/submit-function-group-maintenance-update", method = RequestMethod.POST)
-	public String handle_FACL1000_SACL1000U(ModelMap model, @ModelAttribute("ffMapDto") FungrpFunMapDto fungrpfunmapdto,
-			BindingResult result, HttpServletRequest req, RedirectAttributes red) {
-		logger.debug(fungrpfunmapdto);		
-		List<FungrpFunMap> fungrpFunMapList;
-		FungrpFunMap ffMap;
-		FungrpFunMapPK ffMapId;
-		
+
+	@RequestMapping(value = "/submit-user-id-maintenance-update", method = RequestMethod.POST)
+	public String handle_FACL3000_SACL3000U(@ModelAttribute("user") User user, BindingResult result, ModelMap model, HttpServletRequest request, RedirectAttributes red) {
+		int retval;		
 		try {
-			if (SessionUtil.sessionValid(req.getSession(), red).equalsIgnoreCase(StringUtil.SESSION_VALID)) {
-				User currentUser = (User) req.getSession().getAttribute(StringUtil.USER_SESSION);
-				fungrpFunMapService.removeElementsForFungrp(fungrpfunmapdto.getFunctiongrpId());
-				fungrpFunMapList = new ArrayList<FungrpFunMap>();
-				for (String str : fungrpfunmapdto.getFunctionList()) {
-					ffMap = new FungrpFunMap();
-					ffMapId = new FungrpFunMapPK();
-					ffMapId.setFunctionId(str);
-					ffMapId.setFunctiongrpId(fungrpfunmapdto.getFunctiongrpId());
-					ffMap.setId(ffMapId);
-					ffMap.setModifyBy(currentUser.getUserId());
-					ffMap.setModifyTime(new Timestamp(System.currentTimeMillis()));
-					ffMap.setSysFlag("1");
-					fungrpFunMapList.add(ffMap);
+			if (SessionUtil.sessionValid(request.getSession(), red).equalsIgnoreCase(StringUtil.SESSION_VALID)) {
+				retval = 0;
+				user.setModifyBy(user.getUserId());
+				user.setModifyTime(new Timestamp(System.currentTimeMillis()));
+				retval = userService.updateUserInfoProcess(user);
+				if (retval > 0) {
+					model.addAttribute("message", StringUtil.SACL3000U_SUCCESS);	
 				}
-				logger.debug(fungrpFunMapList);
-				fungrpFunMapService.mapCheckedFunctionsToGroup(fungrpFunMapList);
-				
+				else {
+					logger.debug("ERROR : USER UPDATE OPERATION WAS NOT SUCCESSFUL");
+					model.addAttribute("message", StringUtil.FAILURE);
+				}				
 			} else {
 				return "redirect:/login";
 			}
@@ -262,7 +290,171 @@ public class AccessControlListController {
 			red.addFlashAttribute("cause", StringUtil.UNKNOW_REASON);
 			return "redirect:/login";
 		}
-		return null;
+		return "common_result";
+	}
+	
+	@RequestMapping(value = "/function-group-maintenance-add", method = RequestMethod.GET)
+	public String view_FACL1000_SACL1000A(ModelMap model, @RequestParam String mid, @RequestParam String fid, @RequestParam String sid,
+			@RequestParam String pid, HttpServletRequest request, RedirectAttributes red) {
+		FungrpFunMapDto ffMapDto;
+		List<Module> allModules;
+		
+		try {
+			ViewAuthDto vadto = ViewAuthUtil.isRequestValid(request, fid, sid);
+			if (vadto.isAllowedAccess()) {
+				if (SessionUtil.sessionValid(request.getSession(), red).equalsIgnoreCase(StringUtil.SESSION_VALID)) {
+					ffMapDto = new FungrpFunMapDto();
+					ffMapDto.setFunction(fid);
+					ffMapDto.setScreen(sid);
+					allModules = moduleService.getAllModules();
+					model.addAttribute("allModules", allModules);
+					model.addAttribute("ffMapDto", ffMapDto);
+					model.addAttribute("functionDesc", "Function Group Maintenance - Add");					
+				} 
+				else {
+					return "redirect:/login";
+				}
+			} else {
+				logger.debug(StringUtil.NO_ACCESS_TOKEN);
+				red.addFlashAttribute("msg", StringUtil.NO_PERMISSION_FOR_SCREEN);
+				return "redirect:/index/notAuthorized";
+			}
+		} catch (Exception e) {
+			logger.debug(e.toString());
+			red.addFlashAttribute("cause", StringUtil.UNKNOW_REASON);
+			return "redirect:/login";
+		}		
+		return sid;
+	}	
+	
+	@RequestMapping(value = "/submit-user-role-maintenance-update", method = RequestMethod.POST)
+	public String handle_FACL2000_SACL2000U(ModelMap model, @ModelAttribute("rfMapDto") RoleFungrpMapDto rolefungrpmapdto,
+					BindingResult result, HttpServletRequest req, RedirectAttributes red) {
+		List<RoleFungrpMap> roleFungrpMaps;
+		RoleFungrpMap rfMap;
+		RoleFungrpMapPK rfMapId;
+		int retval, retval2, retval3;		
+		try {
+			if (SessionUtil.sessionValid(req.getSession(), red).equalsIgnoreCase(StringUtil.SESSION_VALID)) {
+				User currentUser = (User) req.getSession().getAttribute(StringUtil.USER_SESSION);
+				logger.debug(rolefungrpmapdto);
+				Role role = new Role();
+				role.setRoleId(rolefungrpmapdto.getRoleId());
+				role.setRoleDesc(rolefungrpmapdto.getRoleDesc());
+				role.setModifyBy(currentUser.getUserId());
+				role.setModifyTime(new Timestamp(System.currentTimeMillis()));				
+				retval = 0;
+				retval = roleService.updateRoleById(role);
+				if (retval > 0) {
+					logger.debug("USER ROLE UPDATE WAS SUCCESSFUL");					
+				}
+				else {
+					logger.debug("ERROR : USER ROLE UPDATE WAS NOT SUCCESSFUL");
+				}
+				retval2 = 0;
+				retval2 = roleFungrpMapService.deleteFungroupsForRole(rolefungrpmapdto.getRoleId());
+				if (retval2 > 0) {
+					//execute rest of the codes
+					roleFungrpMaps = new ArrayList<RoleFungrpMap>();
+					for (String str : rolefungrpmapdto.getFungrpList()) {
+						rfMap = new RoleFungrpMap();
+						rfMapId = new RoleFungrpMapPK();
+						rfMapId.setFunctiongrpId(str);
+						rfMapId.setRoleId(rolefungrpmapdto.getRoleId());
+						rfMap.setId(rfMapId);
+						rfMap.setModifyBy(currentUser.getUserId());
+						rfMap.setModifyTime(new Timestamp(System.currentTimeMillis()));
+						rfMap.setSysFlag("1");
+						roleFungrpMaps.add(rfMap);
+					}
+					retval3 = 0;
+					retval3 = roleFungrpMapService.insertFungroupsForRole(roleFungrpMaps);
+					if (retval3 > 0) {
+						model.addAttribute("message", StringUtil.SACL2000U_SUCCESS);
+					}
+					else {
+						model.addAttribute("message", StringUtil.FAILURE);
+					}
+				}
+				else {
+					logger.debug("ERROR : DELETE OPERATION WAS NOT SUCCESSFUL");
+					model.addAttribute("message", StringUtil.FAILURE);
+				}				
+			} else {
+				return "redirect:/login";
+			}
+
+		} catch (Exception ex) {
+			logger.debug(ex.toString());
+			red.addFlashAttribute("cause", StringUtil.UNKNOW_REASON);
+			return "redirect:/login";
+		}
+		return "common_result";
+	}
+			
+	@RequestMapping(value = "/submit-function-group-maintenance-update", method = RequestMethod.POST)
+	public String handle_FACL1000_SACL1000U(ModelMap model, @ModelAttribute("ffMapDto") FungrpFunMapDto fungrpfunmapdto,
+			BindingResult result, HttpServletRequest req, RedirectAttributes red) {
+		logger.debug(fungrpfunmapdto);		
+		List<FungrpFunMap> fungrpFunMapList;
+		FungrpFunMap ffMap;
+		FungrpFunMapPK ffMapId;
+		int retval, retval2;		
+		try {
+			if (SessionUtil.sessionValid(req.getSession(), red).equalsIgnoreCase(StringUtil.SESSION_VALID)) {
+				User currentUser = (User) req.getSession().getAttribute(StringUtil.USER_SESSION);
+				Functiongrp fungrp = new Functiongrp();
+				fungrp.setFunctiongrpId(fungrpfunmapdto.getFunctiongrpId());
+				fungrp.setFunctiongrpDesc(fungrpfunmapdto.getFunctiongrpDesc());
+				fungrp.setModifyBy(currentUser.getUserId());
+				fungrp.setModifyTime(new Timestamp(System.currentTimeMillis()));				
+				retval = 0;
+				retval = fungrpService.updateFunctionGroup(fungrp);
+				if (retval > 0) {
+					logger.debug("FUNCTION GROUP UPDATE WAS SUCCESSFUL");					
+				}
+				else {
+					logger.debug("ERROR : FUNCTION GROUP UPDATE WAS NOT SUCCESSFUL");
+				} 
+				retval = 0;		
+				retval = fungrpFunMapService.removeElementsForFungrp(fungrpfunmapdto.getFunctiongrpId());
+				if (retval > 0) {
+					fungrpFunMapList = new ArrayList<FungrpFunMap>();
+					for (String str : fungrpfunmapdto.getFunctionList()) {
+						ffMap = new FungrpFunMap();
+						ffMapId = new FungrpFunMapPK();
+						ffMapId.setFunctionId(str);
+						ffMapId.setFunctiongrpId(fungrpfunmapdto.getFunctiongrpId());
+						ffMap.setId(ffMapId);
+						ffMap.setModifyBy(currentUser.getUserId());
+						ffMap.setModifyTime(new Timestamp(System.currentTimeMillis()));
+						ffMap.setSysFlag("1");
+						fungrpFunMapList.add(ffMap);
+					}
+					logger.debug(fungrpFunMapList);
+					retval2 = 0;
+					retval2 = fungrpFunMapService.mapCheckedFunctionsToGroup(fungrpFunMapList);
+					if (retval2 > 0) {
+						model.addAttribute("message", StringUtil.SACL1000U_SUCCESS);
+					}
+					else {
+						model.addAttribute("message", StringUtil.FAILURE);
+					}
+				}
+				else {
+					logger.debug("ERROR : DELETE OPERATION WAS NOT SUCCESSFUL");
+					model.addAttribute("message", StringUtil.FAILURE);
+				}				
+			} else {
+				return "redirect:/login";
+			}
+
+		} catch (Exception ex) {
+			logger.debug(ex.toString());
+			red.addFlashAttribute("cause", StringUtil.UNKNOW_REASON);
+			return "redirect:/login";
+		}
+		return "common_result";
 	}
 	
 	@RequestMapping(value = "/function-group-maintenance-update", method = RequestMethod.GET)
@@ -279,6 +471,7 @@ public class AccessControlListController {
 			if (vadto.isAllowedAccess()) {
 				if (SessionUtil.sessionValid(request.getSession(), red).equalsIgnoreCase(StringUtil.SESSION_VALID)) {
 					funForMod = funService.getModuleIdByFungrp(pid);
+					module = moduleService.getModuleById(funForMod.getModuleId());
 					funListByModule = funService.listFunctionsByModule(funForMod.getModuleId());
 					int sizeOfListByModule = funListByModule.size();
 					for (Function fun : funListByModule) {
@@ -324,7 +517,6 @@ public class AccessControlListController {
 						}*/ 
 					}
 					fungrp = fungrpService.getFunctionGroupById(pid);
-					module = moduleService.getModuleById(mid);
 					FungrpFunMapDto ffMapDto = new FungrpFunMapDto();
 					ffMapDto.setFunctiongrpId(fungrp.getFunctiongrpId());
 					ffMapDto.setFunctiongrpDesc(fungrp.getFunctiongrpDesc());
@@ -350,6 +542,221 @@ public class AccessControlListController {
 			red.addFlashAttribute("cause", StringUtil.UNKNOW_REASON);
 			return "redirect:/login";
 		}
+		return sid;
+	}
+	
+	@RequestMapping(value = "/submit-function-group-maintenance-add", method = RequestMethod.POST)
+	public String handle_FACL1000_SACL1000A(ModelMap model, @ModelAttribute("ffMapDto") FungrpFunMapDto fungrpfunmapdto,
+			BindingResult result, HttpServletRequest req, RedirectAttributes red) {
+		logger.debug(fungrpfunmapdto);		
+		List<FungrpFunMap> fungrpFunMapList;
+		FungrpFunMap ffMap;
+		FungrpFunMapPK ffMapId;
+		int retval, retval2;
+		try {
+			if (SessionUtil.sessionValid(req.getSession(), red).equalsIgnoreCase(StringUtil.SESSION_VALID)) {
+				User currentUser = (User) req.getSession().getAttribute(StringUtil.USER_SESSION);				
+				Functiongrp fungrpToAdd = new Functiongrp();
+				fungrpToAdd.setFunctiongrpId(fungrpfunmapdto.getFunctiongrpId());
+				fungrpToAdd.setFunctiongrpDesc(fungrpfunmapdto.getFunctiongrpDesc());
+				fungrpToAdd.setModifyBy(currentUser.getUserId());
+				fungrpToAdd.setModifyTime(new Timestamp(System.currentTimeMillis()));
+				retval = fungrpService.insertFunctionGroup(fungrpToAdd);
+				if (retval > 0) {
+					//function group created
+					//map selected functions to new function group
+					fungrpFunMapList = new ArrayList<FungrpFunMap>();
+					for (String str : fungrpfunmapdto.getFunctionList()) {
+						ffMap = new FungrpFunMap();
+						ffMapId = new FungrpFunMapPK();
+						ffMapId.setFunctionId(str);
+						ffMapId.setFunctiongrpId(fungrpfunmapdto.getFunctiongrpId());
+						ffMap.setId(ffMapId);
+						ffMap.setModifyBy(currentUser.getUserId());
+						ffMap.setModifyTime(new Timestamp(System.currentTimeMillis()));
+						ffMap.setSysFlag("1");
+						fungrpFunMapList.add(ffMap);
+					}
+					logger.debug(fungrpFunMapList);					
+					retval2 = 0;
+					retval2 = fungrpFunMapService.mapCheckedFunctionsToGroup(fungrpFunMapList);
+					if (retval2 > 0) {
+						model.addAttribute("message", StringUtil.SACL1000A_SUCCESS);
+					}
+					else {
+						model.addAttribute("message", StringUtil.FAILURE);
+					}
+				}
+				else {
+					logger.debug("ERROR : FUNCTION GROUP INSERT OPERATION WAS NOT SUCCESSFUL");
+					model.addAttribute("message", StringUtil.FAILURE);
+				}
+			} else {
+				return "redirect:/login";
+			}
+
+		} catch (Exception ex) {
+			logger.debug(ex.toString());
+			red.addFlashAttribute("cause", StringUtil.UNKNOW_REASON);
+			return "redirect:/login";
+		}
+		return "common_result";
+	}
+	
+	@RequestMapping(value = "/submit-user-role-maintenance-add", method = RequestMethod.POST)
+	public String handle_FACL2000_SACL2000A(ModelMap model, @ModelAttribute("rfMapDto") RoleFungrpMapDto rolefungrpmapdto,
+			BindingResult result, HttpServletRequest req, RedirectAttributes red) {
+		logger.debug(rolefungrpmapdto);		
+		List<RoleFungrpMap> roleFungrpMapList;
+		RoleFungrpMap rfMap;
+		RoleFungrpMapPK rfMapId;
+		int retval, retval2;
+		try {
+			if (SessionUtil.sessionValid(req.getSession(), red).equalsIgnoreCase(StringUtil.SESSION_VALID)) {
+				User currentUser = (User) req.getSession().getAttribute(StringUtil.USER_SESSION);
+				//create role first then map function groups to role
+				Role role = new Role();
+				role.setRoleId(rolefungrpmapdto.getRoleId());
+				role.setRoleDesc(rolefungrpmapdto.getRoleDesc());
+				role.setModifyBy(currentUser.getUserId());
+				role.setModifyTime(new Timestamp(System.currentTimeMillis()));
+				retval = roleService.addNewRole(role);
+				if (retval > 0) {
+					List<String> selFungrpList = rolefungrpmapdto.getFungrpList();
+					roleFungrpMapList = new ArrayList<RoleFungrpMap>();
+					for (String str : selFungrpList) {
+						rfMap = new RoleFungrpMap();
+						rfMapId = new RoleFungrpMapPK();
+						rfMapId.setRoleId(rolefungrpmapdto.getRoleId());
+						rfMapId.setFunctiongrpId(str);
+						rfMap.setId(rfMapId);
+						rfMap.setSysFlag("1");
+						rfMap.setModifyBy(currentUser.getUserId());
+						rfMap.setModifyTime(new Timestamp(System.currentTimeMillis()));
+						roleFungrpMapList.add(rfMap);
+					}
+					logger.debug(roleFungrpMapList);
+					retval2 = 0;
+					retval2 = roleFungrpMapService.insertFungroupsForRole(roleFungrpMapList);
+					if (retval2 > 0) {
+						model.addAttribute("message", StringUtil.SACL2000A_SUCCESS);
+					}
+					else {
+						model.addAttribute("message", StringUtil.FAILURE);
+					}
+				}
+				else {
+					logger.debug("ERROR : USER ROLE INSERT OPERATION WAS NOT SUCCESSFUL");
+					model.addAttribute("message", StringUtil.FAILURE);
+				}				
+			} else {
+				return "redirect:/login";
+			}
+
+		} catch (Exception ex) {
+			logger.debug(ex.toString());
+			red.addFlashAttribute("cause", StringUtil.UNKNOW_REASON);
+			return "redirect:/login";
+		}
+		return "common_result";
+	}
+	
+	@RequestMapping(value = "/user-role-maintenance-add", method = RequestMethod.GET)
+	public String view_FACL2000_SACL2000A(ModelMap model, @RequestParam String mid, @RequestParam String fid,
+			@RequestParam String sid, @RequestParam String pid, RedirectAttributes red, HttpServletRequest request) {
+		RoleFungrpMapDto rfMapDto;
+		List<Functiongrp> allFungroups;
+		
+		try {
+			ViewAuthDto vadto = ViewAuthUtil.isRequestValid(request, fid, sid);
+			if (vadto.isAllowedAccess()) {
+				if (SessionUtil.sessionValid(request.getSession(), red).equalsIgnoreCase(StringUtil.SESSION_VALID)) {
+					rfMapDto = new RoleFungrpMapDto();
+					allFungroups = fungrpService.listFunctionGroups();
+					model.addAttribute("outbox", allFungroups);
+					model.addAttribute("rfMapDto", rfMapDto);
+					model.addAttribute("module", mid);
+					model.addAttribute("function", fid);
+					model.addAttribute("screen", sid);
+					model.addAttribute("functionDesc", "User Role Maintenance - Add");					
+				} 
+				else {
+					return "redirect:/login";
+				}
+			} else {
+				logger.debug(StringUtil.NO_ACCESS_TOKEN);
+				red.addFlashAttribute("msg", StringUtil.NO_PERMISSION_FOR_SCREEN);
+				return "redirect:/index/notAuthorized";
+			}
+		} catch (Exception e) {
+			logger.debug(e.toString());
+			red.addFlashAttribute("cause", StringUtil.UNKNOW_REASON);
+			return "redirect:/login";
+		}
+		logger.debug("return "+sid+".jsp");
+		return sid;
+	}
+	
+	@RequestMapping(value = "/user-role-maintenance-update", method = RequestMethod.GET)
+	public String view_FACL2000_SACL2000U(ModelMap model, @RequestParam String mid, @RequestParam String fid,
+			@RequestParam String sid, @RequestParam String pid, RedirectAttributes red, HttpServletRequest request) {
+		Role editRole;
+		RoleFungrpMapDto rfMapDto;
+		List<Functiongrp> fungrpList;
+		List<RoleFungrpMap> mapFungrpByRole;
+		List<String> inbox = new ArrayList<String>(); 
+		List<String> outbox = new ArrayList<String>();
+		
+		try {
+			ViewAuthDto vadto = ViewAuthUtil.isRequestValid(request, fid, sid);
+			if (vadto.isAllowedAccess()) {
+				if (SessionUtil.sessionValid(request.getSession(), red).equalsIgnoreCase(StringUtil.SESSION_VALID)) {
+					fungrpList = fungrpService.listFunctionGroups();					
+					for (Functiongrp fg : fungrpList) {
+						outbox.add(fg.getFunctiongrpId());
+					}							
+					mapFungrpByRole = roleFungrpMapService.mapFungroupsByRole(pid);
+					Iterator<RoleFungrpMap> outerIterator = mapFungrpByRole.iterator();
+					while (outerIterator.hasNext()) {
+						RoleFungrpMap outerVar = outerIterator.next();
+						
+						Iterator<String> innerIterator = outbox.iterator();
+						while (innerIterator.hasNext()) {
+							String innerVar = innerIterator.next();
+							
+							if (innerVar.equalsIgnoreCase(outerVar.getId().getFunctiongrpId())) {
+								inbox.add(innerVar);
+								innerIterator.remove();
+								break;
+							}
+						}
+					}
+					editRole = roleService.getRoleById(pid);
+					rfMapDto = new RoleFungrpMapDto();
+					rfMapDto.setFunction(fid);
+					rfMapDto.setModule(mid);
+					rfMapDto.setScreen(sid);
+					rfMapDto.setRoleId(editRole.getRoleId());
+					rfMapDto.setRoleDesc(editRole.getRoleDesc());
+					model.addAttribute("inbox", inbox);
+					model.addAttribute("outbox", outbox);
+					model.addAttribute("functionDesc", "User Role Maintenance - Update");
+					model.addAttribute("rfMapDto", rfMapDto);
+					
+				} else {
+					return "redirect:/login";
+				}
+			} else {
+				logger.debug(StringUtil.NO_ACCESS_TOKEN);
+				red.addFlashAttribute("msg", StringUtil.NO_PERMISSION_FOR_SCREEN);
+				return "redirect:/index/notAuthorized";
+			}
+		} catch (Exception e) {
+			logger.debug(e.toString());
+			red.addFlashAttribute("cause", StringUtil.UNKNOW_REASON);
+			return "redirect:/login";
+		}
+		logger.debug("return "+sid+".jsp");
 		return sid;
 	}
 	
@@ -386,6 +793,14 @@ public class AccessControlListController {
 		logger.debug("return "+sid+".jsp");
 		return sid;
 	}
+	
+	@RequestMapping(value = "/getAllFunctionsForSelectedModule", method = RequestMethod.POST)
+	@ResponseBody
+	public String ajaxcall_method_SACL1000A(@RequestParam("module") String mod) {
+		//logger.debug("hey i am here");
+		List<Function> funListByModule = funService.listFunctionsByModule(mod);	    
+	    return new Gson().toJson(funListByModule);
+	}
 
 	@ModelAttribute("commonStatus")
 	protected Map<String, String> getCommonStatusVariables() {
@@ -407,9 +822,11 @@ public class AccessControlListController {
 	@ModelAttribute("userRoleOptions")
 	protected Map<String, String> getUserRoles() {
 		Map<String, String> userRoleOptions = new HashMap<String, String>();
-		userRoleOptions.put("SUPER", "Super");
-		userRoleOptions.put("TEST", "Test");
-		userRoleOptions.put("DEBUG", "Debug");
+		List<Role> listOfRoles = new ArrayList<Role>();
+		listOfRoles = roleService.listAllRoles();
+		for (Role r : listOfRoles) {
+			userRoleOptions.put(r.getRoleId(), r.getRoleDesc());
+		}
 		return userRoleOptions;
 	}
 

@@ -11,13 +11,26 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="modifyTime" column="MODIFY_TIME" />
 	</resultMap>
 
-	<select id="getAllFunctionGroups" resultType="functiongrp" resultMap="result">
+	<select id="getAllFunctionGroups" resultType="functiongrp"
+		resultMap="result">
 		SELECT * FROM T_FUNCTIONGRP
 	</select>
+
+	<select id="findFunctionGroupById" parameterType="String"
+		resultType="functiongrp" resultMap="result">
+		SELECT * FROM T_FUNCTIONGRP WHERE
+		FUNCTIONGRP_ID = #{functiongrpId}
+	</select>
+
+	<insert id="insertFunctionGroup" parameterType="functiongrp" keyProperty="functiongrpId">
+		INSERT INTO T_FUNCTIONGRP(FUNCTIONGRP_ID, FUNCTIONGRP_DESC, MODIFY_TIME, MODIFY_BY)
+		VALUES(#{functiongrpId}, #{functiongrpDesc}, #{modifyTime}, #{modifyBy})
+	</insert>
 	
-	<select id="findFunctionGroupById" parameterType="String" resultType="functiongrp"
-		resultMap="result">
-		SELECT * FROM T_FUNCTIONGRP WHERE FUNCTIONGRP_ID = #{functiongrpId}
-	</select> 
+	<update id="updateFunctionGroup" parameterType="functiongrp">
+		UPDATE T_FUNCTIONGRP SET
+		FUNCTIONGRP_DESC = #{functiongrpDesc}, MODIFY_TIME = #{modifyTime}, MODIFY_BY =
+		#{modifyBy} WHERE FUNCTIONGRP_ID = #{functiongrpId}
+	</update>
 
 </mapper>

@@ -48,7 +48,7 @@
 	<c:set var="delete" value="DELETE" />
 	<table width="80%" align="center">
 		<tr>
-			<td><h1>${functionDesc}</h1></td>
+			<td class="PageHeader">${functionDesc}</td>
 		</tr>
 		<tr>
 			<td><a href="changePassword">Change Password</a>&nbsp;&nbsp;&nbsp;<a

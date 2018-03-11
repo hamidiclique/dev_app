@@ -13,6 +13,11 @@ function unselectAll() {
 	}
 }
 function countCheckboxes() {
+	var module = document.getElementById('module');
+	if (!module.value) {
+		alert("You must select a module first");
+		return false;
+	}
 	var functions = document.getElementsByName('functionList');
 	var count = 0;
 	for (var i=0; i<functions.length; i++) {

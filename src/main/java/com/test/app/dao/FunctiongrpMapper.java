@@ -38,5 +38,43 @@ public class FunctiongrpMapper implements IFunctiongrpMapper {
 		}
 		return fungrp;
 	}
+
+	@Override
+	public int addNewFunctionGroup(Functiongrp fungrp) {
+		// TODO Auto-generated method stub
+		int nora = 0;
+		SqlSession session = MyBatisUtil.getSqlSessionFactory().openSession();
+		try {
+			nora = session.insert("insertFunctionGroup", fungrp);
+			session.commit();
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.toString();
+			session.rollback();
+		} finally {
+			session.close();
+		}
+		return nora;
+	}
+
+	@Override
+	public int updateFunctionGroup(Functiongrp fungrp) {
+		// TODO Auto-generated method stub
+		int nora = 0;
+		SqlSession session = MyBatisUtil.getSqlSessionFactory().openSession();
+		try {
+			nora = session.update("updateFunctionGroup", fungrp);
+			session.commit();
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.toString();
+			session.rollback();
+		} finally {
+			session.close();
+		}
+		return nora;
+	}
 	
 }

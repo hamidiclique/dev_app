@@ -13,10 +13,12 @@ import com.test.app.entity.User;
 public class UserMapper implements IUserMapper {
 	
 	@Override
-	public void saveNewUser(User user) {
+	public int saveNewUser(User user) {
+		// TODO Auto-generated method stub
+		int nora = 0;
 		SqlSession session = MyBatisUtil.getSqlSessionFactory().openSession();
 		try {
-			session.insert("insertNewUser", user);
+			nora = session.insert("insertNewUser", user);
 			session.commit();
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -24,6 +26,7 @@ public class UserMapper implements IUserMapper {
 		} finally {
 			session.close();
 		}
+		return nora;
 	}
 	
 	@Override
@@ -60,11 +63,12 @@ public class UserMapper implements IUserMapper {
 	}
 	
 	@Override
-	public void updateUserInfoProcess(User user) {
+	public int updateUserInfoProcess(User user) {
 		// TODO Auto-generated method stub
+		int nora = 0;
 		SqlSession session = MyBatisUtil.getSqlSessionFactory().openSession();
 		try {
-			session.update("updateUserInfo", user);
+			nora = session.update("updateUserInfo", user);
 			session.commit();
 		}
 		catch (Exception e) {
@@ -75,6 +79,7 @@ public class UserMapper implements IUserMapper {
 		finally {
 			session.close();
 		}
+		return nora;
 	}
 
 	@Override
@@ -92,6 +97,26 @@ public class UserMapper implements IUserMapper {
 		finally {
 			session.close();
 		}
+	}
+
+	@Override
+	public int removeUser(String userId) {
+		// TODO Auto-generated method stub
+		int nora = 0;
+		SqlSession session = MyBatisUtil.getSqlSessionFactory().openSession();
+		try {
+			nora = session.delete("deleteUser", userId);
+			session.commit();
+		}
+		catch (Exception e) {
+			// TODO: handle exception
+			e.toString();
+			session.rollback();
+		}
+		finally {
+			session.close();
+		}
+		return nora;
 	}
 	
 }

@@ -16,18 +16,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		DELETE FROM T_FUNGRP_FUN_MAP WHERE FUNCTIONGRP_ID = #{id.functiongrpId}
 	</delete>
 
-<!-- 	<insert id="mapFunctionsToFunroup" parameterType="fungrpfunmap" keyProperty="id"
-		useGeneratedKeys="true">
-		INSERT INTO T_FUNGRP_FUN_MAP(FUNCTION_ID, FUNCTIONGRP_ID, SYS_FLAG,	MODIFY_TIME, MODIFY_BY)
-		VALUES(#{id.functionId}, #{id.functiongrpId}, #{sysFlag}, #{modifyTime}, #{modifyBy})
-	</insert> -->
-	
-<!-- 	<insert id="mapFunctionsToFunroup" parameterType="java.util.List">
-		INSERT INTO T_FUNGRP_FUN_MAP(FUNCTION_ID, FUNCTIONGRP_ID, SYS_FLAG,	MODIFY_TIME, MODIFY_BY) VALUES
-		<foreach item="item" collection="list" separator=",">
-		(#{item.functionId}, #{item.id.functiongrpId}, #{item.sysFlag}, #{item.modifyBy}, #{item.modifyBy})
-		</foreach>
- 	</insert> -->
 	<insert id="mapFunctionsToFunroup" parameterType="list">
 		INSERT ALL
 		<foreach collection="list" item="elem" index="index">

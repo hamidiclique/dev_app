@@ -6,8 +6,8 @@ import com.test.app.entity.FungrpFunMap;
 
 public interface IFungrpFunMapper {
 
-	public void deleteRecordsByFungrp(String functiongrpId);
+	public int deleteRecordsByFungrp(String functiongrpId);
 
-	public void mapListedFunctionsToFungrp(List<FungrpFunMap> fungrpFunMapList);
+	public int mapListedFunctionsToFungrp(List<FungrpFunMap> fungrpFunMapList);
 
 }

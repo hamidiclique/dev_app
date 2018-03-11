@@ -39,5 +39,6 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<mapper resource="com/test/app/mapper/FunctiongrpMapper.xml"/>
 		<mapper resource="com/test/app/mapper/FungrpFunMapper.xml"/>
 		<mapper resource="com/test/app/mapper/RoleMapper.xml"/>
+		<mapper resource="com/test/app/mapper/RoleFungrpMapper.xml"/>
 	</mappers>
 </configuration>

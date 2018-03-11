@@ -9,5 +9,9 @@ public interface RoleService {
 	public List<Role> listAllRoles();
 	
 	public Role getRoleById(String roleId);
+
+	public int addNewRole(Role role);
+
+	public int updateRoleById(Role role);
 	
 }

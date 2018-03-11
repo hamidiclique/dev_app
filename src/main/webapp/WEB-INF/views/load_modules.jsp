@@ -12,30 +12,34 @@
 	<c:set var="contextPath" value="${pageContext.request.contextPath}" />
 	<c:set var="modulemap" value="${modmap}" />
 
-	<center>
-		<h1>Main Menu</h1>
-		<a href="changePassword">Change Password</a><br> <a
-			href="userLogout">Logout</a>		
-
-		<table class="TableContent">
+	<table width="60%" align="center">
+		<tr>
+			<td class="PageHeader">Main Menu</td>
+		</tr>
+		<tr>
+			<td><a href="changePassword">Change Password</a>&nbsp;&nbsp;&nbsp;<a
+				href="userLogout">Logout</a></td>
+		</tr>
+	</table>
+	<table class="TableContent" align="center" width="60%">
+		<tr>
+			<th class="HeaderTableData">S/NO</th>
+			<th></th>
+		</tr>
+		<c:forEach items="${funmodmap}" var="funmodmap" varStatus="count">
 			<tr>
-				<th class="HeaderTableData">S/NO</th>
-				<th></th>
+				<c:url var="link" value="viewFunctions">
+					<c:param name="moduleId" value="${funmodmap.key}" />
+				</c:url>
+				<c:set var="moduleKey">${funmodmap.key}</c:set>
+				<td class="FormInputColor">${count.count}</td>
+				<td class="FormInputColor"><a href="${contextPath}/${link}"><c:out
+							value="${modulemap[moduleKey]}" /></a></td>
 			</tr>
-			<c:forEach items="${funmodmap}" var="funmodmap" varStatus="count">
-				<tr>
-					<c:url var="link" value="viewFunctions">
-						<c:param name="moduleId" value="${funmodmap.key}" />
-					</c:url>
-					<c:set var="moduleKey">${funmodmap.key}</c:set>
-					<td class="FormInputColor">${count.count}</td>
-					<td class="FormInputColor"><a href="${contextPath}/${link}"><c:out
-								value="${modulemap[moduleKey]}" /></a></td>
-				</tr>
-			</c:forEach>
-		</table>
+		</c:forEach>
+	</table>
 
-	</center>
+
 
 </body>
 </html>

@@ -14,31 +14,34 @@
 	<c:set var="functionmap" value="${funmap}" />
 	<c:set var="modkey" value="${module}" />
 
-	<center>
-		<h1><c:out value="${modmap[modkey]}" /></h1>
-		<a href="changePassword">Change Password</a><br> <a
-			href="userLogout">Logout</a>
-
-		<table class="TableContent" width="60%" align="center">
+	<table width="60%" align="center">
+		<tr>
+			<td class="PageHeader"><c:out value="${modmap[modkey]}" /></td>
+		</tr>
+		<tr>
+			<td><a href="changePassword">Change Password</a>&nbsp;&nbsp;&nbsp;<a
+				href="userLogout">Logout</a></td>
+		</tr>
+	</table>
+	<table class="TableContent" width="60%" align="center">
+		<tr>
+			<th class="HeaderTableData">S/NO</th>
+			<th></th>
+		</tr>
+		<c:forEach items="${funlist}" var="fnc" varStatus="count">
 			<tr>
-				<th class="HeaderTableData">S/NO</th>
-				<th></th>
+				<c:url var="link" value="viewScreen">
+					<c:param name="moduleId" value="${module}" />
+					<c:param name="functionId" value="${fnc}" />
+				</c:url>
+				<c:set var="funkey">${fnc}</c:set>
+				<td class="FormInputColor">${count.count}</td>
+				<td class="FormInputColor"><a href="${contextPath}/${link}"><c:out
+							value="${functionmap[funkey]}" /></a></td>
 			</tr>
-			<c:forEach items="${funlist}" var="fnc" varStatus="count">
-				<tr>
-					<c:url var="link" value="viewScreen">
-						<c:param name="moduleId" value="${module}" />
-						<c:param name="functionId" value="${fnc}" />
-					</c:url>
-					<c:set var="funkey">${fnc}</c:set>
-					<td class="FormInputColor">${count.count}</td>
-					<td class="FormInputColor"><a href="${contextPath}/${link}"><c:out
-								value="${functionmap[funkey]}" /></a></td>
-				</tr>
-			</c:forEach>
-		</table>
+		</c:forEach>
+	</table>
 
-	</center>
 
 </body>
 </html>

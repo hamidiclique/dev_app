@@ -10,5 +10,9 @@ public interface IRoleMapper {
 
 	public Role findRoleById(String roleId);
 
+	public int insertUserRole(Role role);
+
+	public int updateUserRole(Role role);
+
 
 }

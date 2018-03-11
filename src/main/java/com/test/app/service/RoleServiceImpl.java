@@ -47,4 +47,32 @@ public class RoleServiceImpl implements RoleService {
 		return role;
 	}
 
+	@Override
+	public int addNewRole(Role role) {
+		// TODO Auto-generated method stub
+		int nora = 0;
+		try {
+			nora = roleMapper.insertUserRole(role);
+		} 
+		catch (Exception e) {
+			// TODO: handle exception
+			e.toString();
+		}
+		return nora;
+	}
+
+	@Override
+	public int updateRoleById(Role role) {
+		// TODO Auto-generated method stub
+		int nora = 0;
+		try {
+			nora = roleMapper.updateUserRole(role);
+		} 
+		catch (Exception e) {
+			// TODO: handle exception
+			e.toString();
+		}
+		return nora;
+	}
+
 }

@@ -26,7 +26,7 @@
 	<c:set var="delete" value="DELETE" />
 
 	<center>
-		<h1>${functionDesc}</h1>
+		<td class="PageHeader">${functionDesc}</td>
 		<a href="changePassword">Change Password</a><br> <a
 			href="userLogout">Logout</a>
 

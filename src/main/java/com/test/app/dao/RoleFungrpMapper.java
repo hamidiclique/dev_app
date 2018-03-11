@@ -7,61 +7,61 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import com.test.app.config.MyBatisUtil;
-import com.test.app.entity.Role;
+import com.test.app.entity.RoleFungrpMap;
 
 @Repository
-public class RoleMapper implements IRoleMapper {
+public class RoleFungrpMapper implements IRoleFungrpMapper {
 
 	@Override
-	public List<Role> getAllRoles() {
+	public List<RoleFungrpMap> getFungroupsByRoleId(String roleId) {
 		// TODO Auto-generated method stub
-		List<Role> roleList = new ArrayList<Role>();
+		List<RoleFungrpMap> roleFungrpMapList = new ArrayList<RoleFungrpMap>();
 		SqlSession session = MyBatisUtil.getSqlSessionFactory().openSession();
 		try {
-			roleList = session.selectList("listAllRoles");
+			roleFungrpMapList = session.selectList("findFungroupsByRoleId", roleId);
 			session.commit();
-			
-		} catch (Exception e) {
+		} 
+		catch (Exception e) {
 			// TODO: handle exception
 			e.toString();
 			session.rollback();
-		} finally {
+		} 
+		finally {
 			session.close();
-		}
-		return roleList;
+		} 		
+		return roleFungrpMapList;
 	}
 
 	@Override
-	public Role findRoleById(String roleId) {
+	public List<RoleFungrpMap> getAllRoleFungroups() {
 		// TODO Auto-generated method stub
-		Role role = new Role();
+		List<RoleFungrpMap> roleFungrpMapList = new ArrayList<RoleFungrpMap>();
 		SqlSession session = MyBatisUtil.getSqlSessionFactory().openSession();
 		try {
-			role = session.selectOne("findRoleById", roleId);
+			roleFungrpMapList = session.selectList("getAllRoleFungroupMap");
 			session.commit();
-			
-		} catch (Exception e) {
+		} 
+		catch (Exception e) {
 			// TODO: handle exception
 			e.toString();
 			session.rollback();
-		} finally {
+		} 
+		finally {
 			session.close();
-		}
-		return role;
+		} 		
+		return roleFungrpMapList;
 	}
 
 	@Override
-	public int insertUserRole(Role role) {
+	public int deleteFungroupsForRole(String roleId) {
 		// TODO Auto-generated method stub
 		int nora = 0;
 		SqlSession session = MyBatisUtil.getSqlSessionFactory().openSession();
 		try {
-			nora = session.insert("addUserRole", role);
+			nora = session.delete("deleteFungroupsByRoleId", roleId);
 			session.commit();
-			
-		} catch (Exception e) {
-			// TODO: handle exception
-			e.toString();
+		} catch (Exception ex) {
+			ex.printStackTrace();
 			session.rollback();
 		} finally {
 			session.close();
@@ -70,22 +70,20 @@ public class RoleMapper implements IRoleMapper {
 	}
 
 	@Override
-	public int updateUserRole(Role role) {
+	public int mapFungrpsToRole(List<RoleFungrpMap> roleFungrpMapList) {
 		// TODO Auto-generated method stub
 		int nora = 0;
 		SqlSession session = MyBatisUtil.getSqlSessionFactory().openSession();
-		try {
-			nora = session.update("updateUserRole", role);
+		try {			
+			nora = session.insert("mapFungroupsToRole", roleFungrpMapList);			
 			session.commit();
-			
-		} catch (Exception e) {
-			// TODO: handle exception
-			e.toString();
+		} catch (Exception ex) {
+			ex.printStackTrace();
 			session.rollback();
 		} finally {
-			session.close();
+			session.close();			
 		}
 		return nora;
 	}
-
+	
 }

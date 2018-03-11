@@ -12,11 +12,12 @@ import com.test.app.entity.FungrpFunMap;
 public class FungrpFunMapper implements IFungrpFunMapper {
 
 	@Override
-	public void deleteRecordsByFungrp(String functiongrpId) {
+	public int deleteRecordsByFungrp(String functiongrpId) {
 		// TODO Auto-generated method stub
+		int nora = 0;
 		SqlSession session = MyBatisUtil.getSqlSessionFactory().openSession();
 		try {
-			session.delete("deleteByFungrpId", functiongrpId);
+			nora = session.delete("deleteByFungrpId", functiongrpId);
 			session.commit();
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -24,14 +25,16 @@ public class FungrpFunMapper implements IFungrpFunMapper {
 		} finally {
 			session.close();
 		}
+		return nora;
 	}
 
 	@Override
-	public void mapListedFunctionsToFungrp(List<FungrpFunMap> fungrpFunMapList) {
+	public int mapListedFunctionsToFungrp(List<FungrpFunMap> fungrpFunMapList) {
 		// TODO Auto-generated method stub
+		int nora = 0;
 		SqlSession session = MyBatisUtil.getSqlSessionFactory().openSession();
 		try {			
-	        session.insert("mapFunctionsToFunroup", fungrpFunMapList);			
+	        nora = session.insert("mapFunctionsToFunroup", fungrpFunMapList);			
 			session.commit();
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -39,6 +42,7 @@ public class FungrpFunMapper implements IFungrpFunMapper {
 		} finally {
 			session.close();
 		}
+		return nora;
 	}
 
 }

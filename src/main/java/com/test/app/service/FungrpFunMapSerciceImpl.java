@@ -17,26 +17,31 @@ public class FungrpFunMapSerciceImpl implements FungrpFunMapSercice {
 	IFungrpFunMapper fungrpFunMapper;
 	
 	@Override
-	public void removeElementsForFungrp(String functiongrpId) {
+	public int removeElementsForFungrp(String functiongrpId) {
 		// TODO Auto-generated method stub
+		int nora = 0;
 		try {
-			fungrpFunMapper.deleteRecordsByFungrp(functiongrpId);
+			nora = fungrpFunMapper.deleteRecordsByFungrp(functiongrpId);
 		} 
 		catch (Exception e) {
 			// TODO: handle exception
 			e.toString();
 		}
+		return nora;
 	}
 
 	@Override
-	public void mapCheckedFunctionsToGroup(List<FungrpFunMap> fungrpFunMapList) {
+	public int mapCheckedFunctionsToGroup(List<FungrpFunMap> fungrpFunMapList) {
 		// TODO Auto-generated method stub
+		int nora = 0;
 		try {
-			fungrpFunMapper.mapListedFunctionsToFungrp(fungrpFunMapList);			
+			nora = fungrpFunMapper.mapListedFunctionsToFungrp(fungrpFunMapList);			
 		} 
 		catch (Exception e) {
 			// TODO: handle exception
+			e.toString();
 		}
+		return nora;
 	}
 
 }

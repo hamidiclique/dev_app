@@ -12,7 +12,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</resultMap>
 
 	<select id="listAllRoles" resultType="role" resultMap="result">
-		SELECT * FROM T_ROLE
+		SELECT *
+		FROM T_ROLE
 	</select>
 
 	<select id="findRoleById" parameterType="String" resultType="role"
@@ -20,4 +21,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		SELECT * FROM T_ROLE WHERE ROLE_ID = #{roleId}
 	</select>
 
+	<insert id="addUserRole" parameterType="role" keyProperty="roleId">
+		INSERT INTO T_ROLE(ROLE_ID, ROLE_DESC, MODIFY_TIME, MODIFY_BY)
+		VALUES(#{roleId}, #{roleDesc}, #{modifyTime}, #{modifyBy})
+	</insert>
+
+	<update id="updateUserRole" parameterType="role">
+		UPDATE T_ROLE SET
+		ROLE_DESC = #{roleDesc}, MODIFY_TIME = #{modifyTime}, MODIFY_BY =
+		#{modifyBy} WHERE ROLE_ID = #{roleId}
+	</update>
+	
 </mapper>

@@ -18,14 +18,16 @@ public class UserServiceImpl implements UserService {
 	IUserMapper userMapper;
 
 	@Override
-	public void storeNewUserData(User user) {
+	public int storeNewUserData(User user) {
 		// TODO Auto-generated method stub
+		int nora = 0;
 		try {
-			userMapper.saveNewUser(user);
+			nora = userMapper.saveNewUser(user);
 		}
 		catch(Exception ex) {
 			ex.toString();
 		}
+		return nora;
 	}
 
 	@Override
@@ -57,15 +59,17 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void updateUserInfoProcess(User user) {
+	public int updateUserInfoProcess(User user) {
 		// TODO Auto-generated method stub
+		int nora = 0;
 		try {
-			userMapper.updateUserInfoProcess(user);
+			nora = userMapper.updateUserInfoProcess(user);
 		} 
 		catch (Exception e) {
 			// TODO: handle exception
 			e.toString();
 		}
+		return nora;
 	}
 
 	@Override
@@ -77,6 +81,20 @@ public class UserServiceImpl implements UserService {
 			// TODO: handle exception
 			e.toString();
 		}
+	}
+
+	@Override
+	public int deleteUserById(String pid) {
+		// TODO Auto-generated method stub
+		int nora = 0;
+		try {
+			nora = userMapper.removeUser(pid);
+		} 
+		catch (Exception e) {
+			// TODO: handle exception
+			e.toString();
+		}
+		return nora;
 	}
 	
 }
