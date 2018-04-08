@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.test.app.dao.DecParamMapper">
+
+	<resultMap type="decparam" id="result">
+		<id property="paramId" column="PARAM_ID" />
+		<result property="paramDesc" column="PARAM_DESC" />
+		<result property="paramValue" column="PARAM_VALUE" />
+		<result property="modifyBy" column="MODIFY_BY" />
+		<result property="modifyTime" column="MODIFY_TIME" />
+	</resultMap>
+
+	<select id="getAllDecisionParams" resultType="decparam"
+		resultMap="result">
+		SELECT * FROM T_DEC_PARAM
+	</select>
+
+	<update id="editDecisionParam" parameterType="decparam">
+		UPDATE T_DEC_PARAM SET PARAM_VALUE =
+		#{paramValue}, MODIFY_TIME = #{modifyTime}, MODIFY_BY
+		= #{modifyBy} WHERE PARAM_ID = #{paramId}
+	</update>
+
+	<select id="findByDecParamId" parameterType="String" resultType="decparam"
+		resultMap="result">
+		SELECT * FROM T_DEC_PARAM WHERE PARAM_ID = #{paramId}
+	</select>
+	
+</mapper>

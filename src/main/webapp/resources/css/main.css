@@ -1,0 +1,35 @@
+body {
+	margin: 0px;
+}
+
+.TableNav {
+	background-color: #E8F3FB;
+}
+
+.TableBelowNav {
+	/* background-color: #436D96; */
+	background-color: #618CB6
+}
+
+td img {
+	height: 40px;
+}
+
+th.TableBelowNavHeader, th.TableBelowNavHeader a {
+	font-weight: bold;
+	font-size: 12px;
+	color: #EBEBEB;
+	font-family: Arial;
+	text-align: left;
+	text-decoration: none;
+	height: 30px;
+}
+
+.rightPartNoMargin {
+	padding: 35px 0px;
+}
+
+.rightPart {
+	margin-left: 18%;
+	padding: 35px 0px;
+}

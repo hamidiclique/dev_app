@@ -15,7 +15,6 @@ import com.test.app.dto.ButtonDto;
 import com.test.app.dto.ViewAuthDto;
 import com.test.app.entity.ScreenFunMap;
 import com.test.app.entity.User;
-import com.test.app.service.FunctionService;
 import com.test.app.service.ScreenFunMapService;
 
 @Component
@@ -25,7 +24,7 @@ public class ViewAuthUtil {
 
     @Autowired
     public ViewAuthUtil(ScreenFunMapService scrnfunmapService) {       
-        this.scrnfunmapService = scrnfunmapService;
+        ViewAuthUtil.scrnfunmapService = scrnfunmapService;
     }
 
 	@SuppressWarnings("unchecked")
@@ -38,7 +37,7 @@ public class ViewAuthUtil {
 		String resultPage = "";
 		boolean tempHasAccess = false;
 		ButtonDto btn;
-		User currentuser = (User) request.getSession().getAttribute(StringUtil.USER_SESSION);
+		User currentuser = (User) request.getSession(false).getAttribute(StringUtil.USER_SESSION);
 		List<ScreenFunMap> scrnfunList = scrnfunmapService.getDistinctScrnFunPairByUser(currentuser.getUserId());
 		Map<String, String> tempMap = new HashMap<String, String>();
 		for (ScreenFunMap sfm : scrnfunList) {
@@ -46,7 +45,7 @@ public class ViewAuthUtil {
 		}
 		
 		try {			
-			mapScrnFunMap = (Map<String, List<ScreenFunMap>>) request.getSession().getAttribute(StringUtil.SESSION_SCR_FUN_MAP);
+			mapScrnFunMap = (Map<String, List<ScreenFunMap>>) request.getSession(false).getAttribute(StringUtil.SESSION_SCR_FUN_MAP);
 			if (mapScrnFunMap.containsKey(function)) {
 				screenList= mapScrnFunMap.get(function);
 				for (ScreenFunMap sfm : screenList) {					

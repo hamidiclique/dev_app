@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.test.app.dao.ActivityLogMapper">
+
+	<resultMap type="activeuser" id="result">
+		<id property="userId" column="USER_ID" />
+		<result property="contactNumber" column="CONTACT_NUMBER" />
+		<result property="screenId" column="SCREEN_ID" />
+		<result property="screenDesc" column="SCREEN_DESC" />
+		<result property="lastActiveTime" column="LAST_ACTIVE_TIME" />
+		<result property="batchRunFlag" column="BATCH_RUN_FLAG" />
+	</resultMap>
+
+	<select id="getAllActiveUsers" resultType="activeuser"
+		resultMap="result">
+		SELECT * FROM T_ACTIVE_USERS
+	</select>
+
+	<insert id="addActiveUser" parameterType="activeuser"
+		keyProperty="userId" useGeneratedKeys="true">
+		INSERT INTO
+		T_ACTIVE_USERS(USER_ID, CONTACT_NUMBER, SCREEN_ID, SCREEN_DESC,
+		LAST_ACTIVE_TIME, BATCH_RUN_FLAG)
+		VALUES(#{userId}, #{contactNumber}, #{screenId}, #{screenDesc}, #{lastActiveTime},
+		#{batchRunFlag})
+	</insert>
+
+	<update id="updateActiveUserInfo" parameterType="activeuser">
+		UPDATE
+		T_ACTIVE_USERS SET SCREEN_ID = #{screenId}, SCREEN_DESC =
+		#{screenDesc}, LAST_ACTIVE_TIME = #{lastActiveTime} WHERE USER_ID =
+		#{userId}
+	</update>
+
+	<select id="findActiveUserById" parameterType="String"
+		resultType="activeuser" resultMap="result">
+		SELECT * FROM T_ACTIVE_USERS WHERE
+		USER_ID = #{userId}
+	</select>
+
+	<delete id="deleteActiveUser" parameterType="String">
+		DELETE FROM T_ACTIVE_USERS WHERE USER_ID = #{userId}
+	</delete>
+
+</mapper>
