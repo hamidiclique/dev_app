@@ -1,22 +1,10 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<jsp:include page="base.jsp"></jsp:include>
+<jsp:include page="sidebar.jsp"></jsp:include>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<link rel="stylesheet"
-	href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
-<title>ACL Demo</title>
+
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/table.css">
 <style>
@@ -30,21 +18,18 @@
 		$("#accountExpDate").datepicker();
 	});
 </script>
-
 </head>
-
 <body>
+
 	<c:set var="contextPath" value="${pageContext.request.contextPath}" />
 	<c:set var="delete" value="DELETE" />
+	<div class="rightPart">
 	<table width="80%" align="center">
 		<tr>
 			<td class="PageHeader">${functionDesc}</td>
 		</tr>
-		<tr>
-			<td><a href="changePassword">Change Password</a>&nbsp;&nbsp;&nbsp;<a
-				href="userLogout">Logout</a></td>
-		</tr>
 	</table>
+	<br>
 	<form:form action="submit-user-id-maintenance-update" modelAttribute="user">
 		<table class="TableContent" width="80%" align="center">
 			<tr>
@@ -138,15 +123,14 @@
 			<tr>
 				<td>
 					<p>
-						<input type="submit" class="button" id="" value="Update" />
-						<a href="user-id-maintenance?mid=LACL0000&fid=FACL3000&sid=SACL3000&pid=">
-							<input type="button" class="button" id="" value="Return" />
-						</a>
+						<input type="submit" class="button" id="" value="Update" />						
+						<a href="${uponelvl}"><input class="button" type="button" value="Return" /></a>
 					</p>
 				</td>
 			</tr>
 		</table>
 	</form:form>
+	</div>
 
 </body>
 </html>

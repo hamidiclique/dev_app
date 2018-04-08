@@ -7,32 +7,32 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.test.app.dao.ISysloginParamMapper;
-import com.test.app.entity.SysLoginParam;
+import com.test.app.dao.IDecParamMapper;
+import com.test.app.entity.DecParam;
 
 @Service
 @Transactional
 public class LoginParamServiceImpl implements LoginParamService {
 
 	@Autowired
-	ISysloginParamMapper sysLoginParam;
+	IDecParamMapper decParamMapper;
 
-	@Override
-	public void addNewLoginParam(SysLoginParam slp) {
+/*	@Override
+	public void addNewLoginParam(DecParam slp) {
 		// TODO Auto-generated method stub
 		try {
-			sysLoginParam.addSysLoginParam(slp);
+			decParamMapper.addDecParam(slp);
 		} catch (Exception ex) {
 			ex.toString();
 		}
-	}
+	}*/
 
 	@Override
-	public List<SysLoginParam> fetchAllLoginParams() {
+	public List<DecParam> fetchAllLoginParams() {
 		// TODO Auto-generated method stub
-		List<SysLoginParam> slpList = new ArrayList<SysLoginParam>();
+		List<DecParam> slpList = new ArrayList<DecParam>();
 		try {
-			slpList = sysLoginParam.getAllSysLoginParams();
+			slpList = decParamMapper.getAllSysLoginParams();
 			return slpList;
 		} catch (Exception ex) {
 			ex.toString();
@@ -41,11 +41,11 @@ public class LoginParamServiceImpl implements LoginParamService {
 	}
 
 	@Override
-	public SysLoginParam getLoginParamById(String searchId) {
+	public DecParam getLoginParamById(String searchId) {
 		// TODO Auto-generated method stub
-		SysLoginParam slp = new SysLoginParam();
+		DecParam slp = new DecParam();
 		try {
-			slp = sysLoginParam.getSLPById(searchId);
+			slp = decParamMapper.getSLPById(searchId);
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.toString();
@@ -54,14 +54,16 @@ public class LoginParamServiceImpl implements LoginParamService {
 	}
 
 	@Override
-	public void updateLoginParamValue(SysLoginParam slp) {
+	public int updateLoginParamValue(DecParam slp) {
 		// TODO Auto-generated method stub
+		int nora = 0;
 		try {
-			sysLoginParam.editSysLoginParam(slp);
+			nora = decParamMapper.editSysLoginParam(slp);
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.toString();
 		}
+		return nora;
 	}
 
 }

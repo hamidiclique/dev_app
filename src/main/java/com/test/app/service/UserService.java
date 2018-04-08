@@ -18,4 +18,10 @@ public interface UserService {
 
 	public int deleteUserById(String pid);
 
+	public int updateUserLoginFailCount(User temp);
+
+	public int updateUserStatus(User temp);
+
+	public int updateUserLastLogin(User temp);
+
 }

@@ -2,13 +2,16 @@ package com.test.app.service;
 
 import java.util.List;
 
-import com.test.app.entity.SysLoginParam;
+import com.test.app.entity.DecParam;
 
 public interface LoginParamService {
-	
-	public void addNewLoginParam(SysLoginParam slp);
-	public List<SysLoginParam> fetchAllLoginParams();
-	public SysLoginParam getLoginParamById(String searchId);
-	public void updateLoginParamValue(SysLoginParam slp);
+
+	//public void addNewLoginParam(DecParam slp);
+
+	public List<DecParam> fetchAllLoginParams();
+
+	public DecParam getLoginParamById(String searchId);
+
+	public int updateLoginParamValue(DecParam slp);
 
 }

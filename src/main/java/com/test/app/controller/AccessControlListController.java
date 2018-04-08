@@ -10,6 +10,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
@@ -26,9 +27,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.google.gson.Gson;
+import com.test.app.dto.ActivityLogDto;
 import com.test.app.dto.FungrpFunMapDto;
 import com.test.app.dto.RoleFungrpMapDto;
 import com.test.app.dto.ViewAuthDto;
+import com.test.app.entity.ActiveUser;
+import com.test.app.entity.DecParam;
 import com.test.app.entity.Function;
 import com.test.app.entity.Functiongrp;
 import com.test.app.entity.FungrpFunMap;
@@ -38,9 +42,11 @@ import com.test.app.entity.Role;
 import com.test.app.entity.RoleFungrpMap;
 import com.test.app.entity.RoleFungrpMapPK;
 import com.test.app.entity.User;
+import com.test.app.service.ActivityLogService;
 import com.test.app.service.FunctionService;
 import com.test.app.service.FunctiongrpService;
 import com.test.app.service.FungrpFunMapSercice;
+import com.test.app.service.LoginParamService;
 import com.test.app.service.ModuleService;
 import com.test.app.service.RoleFungrpMapService;
 import com.test.app.service.RoleService;
@@ -68,32 +74,59 @@ public class AccessControlListController {
 	RoleService roleService;
 	@Autowired
 	RoleFungrpMapService roleFungrpMapService;
+	@Autowired
+	LoginParamService loginParamService;
+	@Autowired
+	ActivityLogService activityLogService;
+	@Resource(name = "modHashmap")
+	private Map<String, String> modHashmap;
+	@Resource(name = "funHashmap")
+	private Map<String, String> funHashmap;
 
 	@RequestMapping(value = "/user-id-maintenance-add", method = RequestMethod.GET)
 	public String view_FACL3000_SACL3000A(ModelMap model, @RequestParam String mid, @RequestParam String fid, @RequestParam String sid,
 			@RequestParam String pid, HttpServletRequest request, RedirectAttributes red) {
+		String minPasswdLen = StringUtil.MINIMUM_PASSWORD_LENGTH;
+		String maxPasswdLen = StringUtil.MAXIMUM_PASSWORD_LENGTH;
+		DecParam decParam, decParam2;
 		try {
 			ViewAuthDto vadto = ViewAuthUtil.isRequestValid(request, fid, sid);
 			if (vadto.isAllowedAccess()) {
-				if (SessionUtil.sessionValid(request.getSession(), red).equalsIgnoreCase(StringUtil.SESSION_VALID)) {					
+				if (SessionUtil.sessionValid(request.getSession(false), red).equalsIgnoreCase(StringUtil.SESSION_VALID)) {					
 					User user = new User();
+					decParam = loginParamService.getLoginParamById(StringUtil.COMPLICATED_PASSWORD_SUPPORTED);
+					BigDecimal ifPasswdValidNeed = decParam.getParamValue();
+					model.addAttribute("testPasswdValid", ifPasswdValidNeed);
+					if (ifPasswdValidNeed.intValue() == 0) {
+						logger.debug("Complicated Password Disabled");
+						model.addAttribute("passMinSize", new BigDecimal(1));
+						model.addAttribute("passMaxSize", new BigDecimal(999));
+					}
+					else {
+						decParam2 = loginParamService.getLoginParamById(minPasswdLen);
+						BigDecimal minPasswdVal = decParam2.getParamValue();
+						model.addAttribute("passMinSize", minPasswdVal);
+						decParam2 = loginParamService.getLoginParamById(maxPasswdLen);
+						BigDecimal maxPasswdVal = decParam2.getParamValue();					
+						model.addAttribute("passMaxSize", maxPasswdVal);					
+					}									
 					model.addAttribute("user", user);
 					model.addAttribute("module", mid);
 					model.addAttribute("function", fid);
 					model.addAttribute("screen", sid);
 					model.addAttribute("functionDesc", "User ID Maintenance - Add");	
 				} else {
-					return "redirect:/login";
+					return "redirect:login";
 				}
 			} else {
 				logger.debug(StringUtil.NO_ACCESS_TOKEN);
 				red.addFlashAttribute("msg", StringUtil.NO_PERMISSION_FOR_SCREEN);
-				return "redirect:/index/notAuthorized";
+				return "redirect:notAuthorized";
 			}
 		} catch (Exception e) {
 			logger.debug(e.toString());
 			red.addFlashAttribute("cause", StringUtil.UNKNOW_REASON);
-			return "redirect:/login";
+			return "redirect:login";
 		}
 		return sid;
 	}
@@ -105,26 +138,26 @@ public class AccessControlListController {
 		try {
 			ViewAuthDto vadto = ViewAuthUtil.isRequestValid(request, fid, sid);
 			if (vadto.isAllowedAccess()) {
-				if (SessionUtil.sessionValid(request.getSession(), red).equalsIgnoreCase(StringUtil.SESSION_VALID)) {					
+				if (SessionUtil.sessionValid(request.getSession(false), red).equalsIgnoreCase(StringUtil.SESSION_VALID)) {					
 					retval = userService.deleteUserById(pid);
 					if (retval > 0) {
-						model.addAttribute("message", StringUtil.SACL3000D_SUCCESS);
+						model.addAttribute("message", StringUtil.SACL3000D_SUCCESS);						
 					}
 					else {
 						model.addAttribute("message", StringUtil.FAILURE);
 					}
 				} else {
-					return "redirect:/login";
+					return "redirect:login";
 				}
 			} else {
 				logger.debug(StringUtil.NO_ACCESS_TOKEN);
 				red.addFlashAttribute("msg", StringUtil.NO_PERMISSION_FOR_SCREEN);
-				return "redirect:/index/notAuthorized";
+				return "redirect:notAuthorized";
 			}
 		} catch (Exception e) {
 			logger.debug(e.toString());
 			red.addFlashAttribute("cause", StringUtil.UNKNOW_REASON);
-			return "redirect:/login";
+			return "redirect:login";
 		}
 		return sid;
 	}	
@@ -145,7 +178,7 @@ public class AccessControlListController {
 				user.setModifyBy(user.getUserId());
 				user.setModifyTime(new Timestamp(System.currentTimeMillis()));
 				user.setLastLogin(new Timestamp(System.currentTimeMillis()));
-				user.setLoginAttempt(new BigDecimal(1));
+				user.setLoginAttempt(new BigDecimal(0));
 				user.setFailCount(new BigDecimal(0));
 				String generatedSecuredPasswordHash = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt(12));
 				user.setPassword(generatedSecuredPasswordHash);				
@@ -158,78 +191,110 @@ public class AccessControlListController {
 					model.addAttribute("message", StringUtil.FAILURE);
 				}				
 			} else {
-				return "redirect:/login";
+				return "redirect:login";
 			}
 
 		} catch (Exception ex) {
 			logger.debug(ex.toString());
 			red.addFlashAttribute("cause", StringUtil.UNKNOW_REASON);
-			return "redirect:/login";
+			return "redirect:login";
 		}
 		return "common_result";
 	}
 
+	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/user-id-maintenance", method = RequestMethod.GET)
 	public String view_FACL3000_SACL3000(ModelMap model, @RequestParam String mid, @RequestParam String fid,
-			@RequestParam String sid, RedirectAttributes red, HttpServletRequest request) {
+			@RequestParam String sid, RedirectAttributes red, HttpServletRequest request, @ModelAttribute("message") String msg) {
 		List<User> userList = new ArrayList<User>();
+		Map<String, List<String>> funModMap = new HashMap<String, List<String>>();
+		List<String> funList = new ArrayList<String>();
 		try {
 			ViewAuthDto vadto = ViewAuthUtil.isRequestValid(request, fid, sid);
 			if (vadto.isAllowedAccess()) {
-				if (SessionUtil.sessionValid(request.getSession(), red).equalsIgnoreCase(StringUtil.SESSION_VALID)) {
+				if (SessionUtil.sessionValid(request.getSession(false), red).equalsIgnoreCase(StringUtil.SESSION_VALID)) {
 					userList = userService.fetchAllUsers();
 					Function currentfunction = funService.getFunctionById(fid);
+					if (request.getSession(false).getAttribute(StringUtil.SESSION_FUN_MOD_MAP) != null) {
+						funModMap = (Map<String, List<String>>) request.getSession(false).getAttribute(StringUtil.SESSION_FUN_MOD_MAP);
+						funList = funModMap.get(mid);
+						Iterator<String> funIterator = funList.iterator();
+						while (funIterator.hasNext()) {
+						    String element = funIterator.next();					   
+						    if(element.length() > 8) {
+						        funIterator.remove();
+						    }
+						}
+					}
+					model.addAttribute("funlist", funList);
 					model.addAttribute("userList", userList);
 					model.addAttribute("listsize", userList.size());
 					model.addAttribute("btnList", vadto.getBtnList());
-					model.addAttribute("functionId", fid);
-					model.addAttribute("moduleId", mid);
+					model.addAttribute("function", fid);
+					model.addAttribute("module", mid);
 					model.addAttribute("functionDesc", currentfunction.getFunctionDesc());
+					model.addAttribute("message", msg);
+					model.addAttribute("funmap", funHashmap);
 				} else {
-					return "redirect:/login";
+					return "redirect:login";
 				}
 			} else {
 				logger.debug(StringUtil.NO_ACCESS_TOKEN);
 				red.addFlashAttribute("msg", StringUtil.NO_PERMISSION_FOR_SCREEN);
-				return "redirect:/index/notAuthorized";
+				return "redirect:notAuthorized";
 			}
 		} catch (Exception e) {
 			logger.debug(e.toString());
 			red.addFlashAttribute("cause", StringUtil.UNKNOW_REASON);
-			return "redirect:/login";
+			return "redirect:login";
 		}
-		logger.debug("return "+sid+".jsp");
 		return sid;
 	}
 
+	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/function-group-maintenance", method = RequestMethod.GET)
 	public String view_FACL1000_SACL1000(ModelMap model, @RequestParam String mid, @RequestParam String fid,
 			@RequestParam String sid, RedirectAttributes red, HttpServletRequest request) {
 		List<Functiongrp> fungrpList = new ArrayList<Functiongrp>();
+		Map<String, List<String>> funModMap = new HashMap<String, List<String>>();
+		List<String> funList = new ArrayList<String>();
 		try {
 			ViewAuthDto vadto = ViewAuthUtil.isRequestValid(request, fid, sid);
 			if (vadto.isAllowedAccess()) {
-				if (SessionUtil.sessionValid(request.getSession(), red).equalsIgnoreCase(StringUtil.SESSION_VALID)) {
+				if (SessionUtil.sessionValid(request.getSession(false), red).equalsIgnoreCase(StringUtil.SESSION_VALID)) {
 					Function currentfunction = funService.getFunctionById(fid);
 					fungrpList = fungrpService.listFunctionGroups();
+					if (request.getSession(false).getAttribute(StringUtil.SESSION_FUN_MOD_MAP) != null) {
+						funModMap = (Map<String, List<String>>) request.getSession(false).getAttribute(StringUtil.SESSION_FUN_MOD_MAP);
+						funList = funModMap.get(mid);
+						Iterator<String> funIterator = funList.iterator();
+						while (funIterator.hasNext()) {
+						    String element = funIterator.next();					   
+						    if(element.length() > 8) {
+						        funIterator.remove();
+						    }
+						}
+					}
+					model.addAttribute("funlist", funList);
 					model.addAttribute("fungrpList", fungrpList);
 					model.addAttribute("listsize", fungrpList.size());
 					model.addAttribute("btnList", vadto.getBtnList());
-					model.addAttribute("functionId", fid);
-					model.addAttribute("moduleId", mid);
+					model.addAttribute("function", fid);
+					model.addAttribute("module", mid);
 					model.addAttribute("functionDesc", currentfunction.getFunctionDesc());
+					model.addAttribute("funmap", funHashmap);
 				} else {
-					return "redirect:/login";
+					return "redirect:login";
 				}
 			} else {
 				logger.debug(StringUtil.NO_ACCESS_TOKEN);
 				red.addFlashAttribute("msg", StringUtil.NO_PERMISSION_FOR_SCREEN);
-				return "redirect:/index/notAuthorized";
+				return "redirect:notAuthorized";
 			}
 		} catch (Exception ex) {
 			logger.debug(ex.toString());
 			red.addFlashAttribute("cause", StringUtil.UNKNOW_REASON);
-			return "redirect:/login";
+			return "redirect:login";
 		}		
 		return sid;
 	}
@@ -240,7 +305,7 @@ public class AccessControlListController {
 		try {
 			ViewAuthDto vadto = ViewAuthUtil.isRequestValid(request, fid, sid);
 			if (vadto.isAllowedAccess()) {
-				if (SessionUtil.sessionValid(request.getSession(), red).equalsIgnoreCase(StringUtil.SESSION_VALID)) {
+				if (SessionUtil.sessionValid(request.getSession(false), red).equalsIgnoreCase(StringUtil.SESSION_VALID)) {
 					Function currentfunction = funService.getFunctionById(fid);
 					User userToUpdate = userService.getUserById(pid);
 					model.addAttribute("user", userToUpdate);
@@ -248,19 +313,19 @@ public class AccessControlListController {
 					model.addAttribute("function", fid);
 					model.addAttribute("module", mid);
 					model.addAttribute("screen", sid);
-					model.addAttribute("functionDesc", currentfunction.getFunctionDesc());
+					model.addAttribute("functionDesc", "User ID Maintenance - Update");
 				} else {
-					return "redirect:/login";
+					return "redirect:login";
 				}
 			} else {
 				logger.debug(StringUtil.NO_ACCESS_TOKEN);
 				red.addFlashAttribute("msg", StringUtil.NO_PERMISSION_FOR_SCREEN);
-				return "redirect:/index/notAuthorized";
+				return "redirect:notAuthorized";
 			}
 		} catch (Exception ex) {
 			logger.debug(ex.toString());
 			red.addFlashAttribute("cause", StringUtil.UNKNOW_REASON);
-			return "redirect:/login";
+			return "redirect:login";
 		}		
 		return sid;
 	}
@@ -269,7 +334,7 @@ public class AccessControlListController {
 	public String handle_FACL3000_SACL3000U(@ModelAttribute("user") User user, BindingResult result, ModelMap model, HttpServletRequest request, RedirectAttributes red) {
 		int retval;		
 		try {
-			if (SessionUtil.sessionValid(request.getSession(), red).equalsIgnoreCase(StringUtil.SESSION_VALID)) {
+			if (SessionUtil.sessionValid(request.getSession(false), red).equalsIgnoreCase(StringUtil.SESSION_VALID)) {
 				retval = 0;
 				user.setModifyBy(user.getUserId());
 				user.setModifyTime(new Timestamp(System.currentTimeMillis()));
@@ -282,13 +347,13 @@ public class AccessControlListController {
 					model.addAttribute("message", StringUtil.FAILURE);
 				}				
 			} else {
-				return "redirect:/login";
+				return "redirect:login";
 			}
 
 		} catch (Exception ex) {
 			logger.debug(ex.toString());
 			red.addFlashAttribute("cause", StringUtil.UNKNOW_REASON);
-			return "redirect:/login";
+			return "redirect:login";
 		}
 		return "common_result";
 	}
@@ -302,7 +367,7 @@ public class AccessControlListController {
 		try {
 			ViewAuthDto vadto = ViewAuthUtil.isRequestValid(request, fid, sid);
 			if (vadto.isAllowedAccess()) {
-				if (SessionUtil.sessionValid(request.getSession(), red).equalsIgnoreCase(StringUtil.SESSION_VALID)) {
+				if (SessionUtil.sessionValid(request.getSession(false), red).equalsIgnoreCase(StringUtil.SESSION_VALID)) {
 					ffMapDto = new FungrpFunMapDto();
 					ffMapDto.setFunction(fid);
 					ffMapDto.setScreen(sid);
@@ -312,17 +377,17 @@ public class AccessControlListController {
 					model.addAttribute("functionDesc", "Function Group Maintenance - Add");					
 				} 
 				else {
-					return "redirect:/login";
+					return "redirect:login";
 				}
 			} else {
 				logger.debug(StringUtil.NO_ACCESS_TOKEN);
 				red.addFlashAttribute("msg", StringUtil.NO_PERMISSION_FOR_SCREEN);
-				return "redirect:/index/notAuthorized";
+				return "redirect:notAuthorized";
 			}
 		} catch (Exception e) {
 			logger.debug(e.toString());
 			red.addFlashAttribute("cause", StringUtil.UNKNOW_REASON);
-			return "redirect:/login";
+			return "redirect:login";
 		}		
 		return sid;
 	}	
@@ -381,15 +446,15 @@ public class AccessControlListController {
 					model.addAttribute("message", StringUtil.FAILURE);
 				}				
 			} else {
-				return "redirect:/login";
+				return "redirect:login";
 			}
-
+			
 		} catch (Exception ex) {
 			logger.debug(ex.toString());
 			red.addFlashAttribute("cause", StringUtil.UNKNOW_REASON);
-			return "redirect:/login";
+			return "redirect:login";
 		}
-		return "common_result";
+		return rolefungrpmapdto.getScreen();
 	}
 			
 	@RequestMapping(value = "/submit-function-group-maintenance-update", method = RequestMethod.POST)
@@ -446,13 +511,13 @@ public class AccessControlListController {
 					model.addAttribute("message", StringUtil.FAILURE);
 				}				
 			} else {
-				return "redirect:/login";
+				return "redirect:login";
 			}
 
 		} catch (Exception ex) {
 			logger.debug(ex.toString());
 			red.addFlashAttribute("cause", StringUtil.UNKNOW_REASON);
-			return "redirect:/login";
+			return "redirect:login";
 		}
 		return "common_result";
 	}
@@ -469,7 +534,7 @@ public class AccessControlListController {
 		try {
 			ViewAuthDto vadto = ViewAuthUtil.isRequestValid(request, fid, sid);
 			if (vadto.isAllowedAccess()) {
-				if (SessionUtil.sessionValid(request.getSession(), red).equalsIgnoreCase(StringUtil.SESSION_VALID)) {
+				if (SessionUtil.sessionValid(request.getSession(false), red).equalsIgnoreCase(StringUtil.SESSION_VALID)) {
 					funForMod = funService.getModuleIdByFungrp(pid);
 					module = moduleService.getModuleById(funForMod.getModuleId());
 					funListByModule = funService.listFunctionsByModule(funForMod.getModuleId());
@@ -530,17 +595,17 @@ public class AccessControlListController {
 					model.addAttribute("switchMap", funCheckMap);
 					model.addAttribute("ffMapDto", ffMapDto);
 				} else {
-					return "redirect:/login";
+					return "redirect:login";
 				}
 			} else {
 				logger.debug(StringUtil.NO_ACCESS_TOKEN);
 				red.addFlashAttribute("msg", StringUtil.NO_PERMISSION_FOR_SCREEN);
-				return "redirect:/index/notAuthorized";
+				return "redirect:notAuthorized";
 			}			
 		} catch (Exception e) {
 			logger.debug(e.toString());
 			red.addFlashAttribute("cause", StringUtil.UNKNOW_REASON);
-			return "redirect:/login";
+			return "redirect:login";
 		}
 		return sid;
 	}
@@ -592,13 +657,13 @@ public class AccessControlListController {
 					model.addAttribute("message", StringUtil.FAILURE);
 				}
 			} else {
-				return "redirect:/login";
+				return "redirect:login";
 			}
 
 		} catch (Exception ex) {
 			logger.debug(ex.toString());
 			red.addFlashAttribute("cause", StringUtil.UNKNOW_REASON);
-			return "redirect:/login";
+			return "redirect:login";
 		}
 		return "common_result";
 	}
@@ -650,13 +715,13 @@ public class AccessControlListController {
 					model.addAttribute("message", StringUtil.FAILURE);
 				}				
 			} else {
-				return "redirect:/login";
+				return "redirect:login";
 			}
 
 		} catch (Exception ex) {
 			logger.debug(ex.toString());
 			red.addFlashAttribute("cause", StringUtil.UNKNOW_REASON);
-			return "redirect:/login";
+			return "redirect:login";
 		}
 		return "common_result";
 	}
@@ -670,7 +735,7 @@ public class AccessControlListController {
 		try {
 			ViewAuthDto vadto = ViewAuthUtil.isRequestValid(request, fid, sid);
 			if (vadto.isAllowedAccess()) {
-				if (SessionUtil.sessionValid(request.getSession(), red).equalsIgnoreCase(StringUtil.SESSION_VALID)) {
+				if (SessionUtil.sessionValid(request.getSession(false), red).equalsIgnoreCase(StringUtil.SESSION_VALID)) {
 					rfMapDto = new RoleFungrpMapDto();
 					allFungroups = fungrpService.listFunctionGroups();
 					model.addAttribute("outbox", allFungroups);
@@ -681,22 +746,22 @@ public class AccessControlListController {
 					model.addAttribute("functionDesc", "User Role Maintenance - Add");					
 				} 
 				else {
-					return "redirect:/login";
+					return "redirect:login";
 				}
 			} else {
 				logger.debug(StringUtil.NO_ACCESS_TOKEN);
 				red.addFlashAttribute("msg", StringUtil.NO_PERMISSION_FOR_SCREEN);
-				return "redirect:/index/notAuthorized";
+				return "redirect:notAuthorized";
 			}
 		} catch (Exception e) {
 			logger.debug(e.toString());
 			red.addFlashAttribute("cause", StringUtil.UNKNOW_REASON);
-			return "redirect:/login";
+			return "redirect:login";
 		}
-		logger.debug("return "+sid+".jsp");
 		return sid;
 	}
 	
+	//check tag
 	@RequestMapping(value = "/user-role-maintenance-update", method = RequestMethod.GET)
 	public String view_FACL2000_SACL2000U(ModelMap model, @RequestParam String mid, @RequestParam String fid,
 			@RequestParam String sid, @RequestParam String pid, RedirectAttributes red, HttpServletRequest request) {
@@ -710,7 +775,7 @@ public class AccessControlListController {
 		try {
 			ViewAuthDto vadto = ViewAuthUtil.isRequestValid(request, fid, sid);
 			if (vadto.isAllowedAccess()) {
-				if (SessionUtil.sessionValid(request.getSession(), red).equalsIgnoreCase(StringUtil.SESSION_VALID)) {
+				if (SessionUtil.sessionValid(request.getSession(false), red).equalsIgnoreCase(StringUtil.SESSION_VALID)) {
 					fungrpList = fungrpService.listFunctionGroups();					
 					for (Functiongrp fg : fungrpList) {
 						outbox.add(fg.getFunctiongrpId());
@@ -744,54 +809,158 @@ public class AccessControlListController {
 					model.addAttribute("rfMapDto", rfMapDto);
 					
 				} else {
-					return "redirect:/login";
+					return "redirect:login";
 				}
 			} else {
 				logger.debug(StringUtil.NO_ACCESS_TOKEN);
 				red.addFlashAttribute("msg", StringUtil.NO_PERMISSION_FOR_SCREEN);
-				return "redirect:/index/notAuthorized";
+				return "redirect:notAuthorized";
 			}
 		} catch (Exception e) {
 			logger.debug(e.toString());
 			red.addFlashAttribute("cause", StringUtil.UNKNOW_REASON);
-			return "redirect:/login";
-		}
-		logger.debug("return "+sid+".jsp");
+			return "redirect:login";
+		}		
 		return sid;
 	}
 	
+	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/user-role-maintenance", method = RequestMethod.GET)
 	public String view_FACL2000_SACL2000(ModelMap model, @RequestParam String mid, @RequestParam String fid,
 			@RequestParam String sid, RedirectAttributes red, HttpServletRequest request) {
 		List<Role> roleList;
+		Map<String, List<String>> funModMap = new HashMap<String, List<String>>();
+		List<String> funList = new ArrayList<String>();
 		try {
 			ViewAuthDto vadto = ViewAuthUtil.isRequestValid(request, fid, sid);
 			if (vadto.isAllowedAccess()) {
-				if (SessionUtil.sessionValid(request.getSession(), red).equalsIgnoreCase(StringUtil.SESSION_VALID)) {
-					//do something
+				if (SessionUtil.sessionValid(request.getSession(false), red).equalsIgnoreCase(StringUtil.SESSION_VALID)) {					
 					Function currentfunction = funService.getFunctionById(fid);
-					roleList = roleService.listAllRoles();					 
+					roleList = roleService.listAllRoles();	
+					if (request.getSession(false).getAttribute(StringUtil.SESSION_FUN_MOD_MAP) != null) {
+						funModMap = (Map<String, List<String>>) request.getSession(false).getAttribute(StringUtil.SESSION_FUN_MOD_MAP);
+						funList = funModMap.get(mid);
+						Iterator<String> funIterator = funList.iterator();
+						while (funIterator.hasNext()) {
+						    String element = funIterator.next();					   
+						    if(element.length() > 8) {
+						        funIterator.remove();
+						    }
+						}
+					}
+					model.addAttribute("funlist", funList);
 					model.addAttribute("roleList", roleList);
 					model.addAttribute("listsize", roleList.size());
 					model.addAttribute("functionDesc", currentfunction.getFunctionDesc());
 					model.addAttribute("btnList", vadto.getBtnList());
-					model.addAttribute("functionId", fid);
-					model.addAttribute("moduleId", mid);
-				} else {
-					return "redirect:/login";
+					model.addAttribute("function", fid);
+					model.addAttribute("module", mid);
+					model.addAttribute("funmap", funHashmap);
+				} 
+				else {
+					return "redirect:login";
 				}
 			} else {
 				logger.debug(StringUtil.NO_ACCESS_TOKEN);
 				red.addFlashAttribute("msg", StringUtil.NO_PERMISSION_FOR_SCREEN);
-				return "redirect:/index/notAuthorized";
+				return "redirect:notAuthorized";
 			}
 		} catch (Exception e) {
 			logger.debug(e.toString());
 			red.addFlashAttribute("cause", StringUtil.UNKNOW_REASON);
-			return "redirect:/login";
+			return "redirect:login";
 		}
-		logger.debug("return "+sid+".jsp");
 		return sid;
+	}
+	
+	@SuppressWarnings("unchecked")
+	@RequestMapping(value = "/view-active-users", method = RequestMethod.GET)
+	public String view_FACL6000_SACL6000(ModelMap model, @RequestParam String mid, @RequestParam String fid,
+			@RequestParam String sid, RedirectAttributes red, HttpServletRequest request) {
+		List<ActiveUser> activeUsersList = new ArrayList<ActiveUser>();
+		Map<String, List<String>> funModMap = new HashMap<String, List<String>>();
+		List<String> funList = new ArrayList<String>();
+		try {
+			ViewAuthDto vadto = ViewAuthUtil.isRequestValid(request, fid, sid);
+			if (vadto.isAllowedAccess()) {
+				if (SessionUtil.sessionValid(request.getSession(false), red).equalsIgnoreCase(StringUtil.SESSION_VALID)) {					
+					Function currentfunction = funService.getFunctionById(fid);
+					if (request.getSession(false).getAttribute(StringUtil.SESSION_FUN_MOD_MAP) != null) {
+						funModMap = (Map<String, List<String>>) request.getSession(false).getAttribute(StringUtil.SESSION_FUN_MOD_MAP);
+						funList = funModMap.get(mid);
+						Iterator<String> funIterator = funList.iterator();
+						while (funIterator.hasNext()) {
+						    String element = funIterator.next();					   
+						    if(element.length() > 8) {
+						        funIterator.remove();
+						    }
+						}
+					}
+					activeUsersList = activityLogService.getAllActiveUsers();
+					ActivityLogDto actvtylogdto = new ActivityLogDto();
+					actvtylogdto.setFunction(fid);
+					actvtylogdto.setModule(mid);
+					actvtylogdto.setScreen(sid);
+					
+					model.addAttribute("aldto", actvtylogdto);
+					model.addAttribute("actvUsrLst", activeUsersList);
+					model.addAttribute("funlist", funList);
+					model.addAttribute("functionDesc", currentfunction.getFunctionDesc());
+					model.addAttribute("btnList", vadto.getBtnList());
+					model.addAttribute("function", fid);
+					model.addAttribute("module", mid);
+					model.addAttribute("funmap", funHashmap);
+				} 
+				else {
+					return "redirect:login";
+				}
+			} else {
+				logger.debug(StringUtil.NO_ACCESS_TOKEN);
+				red.addFlashAttribute("msg", StringUtil.NO_PERMISSION_FOR_SCREEN);
+				return "redirect:notAuthorized";
+			}
+		} catch (Exception e) {
+			logger.debug(e.toString());
+			red.addFlashAttribute("cause", StringUtil.UNKNOW_REASON);
+			return "redirect:login";
+		}
+		return sid;
+	}
+	
+	@SuppressWarnings("unchecked")
+	@RequestMapping(value = "/submit-view-active-users", method = RequestMethod.POST)
+	public String handle_FACL6000_SACL6000(ModelMap model, @ModelAttribute("aldto") ActivityLogDto actvtylogdto,
+			BindingResult result, HttpServletRequest req, RedirectAttributes red) {
+		
+		int retval;		
+		try {
+			if (SessionUtil.sessionValid(req.getSession(), red).equalsIgnoreCase(StringUtil.SESSION_VALID)) {
+				Map<String, String> globalsessionmap =  (Map<String, String>) req.getSession(false).getServletContext().getAttribute("sessionUtilMap");
+				for (String str : actvtylogdto.getActiveUserList()) {
+					if (globalsessionmap.containsKey(str)) {
+						globalsessionmap.remove(str);
+						retval = activityLogService.removeUserFromActivelist(str);
+						if (retval > 0) {
+							model.addAttribute("message", StringUtil.SACL6000_SUCCESS);
+						}
+						else {
+							model.addAttribute("message", StringUtil.FAILURE);
+						}
+					}
+					else {
+						logger.debug("USER REMOVAL FROM GLOBAL HASHMAP FAILED, NO ENTRY FOUND FOR SELECTED USER");
+					}
+				}				
+			} 
+			else {
+				return "redirect:login";
+			}
+		} catch (Exception ex) {
+			logger.debug(ex.toString());
+			red.addFlashAttribute("cause", StringUtil.UNKNOW_REASON);
+			return "redirect:login";
+		}
+		return actvtylogdto.getScreen();
 	}
 	
 	@RequestMapping(value = "/getAllFunctionsForSelectedModule", method = RequestMethod.POST)

@@ -16,9 +16,9 @@
 <style>
 .error {
 	color: red;
+	text-align: center;
 }
 </style>
-
 </head>
 <body>	
 		<table width="60%" align="center">

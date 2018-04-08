@@ -17,5 +17,11 @@ public interface IUserMapper {
 	public void processPasswordChange(User temp);
 
 	public int removeUser(String userId);
+
+	public int updateUserLoginFailCount(User temp);
+
+	public int changeUserStatus(User temp);
+
+	public int setUserLastLoginTime(User temp);
 	
 }

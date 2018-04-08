@@ -1,25 +1,47 @@
-@charset "ISO-8859-1";
-
-ul {
+#side ul {
 	list-style-type: none;
 	margin: 0;
 	padding: 0;
-	overflow: hidden;
-	background-color: #333;
+	width: 18%;
+	background-color: #436D96;
+	position: absolute;
+	height: 100%;
+	overflow: auto;
+	font-family: Arial;
+	font-size: 12px;
 }
 
-li {
-	float: left;
-}
-
-li a {
+#side li a {
 	display: block;
-	color: white;
-	text-align: center;
-	padding: 14px 16px;
+	color: #FFF;
+	padding: 8px 16px;
 	text-decoration: none;
 }
 
-li a:hover {
-	background-color: #111;
+#side li a.active {
+	background-color: #73B8C4;
+	color: white;
+}
+
+#side li a:hover:not (.active ) {
+	background-color: red;
+	color: white;
+}
+
+.MenuMain {
+    background-color: #618CB6;
+    font-family: Verdana;
+    font-size: 10px;
+    font-weight: bold;    
+	border-top: 1px solid #4879AA;
+    border-bottom: 1px solid #436D96;
+}
+
+.MenuOther {
+    background-color: #436D96;
+    font-family: Verdana;
+    font-size: 10px;
+    font-weight: bold;
+    border-top: 1px solid #618CB6;
+    border-bottom: 1px solid #2D547A;
 }

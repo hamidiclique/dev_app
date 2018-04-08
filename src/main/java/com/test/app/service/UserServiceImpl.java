@@ -96,5 +96,47 @@ public class UserServiceImpl implements UserService {
 		}
 		return nora;
 	}
+
+	@Override
+	public int updateUserLoginFailCount(User temp) {
+		// TODO Auto-generated method stub
+		int nora = 0;
+		try {
+			nora = userMapper.updateUserLoginFailCount(temp);
+		} 
+		catch (Exception e) {
+			// TODO: handle exception
+			e.toString();
+		}
+		return nora;
+	}
+
+	@Override
+	public int updateUserStatus(User temp) {
+		// TODO Auto-generated method stub
+		int nora = 0;
+		try {
+			nora = userMapper.changeUserStatus(temp);
+		} 
+		catch (Exception e) {
+			// TODO: handle exception
+			e.toString();
+		}
+		return nora;
+	}
+
+	@Override
+	public int updateUserLastLogin(User temp) {
+		// TODO Auto-generated method stub
+		int nora = 0;
+		try {
+			nora = userMapper.setUserLastLoginTime(temp);
+		} 
+		catch (Exception e) {
+			// TODO: handle exception
+			e.toString();
+		}
+		return nora;
+	}
 	
 }
