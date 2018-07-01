@@ -12,6 +12,14 @@
 <script type="text/javascript">
 
 </script>
+<style>
+.required {
+	color: red;
+}
+#side ul {
+	height: 1000px;
+}
+</style>
 </head>
 <body>
 	<c:set var="contextPath" value="${pageContext.request.contextPath}" />

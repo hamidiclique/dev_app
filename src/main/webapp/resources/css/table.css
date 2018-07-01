@@ -1,5 +1,6 @@
 .TableContent {
-	background-color: #B0B6BB;
+	/* background-color: #B0B6BB; */
+	background-color: #DCDCDC;
 }
 
 th.HeaderTableData {
@@ -13,6 +14,7 @@ th.HeaderTableData {
 	clear: both;
 	height: 26px;
 	border-left: 1px solid #EBEBEB;
+	border-right: 1px solid #FFF;
 }
 
 td.FormInputColor {
@@ -74,6 +76,16 @@ td.CellClass {
 	height: 25px;
 }
 
+td.CellClassCustom {
+	font-size: 11px;
+	color: black;
+	font-family: Verdana;
+	background-color: white;
+	text-decoration: none;
+	/* text-align: center; */
+	height: 25px;
+}
+
 .button {
 	font-family: Arial;
 	font-size: 12px;
@@ -91,6 +103,7 @@ td.CellClass {
 
 a {
 	text-decoration: none;
+	color: #262626;
 }
 
 td.item {

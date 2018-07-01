@@ -8,17 +8,20 @@ body {
 
 .TableBelowNav {
 	/* background-color: #436D96; */
-	background-color: #618CB6
+	background-color: #618CB6;
+	border: 1px solid #517CA5;
 }
 
 td img {
 	height: 40px;
+	padding: 5px 0px 5px 10px;
 }
 
 th.TableBelowNavHeader, th.TableBelowNavHeader a {
 	font-weight: bold;
 	font-size: 12px;
-	color: #EBEBEB;
+	/* color: #EBEBEB; */
+	color: #FAFAFA;
 	font-family: Arial;
 	text-align: left;
 	text-decoration: none;
@@ -29,7 +32,26 @@ th.TableBelowNavHeader, th.TableBelowNavHeader a {
 	padding: 35px 0px;
 }
 
-.rightPart {
+/* .rightPart {
 	margin-left: 18%;
-	padding: 35px 0px;
+	padding: 35px 0px;	05-09-2018
+	padding: 35px 0px 0px 0px;
+} */
+
+
+#wrapper {
+     width: 100%;
+     margin: 0 auto;
+}
+#side, .rightPart {
+    float: left;
+    /* min-height: 650px; */    
+}
+#side {
+     width: 18%;
+}
+
+.rightPart {
+     width: 82%;
+     padding: 35px 0px 0px 0px;
 }

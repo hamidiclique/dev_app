@@ -5,32 +5,46 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 
 <configuration>
 	<typeAliases>
-		<typeAlias type="com.test.app.entity.Hotel" alias="hotel" />
-		<typeAlias type="com.test.app.entity.User" alias="user" />
-		<typeAlias type="com.test.app.entity.SysLoginParam" alias="sysloginparam" />
-		<typeAlias type="com.test.app.entity.Function" alias="function" />
-		<typeAlias type="com.test.app.entity.Functiongrp" alias="functiongrp" />
-		<typeAlias type="com.test.app.entity.FungrpFunMap" alias="fungrpfunmap" />
-		<typeAlias type="com.test.app.entity.Module" alias="module" />
-		<typeAlias type="com.test.app.entity.Role" alias="role" />
-		<typeAlias type="com.test.app.entity.RoleFungrpMap" alias="rolefungrpmap" />
-		<typeAlias type="com.test.app.entity.UserRoleMap" alias="userrolemap" />
-		<typeAlias type="com.test.app.entity.ScreenFunMap" alias="screenfunmap" />
-		<typeAlias type="com.test.app.entity.DecParam" alias="decparam" />
-		<typeAlias type="com.test.app.entity.ActiveUser" alias="activeuser" />
+		<typeAlias alias="hotel" type="com.test.app.entity.Hotel" />
+		<typeAlias alias="user" type="com.test.app.entity.User" />
+		<typeAlias alias="sysloginparam" type="com.test.app.entity.SysLoginParam" />
+		<typeAlias alias="function" type="com.test.app.entity.Function" />
+		<typeAlias alias="functiongrp" type="com.test.app.entity.Functiongrp" />
+		<typeAlias alias="fungrpfunmap" type="com.test.app.entity.FungrpFunMap" />
+		<typeAlias alias="module" type="com.test.app.entity.Module" />
+		<typeAlias alias="role" type="com.test.app.entity.Role" />
+		<typeAlias alias="rolefungrpmap" type="com.test.app.entity.RoleFungrpMap" />
+		<typeAlias alias="userrolemap" type="com.test.app.entity.UserRoleMap" />
+		<typeAlias alias="screenfunmap" type="com.test.app.entity.ScreenFunMap" />
+		<typeAlias alias="decparam" type="com.test.app.entity.DecParam" />
+		<typeAlias alias="activeuser" type="com.test.app.entity.ActiveUser" />
+		<typeAlias alias="branch" type="com.test.app.entity.MstBranch" />
+		<typeAlias alias="rttab" type="com.test.app.entity.RtTab" />
+		<typeAlias alias="tcptab" type="com.test.app.entity.TcpTab" />
+		<typeAlias alias="deftab" type="com.test.app.entity.DefTab" />
+		<typeAlias alias="ctlatab" type="com.test.app.entity.CtlaTab" />
+		<typeAlias alias="ctrtab" type="com.test.app.entity.CtrTab" />
+		<typeAlias alias="devattrtab" type="com.test.app.entity.DevAttribute" />
+		<typeAlias alias="devkeytab" type="com.test.app.entity.DevKeyTab" />
+		<typeAlias alias="tmkcomptab" type="com.test.app.entity.TmkCompTab" />
+		<typeAlias alias="tmkreqtab" type="com.test.app.entity.TmkReqTab" />
+		<typeAlias alias="atmcmdtab" type="com.test.app.entity.AtmCmdTab" />
+		<typeAlias alias="viewatmdto" type="com.test.app.dto.ViewAtmDto" />
 	</typeAliases>
+
 	<environments default="development">
 		<environment id="development">
 			<transactionManager type="JDBC" />
 			<dataSource type="POOLED">
-				<property name="driver" value="oracle.jdbc.OracleDriver"/>
+				<property name="driver" value="oracle.jdbc.OracleDriver" />
 				<property name="url" value="jdbc:oracle:thin:@localhost:1521/xe" />
 				<property name="username" value="hamid" />
 				<property name="password" value="hamid" />
-				<property name="poolMaximumActiveConnections" value="50"/>	
+				<property name="poolMaximumActiveConnections" value="50" />
 			</dataSource>
 		</environment>
 	</environments>
+
 	<mappers>
 		<mapper resource="com/test/app/mapper/HotelMapper.xml" />
 		<mapper resource="com/test/app/mapper/UserMapper.xml" />
@@ -44,5 +58,10 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<mapper resource="com/test/app/mapper/RoleFungrpMapper.xml" />
 		<mapper resource="com/test/app/mapper/DecParamMapper.xml" />
 		<mapper resource="com/test/app/mapper/ActivityLogMapper.xml" />
+		<mapper resource="com/test/app/mapper/MstBranchMapper.xml" />
+		<mapper resource="com/test/app/mapper/PIdSequenceMapper.xml" />
+		<mapper resource="com/test/app/mapper/TmkCompSequenceMapper.xml" />
+		<mapper resource="com/test/app/mapper/AtmCmdMapper.xml" />
+		<mapper resource="com/test/app/mapper/SomeMapper.xml" />
 	</mappers>
 </configuration>

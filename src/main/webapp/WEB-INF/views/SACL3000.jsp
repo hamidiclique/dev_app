@@ -82,7 +82,7 @@
 						<c:choose>
 							<c:when test="${btn.buttonDesc eq delete}">
 								<a id="${btn.buttonDef}"
-									onclick="if(!(confirm('Are you sure want to delete?'))) return false">
+									onclick="if(!(confirm('Are you sure you want to delete?'))) return false">
 									<input class="button" type="button" value="${btn.buttonDesc}" />
 								</a>
 							</c:when>

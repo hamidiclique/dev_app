@@ -32,9 +32,17 @@
 	<c:set var="contextPath" value="${pageContext.request.contextPath}" />
 	<table width="100%" class="TableNav" align="center">
 		<tr>
-			<td class=""><img
+			<td><a href="#"><img
+					src="${pageContext.request.contextPath}/resources/img/applogo.png"
+					alt="logo" id="logo" title="app"> </a>
+					<a href="showModules"><img
+					src="${pageContext.request.contextPath}/resources/img/nccblogo.png"
+					alt="banklogo" id="banklogo" title="bank logo"> </a></td>
+			<%-- <td class=""><img
 				src="${pageContext.request.contextPath}/resources/img/applogo.png"
-				alt="logo" id="logo" title="app"></td>
+				alt="logo" id="logo" title="app"> <img
+				src="${pageContext.request.contextPath}/resources/img/nccblogo.png"
+				alt="banklogo" id="banklogo" title="bank logo"></td> --%>
 		</tr>
 	</table>
 	<table width="100%" class="TableBelowNav" align="center">
@@ -44,7 +52,7 @@
 					<th class="TableBelowNavHeader" width="85%">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
 				</c:when>
 				<c:otherwise>
-					<th class="TableBelowNavHeader" width="85%">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Welcome,&nbsp;${cursor.userName}</th>
+					<th class="TableBelowNavHeader" width="85%">&nbsp;&nbsp;&nbsp;&nbsp;Welcome,&nbsp;${cursor.userName}</th>
 				</c:otherwise>
 			</c:choose>
 			<th class="TableBelowNavHeader" width="10%"><a

@@ -872,7 +872,7 @@ public class AccessControlListController {
 		}
 		return sid;
 	}
-	
+		
 	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/view-active-users", method = RequestMethod.GET)
 	public String view_FACL6000_SACL6000(ModelMap model, @RequestParam String mid, @RequestParam String fid,

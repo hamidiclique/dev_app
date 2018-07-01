@@ -1,5 +1,5 @@
 $(document).ready(function() {
-	console.log("ready!");
+	//console.log("ready!");
 	$('#password, #confirmpassword').on('keyup', function() {
 		if ($('#password').val() == $('#confirmpassword').val()) {
 			$('#message').html('<i class="fa fa-check"></i>').css('color', 'lime');

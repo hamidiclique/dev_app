@@ -22,6 +22,7 @@
 		</table>
 		<br>
 		<table class="TableContent" align="center" width="80%">
+			<col width="80">
 			<tr>
 				<th class="HeaderTableData">S/NO</th>
 				<th></th>

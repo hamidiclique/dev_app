@@ -12,13 +12,19 @@
 .error {
 	color: red;
 }
+
 .required {
 	color: red;
 }
+
 .hint {
 	display: inline;
-    font-weight: bold;
-    color: #ff5722;
+	font-weight: bold;
+	color: #ff5722;
+}
+
+.limitinpwidth {
+	width: 40%;
 }
 </style>
 
@@ -29,11 +35,11 @@
 		<table width="90%" align="center">
 			<tr>
 				<td class="PageHeader">Change Password</td>
-			</tr>			
+			</tr>
 		</table>
 		<br>
 		<c:if test="${not empty alert}">
-			<div id="alert-div" class="visible" style="width:90%">
+			<div id="alert-div" class="visible" style="width: 90%">
 				<table align="center">
 					<tr>
 						<td width="98%">${alert}</td>
@@ -42,13 +48,16 @@
 				</table>
 			</div>
 			<br>
-		</c:if>		
-		<input id="checkPasswdValid" type="hidden" readonly="readonly" value="${testPasswdValid}">
-		<input id="minpwdlen" type="hidden" readonly="readonly"	value="${passMinSize}"> 
-		<input id="maxpwdlen" type="hidden"	readonly="readonly" value="${passMaxSize}">
-		
+		</c:if>
+		<input id="checkPasswdValid" type="hidden" readonly="readonly"
+			value="${testPasswdValid}"> <input id="minpwdlen"
+			type="hidden" readonly="readonly" value="${passMinSize}"> <input
+			id="maxpwdlen" type="hidden" readonly="readonly"
+			value="${passMaxSize}">
+
 		<form:form action="handlePasswordChange" modelAttribute="cpdto">
 			<table class="TableContent" width="90%" align="center">
+				<col width="300">
 				<tr style="display: none">
 					<th class="FormCellBGColor">User ID:</th>
 					<td class="FormInputColor"><form:input type="text"
@@ -73,9 +82,10 @@
 								id="newPassword" required="true"></form:input>
 							<c:if test="${testPasswdValid == 1}">
 								<span class="tooltiptext">minimum&nbsp;<span>${passMinSize}</span>&nbsp;characters,
-								must contain uppercase &amp; lowercase letters, a number &amp; a
-								special character&nbsp;&nbsp;&nbsp;
-							</span></c:if>
+									must contain uppercase &amp; lowercase letters, a number &amp;
+									a special character&nbsp;&nbsp;&nbsp;
+								</span>
+							</c:if>
 						</div> <br> <span class="hint" id="pwdHint"></span></td>
 				</tr>
 				<tr>
@@ -85,7 +95,7 @@
 							name="confirmPassword" path="confirmPassword"
 							id="confirmPassword" required="true"></form:input><span
 						id='message'></span></td>
-				</tr>				
+				</tr>
 			</table>
 			<br>
 			<table width="90%" align="center">

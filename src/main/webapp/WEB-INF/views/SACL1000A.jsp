@@ -9,6 +9,17 @@
 	href="${pageContext.request.contextPath}/resources/css/table.css">
 <script
 	src="${pageContext.request.contextPath}/resources/js/SACL1000A.js"></script>
+<script type="text/javascript">
+
+</script>	
+<style>
+.required {
+	color: red;
+}
+#side ul {
+	height: 800px;
+}
+</style>	
 </head>
 <body>
 	<c:set var="contextPath" value="${pageContext.request.contextPath}" />

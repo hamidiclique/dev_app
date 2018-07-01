@@ -1,0 +1,104 @@
+#grey-box {
+	width: 1px;
+	border: 6px solid #A9A9A9;
+	/* border-radius: 6px; */
+}
+
+#green-box {
+	width: 1px;
+	border: 6px solid #32CD32;
+	/* border-radius: 6px; */
+}
+
+#red-box {
+	width: 1px;
+	border: 6px solid #FF0000;
+	/* border-radius: 6px; */
+}
+
+#maroon-box {
+	width: 1px;
+	border: 6px solid #800000;
+	/* border-radius: 6px; */
+}
+
+#gold-box {
+	width: 1px;
+	border: 6px solid #FFD700;
+	/* border-radius: 6px; */
+}
+
+#blue-box {
+	width: 1px;
+	border: 6px solid #336699;
+	/* border-radius: 6px; */
+}
+
+#fuchsia-box {
+	width: 1px;
+	border: 6px solid #FF00FF;
+	/* border-radius: 6px; */
+}
+
+#dark-blue-box {
+	width: 1px;
+	border: 6px solid #03039B;
+	/* border-radius: 6px; */
+}
+
+#black-box {
+	width: 1px;
+	border: 6px solid #000;
+	/* border-radius: 6px; */
+}
+
+#chocolate-box {
+	width: 1px;
+	border: 6px solid #693604;
+	/* border-radius: 6px; */
+}
+
+#table-one, #table-two, #table-three, #table-four, #table-five,
+	#table-six {
+	background-color: #DCDCDC;
+}
+
+#table-one tr:nth-child(even), #table-two tr:nth-child(even),
+	#table-three tr:nth-child(even), #table-four tr:nth-child(even),
+	#table-five tr:nth-child(even), #table-six tr:nth-child(even) {
+	font-size: 12px;
+	color: #333333;
+	font-family: Arial;
+	font-weight: bold;
+	height: 25px;
+	background-color: #F3FAFD;
+	text-align: left;
+	padding-left: 4px;
+	padding-top: 2px;
+	padding-bottom: 4px;
+	padding-right: 4px;
+	border-left: 1px solid #FFFFFF;
+	border-top: 1px solid #FFFFFF;
+	border-bottom: 1px solid #BDBDBD;
+	border-right: 1px solid #BDBDBD;
+}
+
+#table-one tr:nth-child(odd), #table-two tr:nth-child(odd), #table-three tr:nth-child(odd),
+	#table-four tr:nth-child(odd), #table-five tr:nth-child(odd),
+	#table-six tr:nth-child(odd) {
+	font-size: 12px;
+	color: #333333;
+	font-family: Arial;
+	font-weight: bold;
+	height: 25px;
+	background-color: #FFF;
+	text-align: left;
+	padding-left: 4px;
+	padding-top: 2px;
+	padding-bottom: 4px;
+	padding-right: 4px;
+	border-left: 1px solid #FFFFFF;
+	border-top: 1px solid #FFFFFF;
+	border-bottom: 1px solid #BDBDBD;
+	border-right: 1px solid #BDBDBD;
+}

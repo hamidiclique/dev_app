@@ -18,10 +18,11 @@
 		<table width="80%" align="center">
 			<tr>
 				<td class="PageHeader"><c:out value="${modmap[modkey]}" /></td>
-			</tr>			
+			</tr>
 		</table>
 		<br>
 		<table class="TableContent" width="80%" align="center">
+			<col width="80">
 			<tr>
 				<th class="HeaderTableData">S/NO</th>
 				<th></th>

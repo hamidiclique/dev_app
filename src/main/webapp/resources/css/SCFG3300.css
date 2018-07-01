@@ -1,0 +1,64 @@
+td.SummaryFormCell {
+	font-size: 11px;
+	font-family: Verdana;
+}
+
+.tabs-menu {
+	height: 30px;
+	list-style-type: none;
+	padding: 0px 0px;
+	margin: 10px 0px 0px 0px;
+	background-color: #DCDCDC;
+}
+
+.tabs-menu li {
+	height: 30px;
+	line-height: 30px;
+	float: left;
+	/* margin-right: 10px; */
+	/* background-color: #ccc; */
+	/* border-top: 1px solid #d4d4d1; */
+	/* border-right: 1px solid #436d96; */
+	/* border-left: 1px solid #436d96; */
+}
+
+.tabs-menu li.current {
+	/* position: relative; */
+	background-color: #707070;
+	/* border-top: 2px solid #006699; */
+}
+
+.tabs-menu li a {
+	padding: 0px 30px;
+	font-family: Arial;
+	font-weight: bold;
+	color: #006699;
+}
+
+.tabs-menu .current a, a:active {
+	color: #F5F5F5;
+}
+
+.tab {
+	float: left;
+	background-color: #F5F5F5;
+	border: 1px solid #F5F5F5;
+}
+
+.tab-content {
+	width: auto;
+	padding: 0px 10px;
+	display: none;
+}
+
+#tab-1 {
+	display: block;
+}
+
+p {
+	margin: 10px 0px;
+}
+
+.paragraph {
+	font-family: Arial;
+}

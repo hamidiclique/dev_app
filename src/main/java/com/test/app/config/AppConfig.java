@@ -2,6 +2,7 @@ package com.test.app.config;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -67,7 +68,7 @@ public class AppConfig extends WebMvcConfigurerAdapter {
 	@Bean
 	public Map<String, String> modHashmap() {
 		List<Module> moduleList = new ArrayList<Module>();
-		final Map<String, String> modHashmap = new HashMap<String, String>();
+		final Map<String, String> modHashmap = new LinkedHashMap<String, String>();
 		moduleList = moduleService.getAllModules();
 		for (Module m : moduleList) {
 			modHashmap.put(m.getModuleId(), m.getModuleDesc());
@@ -78,7 +79,7 @@ public class AppConfig extends WebMvcConfigurerAdapter {
 	@Bean
 	public Map<String, String> funHashmap() {
 		List<Function> functionList = new ArrayList<Function>();
-		final Map<String, String> funHashmap = new HashMap<String, String>();
+		final Map<String, String> funHashmap = new LinkedHashMap<String, String>();
 		functionList = funcService.getAllFunctions();
 		for (Function fun : functionList) {
 			funHashmap.put(fun.getFunctionId(), fun.getFunctionDesc());

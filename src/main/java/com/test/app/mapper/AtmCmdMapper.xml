@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.test.app.dao.AtmCmdMapper">
+
+	<resultMap type="atmcmdtab" id="result">
+		<id property="pid" column="PID" />
+		<result property="cmdCode" column="CMD_CODE" />
+		<result property="cmdDatetime" column="CMD_DATETIME" />
+		<result property="cmdIssuer" column="CMD_ISSUER" />
+		<result property="cmdProcessedOn" column="CMD_PROCESSED_ON" />
+		<result property="cmdStatus" column="CMD_STATUS" />
+	</resultMap>
+
+	<select id="findAtmCmdById" parameterType="String" resultType="atmcmdtab"
+		resultMap="result">
+		SELECT * FROM ATM_CMD_TAB WHERE PID = #{pid}
+	</select>
+	
+	<update id="updateAtmCmdByPid" parameterType="atmcmdtab">
+		UPDATE ATM_CMD_TAB SET CMD_DATETIME = #{cmdDatetime}, CMD_ISSUER = #{cmdIssuer}, CMD_CODE = #{cmdCode}, CMD_STATUS = #{cmdStatus} WHERE PID = #{pid}
+	</update>
+
+	<!-- <insert id="insertHotel" parameterType="hotel" keyProperty="hotelId" 
+		useGeneratedKeys="true"> INSERT INTO T_MASTER_HOTEL(HOTEL_ID, HOTEL_NAME, 
+		STATUS, CITY, TOTAL_ROOMS) VALUES(#{hotelId}, #{hotelName}, #{status}, #{city}, 
+		#{totalRooms}) </insert> -->
+
+</mapper>

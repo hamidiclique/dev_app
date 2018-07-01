@@ -5,8 +5,8 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -487,8 +487,8 @@ public class LoginController {
 	public String handleLoadingModules(ModelMap model, HttpServletRequest request, RedirectAttributes red) {
 		List<Function> functionListByUser = new ArrayList<Function>();
 		List<ScreenFunMap> scrnFunMapListByUser = new ArrayList<ScreenFunMap>();
-		Map<String, List<String>> funModMap = new HashMap<String, List<String>>();
-		Map<String, List<ScreenFunMap>> mapScreenFunMap = new HashMap<String, List<ScreenFunMap>>();
+		Map<String, List<String>> funModMap = new LinkedHashMap<String, List<String>>();
+		Map<String, List<ScreenFunMap>> mapScreenFunMap = new LinkedHashMap<String, List<ScreenFunMap>>();
 		List<String> functionSorter;
 		List<ScreenFunMap> screenSorter;
 		try {
@@ -567,8 +567,9 @@ public class LoginController {
 	@RequestMapping(value = "/viewFunctions", method = RequestMethod.GET)
 	public String displayFunctionsByModule(@RequestParam String mid, @RequestParam String fid, @RequestParam String sid,
 			ModelMap model, RedirectAttributes red, HttpServletRequest request) {
-		Map<String, List<String>> funModMap = new HashMap<String, List<String>>();
-		List<String> funList = new ArrayList<String>();
+		Map<String, List<String>> funModMap = new LinkedHashMap<String, List<String>>();
+		List<String> funList = new ArrayList<String>(), tempfunlist;
+		List<Function> funListDb = new ArrayList<Function>();
 		try {
 			if (SessionUtil.sessionValid(request.getSession(false), red).equalsIgnoreCase(StringUtil.SESSION_VALID)) {
 				User currentUser = (User) request.getSession(false).getAttribute(StringUtil.USER_SESSION);
@@ -576,17 +577,20 @@ public class LoginController {
 				if (request.getSession(false).getAttribute(StringUtil.SESSION_FUN_MOD_MAP) != null) {
 					funModMap = (Map<String, List<String>>) request.getSession(false)
 							.getAttribute(StringUtil.SESSION_FUN_MOD_MAP);
-					funList = funModMap.get(mid);
-					Iterator<String> funIterator = funList.iterator();
-					while (funIterator.hasNext()) {
-						String element = funIterator.next();
-						if (element.length() > 8) {
-							funIterator.remove();
+					tempfunlist = funModMap.get(mid);
+					funListDb = funcService.listFunctionsByModule(mid);
+					Iterator<Function> funIter = funListDb.iterator();
+					while (funIter.hasNext()) {
+						Function funelem = funIter.next();
+						if (Integer.parseInt(funelem.getFunctionFlag()) == 1) {
+							if (tempfunlist.contains(funelem.getFunctionId())) {
+								funList.add(funelem.getFunctionId().trim());
+							}
 						}
 					}
+					model.addAttribute("funlist", funList);
 				}
 				model.addAttribute("modmap", modHashmap);
-				model.addAttribute("funlist", funList);
 				model.addAttribute("funmap", funHashmap);
 				model.addAttribute("module", mid);
 				model.addAttribute("funmodmap", request.getSession(false).getAttribute(StringUtil.SESSION_FUN_MOD_MAP));
@@ -614,7 +618,7 @@ public class LoginController {
 		 * String> moduleMap = new HashMap<String, String>(); List<String> funList = new
 		 * ArrayList<String>();
 		 */
-		Map<String, List<ScreenFunMap>> mapScrnFunMap = new HashMap<String, List<ScreenFunMap>>();
+		Map<String, List<ScreenFunMap>> mapScrnFunMap = new LinkedHashMap<String, List<ScreenFunMap>>();
 		List<ScreenFunMap> scrnFunList = new ArrayList<ScreenFunMap>();
 		String screenId = "";
 		try {

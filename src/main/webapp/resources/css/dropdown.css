@@ -1,0 +1,72 @@
+/* .dropbtn {
+	background-color: #4CAF50;
+	color: white;
+	padding: 16px;
+	font-size: 16px;
+	border: none;
+} */
+
+.dropbtn {
+	font-family: Arial;
+	font-size: 12px;
+	font-weight: normal;
+	text-decoration: none;
+	text-transform: uppercase;
+	background-color: #436D96;
+	color: #FFFFFF;
+	text-align: center;
+	border-left: 2px solid #95B0CB;
+	border-top: 2px solid #BCD1E7;
+	border-right: 2px solid #2D547A;
+	border-bottom: 2px solid #2D547A;
+}
+
+.dropup {
+	position: relative;
+	display: inline-block;
+}
+
+.dropup-content {
+	display: none;
+	position: absolute;	
+	background-color: #C3DFED;
+	/* min-width: 160px;
+	background-color: #f1f1f1;
+	bottom: 50px; */
+	min-width: 300px;
+	bottom: 20px;
+	z-index: 1;
+}
+
+.dropup-content a {
+	/* color: black;
+	padding: 12px 16px;
+	text-decoration: none;
+	display: block; */
+	color: black;
+    padding: 5px 10px;
+    text-decoration: none;
+    display: block;
+    font-family: Verdana;
+    font-size: 11px;
+}
+
+.dropup-content a:hover {
+	/* background-color: #ccc; */
+	background-color: #578EBA;
+	color: #FFF;
+	cursor: pointer;
+}
+
+.dropup:hover .dropup-content {
+	display: block;
+}
+
+.dropup:hover .dropbtn {
+	background-color: #578EBA;
+}
+
+.deactivated {
+  cursor: not-allowed !important;
+  opacity: 0.5;
+}

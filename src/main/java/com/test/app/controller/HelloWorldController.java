@@ -18,7 +18,6 @@ import com.test.app.dao.HotelMapper;
 import com.test.app.entity.Hotel;
 
 @Controller
-@RequestMapping("/")
 public class HelloWorldController {
 
 	@Autowired
@@ -27,12 +26,6 @@ public class HelloWorldController {
 	//Logger logger = LoggerFactory.getLogger(HelloWorldController.class);
 	private final String SUCCESS = "successful";
 	private final String FAILURE = "failed";
-
-	@RequestMapping(method = RequestMethod.GET)
-	public String sayHello(ModelMap model) {
-		//model.addAttribute("greeting", "Welcome");
-		return "redirect:login";
-	}
 
 	@RequestMapping(value = "/listOfHotel", method = RequestMethod.GET)
 	public String showListOfHotels(ModelMap model) {

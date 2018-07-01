@@ -13,13 +13,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</resultMap>
 
 	<delete id="deleteByFungrpId" parameterType="String">
-		DELETE FROM T_FUNGRP_FUN_MAP WHERE FUNCTIONGRP_ID = #{id.functiongrpId}
+		DELETE FROM
+		T_FUNGRP_FUN_MAP WHERE FUNCTIONGRP_ID = #{id.functiongrpId}
 	</delete>
 
 	<insert id="mapFunctionsToFunroup" parameterType="list">
 		INSERT ALL
 		<foreach collection="list" item="elem" index="index">
-			INTO T_FUNGRP_FUN_MAP(FUNCTION_ID, FUNCTIONGRP_ID, SYS_FLAG, MODIFY_TIME,
+			INTO
+			T_FUNGRP_FUN_MAP(FUNCTION_ID, FUNCTIONGRP_ID, SYS_FLAG, MODIFY_TIME,
 			MODIFY_BY) VALUES (#{elem.id.functionId}, #{elem.id.functiongrpId},
 			#{elem.sysFlag}, #{elem.modifyTime}, #{elem.modifyBy})
 		</foreach>

@@ -34,12 +34,11 @@
 	<c:set var="contextPath" value="${pageContext.request.contextPath}" />
 	<table width="100%" class="TableNav" align="center">
 		<tr>
-			<td class=""><img
-				src="${pageContext.request.contextPath}/resources/img/applogo.png"
-				alt="logo" id="logo" title="app"></td>
+			<td class=""><img src="${pageContext.request.contextPath}/resources/img/applogo.png" alt="logo" id="logo" title="app">
+			<img src="${pageContext.request.contextPath}/resources/img/nccblogo.png" alt="banklogo" id="banklogo" title="bank logo"></td>
 		</tr>
 	</table>
-	<table width="100%" class="TableBelowNav" align="center">
+	<table width="100%" class="TableBelowNav" align="center">		
 		<tr>
 			<c:choose>
 				<c:when test="${empty cursor}">
@@ -57,6 +56,7 @@
 
 	<div class="rightPartNoMargin">
 		<table class="TableContent" width="90%" align="center">
+			<col width="300">
 			<tr>
 				<th class="FormCellBGColor">User Name :</th>
 				<td class="FormInputColor">&nbsp;${cursor.userName}</td>
