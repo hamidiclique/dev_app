@@ -7,15 +7,15 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import com.test.app.config.MyBatisUtil;
-import com.test.app.entity.MstBranch;
+import com.test.app.entity.BranchTab;
 
 @Repository
-public class MstBranchMapper implements IMstBranchMapper {
+public class BranchTabMapper implements IBranchTabMapper {
 
 	@Override
-	public List<MstBranch> listAllBranches() {
+	public List<BranchTab> listAllBranches() {
 		// TODO Auto-generated method stub
-		List<MstBranch> branchLst = new ArrayList<MstBranch>();
+		List<BranchTab> branchLst = new ArrayList<BranchTab>();
 		SqlSession session = MyBatisUtil.getSqlSessionFactory().openSession();
 		try {
 			branchLst = session.selectList("getAllBranches");
@@ -31,9 +31,9 @@ public class MstBranchMapper implements IMstBranchMapper {
 	}
 
 	@Override
-	public MstBranch getBranchById(String bid) {
+	public BranchTab getBranchById(String bid) {
 		// TODO Auto-generated method stub
-		MstBranch brnch = new MstBranch();
+		BranchTab brnch = new BranchTab();
 		SqlSession session = MyBatisUtil.getSqlSessionFactory().openSession();
 		try {
 			brnch = session.selectOne("findBranchById", bid);

@@ -18,7 +18,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<typeAlias alias="screenfunmap" type="com.test.app.entity.ScreenFunMap" />
 		<typeAlias alias="decparam" type="com.test.app.entity.DecParam" />
 		<typeAlias alias="activeuser" type="com.test.app.entity.ActiveUser" />
-		<typeAlias alias="branch" type="com.test.app.entity.MstBranch" />
+		<typeAlias alias="branch" type="com.test.app.entity.BranchTab" />
 		<typeAlias alias="rttab" type="com.test.app.entity.RtTab" />
 		<typeAlias alias="tcptab" type="com.test.app.entity.TcpTab" />
 		<typeAlias alias="deftab" type="com.test.app.entity.DefTab" />
@@ -58,7 +58,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<mapper resource="com/test/app/mapper/RoleFungrpMapper.xml" />
 		<mapper resource="com/test/app/mapper/DecParamMapper.xml" />
 		<mapper resource="com/test/app/mapper/ActivityLogMapper.xml" />
-		<mapper resource="com/test/app/mapper/MstBranchMapper.xml" />
+		<mapper resource="com/test/app/mapper/BranchTabMapper.xml" />
 		<mapper resource="com/test/app/mapper/PIdSequenceMapper.xml" />
 		<mapper resource="com/test/app/mapper/TmkCompSequenceMapper.xml" />
 		<mapper resource="com/test/app/mapper/AtmCmdMapper.xml" />

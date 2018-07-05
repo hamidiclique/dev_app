@@ -8,6 +8,7 @@ public interface IUserMapper {
 
 	public int saveNewUser(User user);
 
+	//public List<User> fetchAllUsers();
 	public List<User> getAllUsers();
 
 	public User getUserById(String searchId);

@@ -33,6 +33,7 @@ import com.test.app.dto.ViewAtmDto;
 import com.test.app.dto.ViewAuthDto;
 import com.test.app.entity.AtmCmdTab;
 import com.test.app.entity.AtmCurrencyTab;
+import com.test.app.entity.BranchTab;
 import com.test.app.entity.CtimTab;
 import com.test.app.entity.CtlaTab;
 import com.test.app.entity.CtrTab;
@@ -41,7 +42,6 @@ import com.test.app.entity.DevAttribute;
 import com.test.app.entity.DevKeyTab;
 import com.test.app.entity.EcfopTab;
 import com.test.app.entity.Function;
-import com.test.app.entity.MstBranch;
 import com.test.app.entity.RtTab;
 import com.test.app.entity.TcpTab;
 import com.test.app.entity.TmkCompTab;
@@ -50,12 +50,12 @@ import com.test.app.entity.TmkReqTab;
 import com.test.app.entity.User;
 import com.test.app.service.ActivityLogService;
 import com.test.app.service.AtmCmdService;
+import com.test.app.service.BranchTabService;
 import com.test.app.service.FunctionService;
 import com.test.app.service.FunctiongrpService;
 import com.test.app.service.FungrpFunMapSercice;
 import com.test.app.service.LoginParamService;
 import com.test.app.service.ModuleService;
-import com.test.app.service.MstBranchService;
 import com.test.app.service.PIdSequenceService;
 import com.test.app.service.RoleFungrpMapService;
 import com.test.app.service.RoleService;
@@ -91,7 +91,7 @@ public class CoreConfigurationController {
 	@Autowired
 	ActivityLogService activityLogService;
 	@Autowired
-	MstBranchService branchService;
+	BranchTabService branchService;
 	@Autowired
 	PIdSequenceService pidSeqService;
 	@Autowired
@@ -1421,11 +1421,11 @@ public class CoreConfigurationController {
 
 	@ModelAttribute("branchOptions")
 	protected Map<String, String> getBranchOptions() {
-		List<MstBranch> brnchList = new ArrayList<MstBranch>();
+		List<BranchTab> brnchList = new ArrayList<BranchTab>();
 		Map<String, String> branchOptions = new LinkedHashMap<String, String>();
 		try {
 			brnchList = branchService.getAllBranches();
-			for (MstBranch branch : brnchList) {
+			for (BranchTab branch : brnchList) {
 				// if(branch.getBranchId() < 52)
 				branchOptions.put(String.valueOf(branch.getBranchId()), branch.getBranchName());
 			}

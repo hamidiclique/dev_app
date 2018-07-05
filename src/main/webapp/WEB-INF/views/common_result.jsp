@@ -7,7 +7,7 @@
 	</c:when>
 	<c:otherwise>
 		<div id="alert-div" class="visible">
-			<table align="center" width=100%">
+			<table align="center" width="100%">
 				<tr>
 					<td width="98%">${message}</td>
 					<td><button onclick="fadeout()">X</button></td>

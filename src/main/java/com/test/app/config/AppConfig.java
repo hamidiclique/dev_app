@@ -1,7 +1,6 @@
 package com.test.app.config;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,7 +30,7 @@ import com.test.app.service.ModuleService;
 @EnableWebMvc
 @ComponentScan(basePackages = "com.test.app")
 @Configuration
-@EnableScheduling
+@EnableScheduling 
 public class AppConfig extends WebMvcConfigurerAdapter {
 
 	@Autowired
@@ -39,12 +38,17 @@ public class AppConfig extends WebMvcConfigurerAdapter {
 	@Autowired
 	FunctionService funcService;
 	@Autowired
-    private RequestMappingHandlerAdapter requestMappingHandlerAdapter;
-	
-    @PostConstruct
-    public void init() {
-       requestMappingHandlerAdapter.setIgnoreDefaultModelOnRedirect(true);
-    }
+	private RequestMappingHandlerAdapter requestMappingHandlerAdapter;
+
+	@PostConstruct
+	public void init() {
+		requestMappingHandlerAdapter.setIgnoreDefaultModelOnRedirect(true);
+	}
+
+	@Override
+	public void addInterceptors(final InterceptorRegistry registry) {
+		registry.addInterceptor(new SessionTimerInterceptor());
+	}
 
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
@@ -87,9 +91,9 @@ public class AppConfig extends WebMvcConfigurerAdapter {
 		return funHashmap;
 	}
 
-	@Override
-	public void addInterceptors(final InterceptorRegistry registry) {
-		registry.addInterceptor(new SessionTimerInterceptor());
-	}
+	/*@Bean
+	public LoggingAspect logAspect() {
+		return new LoggingAspect();
+	}*/
 
 }

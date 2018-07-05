@@ -7,20 +7,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.test.app.dao.IMstBranchMapper;
-import com.test.app.entity.MstBranch;
+import com.test.app.dao.IBranchTabMapper;
+import com.test.app.entity.BranchTab;
 
 @Service
 @Transactional
-public class MstBranchServiceImpl implements MstBranchService {
+public class BranchTabServiceImpl implements BranchTabService {
 
 	@Autowired
-	IMstBranchMapper branchMapper;
+	IBranchTabMapper branchMapper;
 
 	@Override
-	public List<MstBranch> getAllBranches() {
+	public List<BranchTab> getAllBranches() {
 		// TODO Auto-generated method stub
-		List<MstBranch> branchLst =  new ArrayList<MstBranch>();
+		List<BranchTab> branchLst =  new ArrayList<BranchTab>();
 		try {
 			branchLst = branchMapper.listAllBranches();
 		} catch (Exception ex) {
@@ -31,9 +31,9 @@ public class MstBranchServiceImpl implements MstBranchService {
 	}
 
 	@Override
-	public MstBranch findBranchById(String bid) {
+	public BranchTab findBranchById(String bid) {
 		// TODO Auto-generated method stub
-		MstBranch brnch = new MstBranch();
+		BranchTab brnch = new BranchTab();
 		try {
 			brnch = branchMapper.getBranchById(bid);
 		} catch (Exception ex) {

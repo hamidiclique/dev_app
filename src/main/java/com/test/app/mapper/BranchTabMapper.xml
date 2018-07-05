@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.test.app.dao.BranchTabMapper">
+
+	<resultMap type="branch" id="result">
+		<id property="branchId" column="BRANCH_ID" />
+		<result property="branchAddr" column="BRANCH_ADDR" />
+		<result property="branchAddr2" column="BRANCH_ADDR2" />
+		<result property="branchCity" column="BRANCH_CITY" />
+		<result property="branchEmail1" column="BRANCH_EMAIL1" />
+		<result property="branchEmail2" column="BRANCH_EMAIL2" />
+		<result property="branchMobile" column="BRANCH_MOBILE" />
+		<result property="branchName" column="BRANCH_NAME" />
+		<result property="branchPhone" column="BRANCH_PHONE" />
+		<result property="iso" column="ISO" />
+		<result property="keyCustodian1Name" column="KEY_CUSTODIAN1_NAME" />
+		<result property="keyCustodian1Title" column="KEY_CUSTODIAN1_TITLE" />
+		<result property="keyCustodian2Name" column="KEY_CUSTODIAN2_NAME" />	
+		<result property="keyCustodian2Title" column="KEY_CUSTODIAN2_TITLE" />
+		<result property="officerName1" column="OFFICER_NAME1" />
+		<result property="officerName2" column="OFFICER_NAME2" />
+		<result property="region" column="REGION" />
+		<result property="sequence" column="SEQUENCE" />
+		<result property="sequenceLen" column="SEQUENCE_LEN" />
+		
+	</resultMap>
+
+	<select id="getAllBranches" resultType="branch" resultMap="result">
+		SELECT * FROM BRANCH_TAB
+	</select>
+
+	<select id="findBranchById" parameterType="String" resultType="branch"
+		resultMap="result">
+		SELECT * FROM BRANCH_TAB WHERE BRANCH_ID = #{branchId} ORDER BY BRANCH_NAME
+	</select>
+</mapper>

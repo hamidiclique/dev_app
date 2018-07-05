@@ -21,7 +21,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		FROM RT_TAB rt
 		INNER JOIN TCP_TAB tcp ON rt.PID=tcp.PID
 		INNER JOIN DEF_TAB def ON rt.PID=def.ID
-		INNER JOIN MST_BRANCH mstbrn ON def.BRANCH=mstbrn.BRANCH_ID
+		INNER JOIN BRANCH_TAB mstbrn ON def.BRANCH=mstbrn.BRANCH_ID
 		INNER JOIN MST_STATE mststt ON def.STATE=mststt.ID ORDER BY rt.PID
 	</select>
 

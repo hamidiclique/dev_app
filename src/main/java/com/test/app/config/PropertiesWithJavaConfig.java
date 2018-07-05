@@ -9,7 +9,7 @@ import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 @Configuration
 @PropertySources({
 	@PropertySource("classpath:pages.properties"),
-    @PropertySource("classpath:schedule.properties")
+    /*@PropertySource("classpath:schedule.properties")*/
 })
 public class PropertiesWithJavaConfig {
 
