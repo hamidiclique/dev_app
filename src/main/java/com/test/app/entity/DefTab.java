@@ -4,14 +4,13 @@ import java.io.Serializable;
 import javax.persistence.*;
 import java.math.BigDecimal;
 
-
 /**
  * The persistent class for the DEF_TAB database table.
  * 
  */
 @Entity
-@Table(name="DEF_TAB")
-//@NamedQuery(name="DefTab.findAll", query="SELECT d FROM DefTab d")
+@Table(name = "DEF_TAB")
+// @NamedQuery(name="DefTab.findAll", query="SELECT d FROM DefTab d")
 public class DefTab implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -56,8 +55,8 @@ public class DefTab implements Serializable {
 
 	private String ecp;
 
-	@Column(name="GMT_OFFSET")
-	private BigDecimal gmtOffset;
+	@Column(name = "GMT_OFFSET")
+	private BigDecimal gmt_offset;
 
 	private String loader;
 
@@ -65,8 +64,8 @@ public class DefTab implements Serializable {
 
 	private BigDecimal macing;
 
-	@Column(name="MERCH_ID")
-	private String merchId;
+	@Column(name = "MERCH_ID")
+	private String merch_id;
 
 	private BigDecimal numdisp;
 
@@ -76,13 +75,13 @@ public class DefTab implements Serializable {
 
 	private BigDecimal rwarn;
 
-	@Column(name="SECURITY_MOD")
-	private BigDecimal securityMod;
+	@Column(name = "SECURITY_MOD")
+	private BigDecimal security_mod;
 
-	@Column(name="SERV_UNIT_CODE")
-	private BigDecimal servUnitCode;
+	@Column(name = "SERV_UNIT_CODE")
+	private BigDecimal serv_unit_code;
 
-	@Column(name="\"STATE\"")
+	@Column(name = "\"STATE\"")
 	private String state;
 
 	private String street;
@@ -266,14 +265,6 @@ public class DefTab implements Serializable {
 		this.ecp = ecp;
 	}
 
-	public BigDecimal getGmtOffset() {
-		return this.gmtOffset;
-	}
-
-	public void setGmtOffset(BigDecimal gmtOffset) {
-		this.gmtOffset = gmtOffset;
-	}
-
 	public String getLoader() {
 		return this.loader;
 	}
@@ -296,14 +287,6 @@ public class DefTab implements Serializable {
 
 	public void setMacing(BigDecimal macing) {
 		this.macing = macing;
-	}
-
-	public String getMerchId() {
-		return this.merchId;
-	}
-
-	public void setMerchId(String merchId) {
-		this.merchId = merchId;
 	}
 
 	public BigDecimal getNumdisp() {
@@ -338,20 +321,36 @@ public class DefTab implements Serializable {
 		this.rwarn = rwarn;
 	}
 
-	public BigDecimal getSecurityMod() {
-		return this.securityMod;
+	public BigDecimal getGmt_offset() {
+		return gmt_offset;
 	}
 
-	public void setSecurityMod(BigDecimal securityMod) {
-		this.securityMod = securityMod;
+	public void setGmt_offset(BigDecimal gmt_offset) {
+		this.gmt_offset = gmt_offset;
 	}
 
-	public BigDecimal getServUnitCode() {
-		return this.servUnitCode;
+	public String getMerch_id() {
+		return merch_id;
 	}
 
-	public void setServUnitCode(BigDecimal servUnitCode) {
-		this.servUnitCode = servUnitCode;
+	public void setMerch_id(String merch_id) {
+		this.merch_id = merch_id;
+	}
+
+	public BigDecimal getSecurity_mod() {
+		return security_mod;
+	}
+
+	public void setSecurity_mod(BigDecimal security_mod) {
+		this.security_mod = security_mod;
+	}
+
+	public BigDecimal getServ_unit_code() {
+		return serv_unit_code;
+	}
+
+	public void setServ_unit_code(BigDecimal serv_unit_code) {
+		this.serv_unit_code = serv_unit_code;
 	}
 
 	public String getState() {

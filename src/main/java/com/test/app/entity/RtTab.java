@@ -4,14 +4,13 @@ import java.io.Serializable;
 import javax.persistence.*;
 import java.math.BigDecimal;
 
-
 /**
  * The persistent class for the RT_TAB database table.
  * 
  */
 @Entity
-@Table(name="RT_TAB")
-//@NamedQuery(name="RtTab.findAll", query="SELECT r FROM RtTab r")
+@Table(name = "RT_TAB")
+// @NamedQuery(name="RtTab.findAll", query="SELECT r FROM RtTab r")
 public class RtTab implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -22,12 +21,12 @@ public class RtTab implements Serializable {
 
 	private String descx;
 
-	@Column(name="DEV_TYPE")
-	private String devType;
+	@Column(name = "DEV_TYPE")
+	private String dev_type;
 
 	private BigDecimal etype;
 
-	@Column(name="\"FOREIGN\"")
+	@Column(name = "\"FOREIGN\"")
 	private BigDecimal foreign;
 
 	private BigDecimal formater;
@@ -67,12 +66,12 @@ public class RtTab implements Serializable {
 		this.descx = descx;
 	}
 
-	public String getDevType() {
-		return this.devType;
+	public String getDev_type() {
+		return dev_type;
 	}
 
-	public void setDevType(String devType) {
-		this.devType = devType;
+	public void setDev_type(String dev_type) {
+		this.dev_type = dev_type;
 	}
 
 	public BigDecimal getEtype() {

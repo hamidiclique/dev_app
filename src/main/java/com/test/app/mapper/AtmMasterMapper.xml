@@ -220,5 +220,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="select_deftab_by_id" parameterType="String" resultType="deftab">
 		SELECT * FROM DEF_TAB WHERE ID = #{id}
 	</select>
+	
+	<select id="test_ctla" parameterType="String" resultType="ctlatab">
+		SELECT * FROM CTLA_TAB WHERE PID = #{pid}
+	</select>
+	
+	<select id="tcptest" parameterType="String" resultType="tcptab">
+		SELECT * FROM TCP_TAB WHERE PID = #{pid}
+	</select>
 
 </mapper>

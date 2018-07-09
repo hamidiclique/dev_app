@@ -4,14 +4,13 @@ import java.io.Serializable;
 import javax.persistence.*;
 import java.math.BigDecimal;
 
-
 /**
  * The persistent class for the CTLA_TAB database table.
  * 
  */
 @Entity
-@Table(name="CTLA_TAB")
-//@NamedQuery(name="CtlaTab.findAll", query="SELECT c FROM CtlaTab c")
+@Table(name = "CTLA_TAB")
+// @NamedQuery(name="CtlaTab.findAll", query="SELECT c FROM CtlaTab c")
 public class CtlaTab implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -60,28 +59,28 @@ public class CtlaTab implements Serializable {
 
 	private BigDecimal lutrnno;
 
-	@Column(name="MEM_NO")
-	private BigDecimal memNo;
+	@Column(name = "MEM_NO")
+	private BigDecimal mem_no;
 
-	@Column(name="MIS_FLAG1")
-	private BigDecimal misFlag1;
+	@Column(name = "MIS_FLAG1")
+	private BigDecimal mis_flag1;
 
-	@Column(name="MIS_FLAG2")
-	private BigDecimal misFlag2;
+	@Column(name = "MIS_FLAG2")
+	private BigDecimal mis_flag2;
 
-	@Column(name="MIS_FLD1")
-	private BigDecimal misFld1;
+	@Column(name = "MIS_FLD1")
+	private BigDecimal mis_fld1;
 
-	@Column(name="MIS_FLD2")
-	private BigDecimal misFld2;
+	@Column(name = "MIS_FLD2")
+	private BigDecimal mis_fld2;
 
 	private BigDecimal miserr;
 
-	@Column(name="MSG_COORD_NUM")
-	private String msgCoordNum;
+	@Column(name = "MSG_COORD_NUM")
+	private String msg_coord_num;
 
-	@Column(name="NON_READIES")
-	private BigDecimal nonReadies;
+	@Column(name = "NON_READIES")
+	private BigDecimal non_readies;
 
 	private BigDecimal ntrans;
 
@@ -99,62 +98,62 @@ public class CtlaTab implements Serializable {
 
 	private BigDecimal respno;
 
-	@Column(name="STAT1_1")
-	private BigDecimal stat11;
+	@Column(name = "STAT1_1")
+	private BigDecimal stat1_1;
 
-	@Column(name="STAT1_10")
-	private BigDecimal stat110;
+	@Column(name = "STAT1_10")
+	private BigDecimal stat1_10;
 
-	@Column(name="STAT1_2")
-	private BigDecimal stat12;
+	@Column(name = "STAT1_2")
+	private BigDecimal stat1_2;
 
-	@Column(name="STAT1_3")
-	private BigDecimal stat13;
+	@Column(name = "STAT1_3")
+	private BigDecimal stat1_3;
 
-	@Column(name="STAT1_4")
-	private BigDecimal stat14;
+	@Column(name = "STAT1_4")
+	private BigDecimal stat1_4;
 
-	@Column(name="STAT1_5")
-	private BigDecimal stat15;
+	@Column(name = "STAT1_5")
+	private BigDecimal stat1_5;
 
-	@Column(name="STAT1_6")
-	private BigDecimal stat16;
+	@Column(name = "STAT1_6")
+	private BigDecimal stat1_6;
 
-	@Column(name="STAT1_7")
-	private BigDecimal stat17;
+	@Column(name = "STAT1_7")
+	private BigDecimal stat1_7;
 
-	@Column(name="STAT1_8")
-	private BigDecimal stat18;
+	@Column(name = "STAT1_8")
+	private BigDecimal stat1_8;
 
-	@Column(name="STAT1_9")
-	private BigDecimal stat19;
+	@Column(name = "STAT1_9")
+	private BigDecimal stat1_9;
 
-	@Column(name="STAT2_1")
-	private BigDecimal stat21;
+	@Column(name = "STAT2_1")
+	private BigDecimal stat2_1;
 
-	@Column(name="STAT2_2")
-	private BigDecimal stat22;
+	@Column(name = "STAT2_2")
+	private BigDecimal stat2_2;
 
-	@Column(name="STATUS_MSG")
-	private String statusMsg;
+	@Column(name = "STATUS_MSG")
+	private String status_msg;
 
-	@Column(name="SW_CONFIG")
-	private BigDecimal swConfig;
+	@Column(name = "SW_CONFIG")
+	private BigDecimal sw_config;
 
-	@Column(name="SW_EKEY")
-	private BigDecimal swEkey;
+	@Column(name = "SW_EKEY")
+	private BigDecimal sw_ekey;
 
-	@Column(name="SW_LSKEY")
-	private BigDecimal swLskey;
+	@Column(name = "SW_LSKEY")
+	private BigDecimal sw_lskey;
 
-	@Column(name="SW_REQ")
-	private BigDecimal swReq;
+	@Column(name = "SW_REQ")
+	private BigDecimal sw_req;
 
-	@Column(name="SW_SKEY")
-	private BigDecimal swSkey;
+	@Column(name = "SW_SKEY")
+	private BigDecimal sw_skey;
 
-	@Column(name="SW_TAB")
-	private BigDecimal swTab;
+	@Column(name = "SW_TAB")
+	private BigDecimal sw_tab;
 
 	private BigDecimal tto;
 
@@ -168,7 +167,7 @@ public class CtlaTab implements Serializable {
 	}
 
 	public long getPid() {
-		return this.pid;
+		return pid;
 	}
 
 	public void setPid(long pid) {
@@ -176,7 +175,7 @@ public class CtlaTab implements Serializable {
 	}
 
 	public BigDecimal getAcct1tp() {
-		return this.acct1tp;
+		return acct1tp;
 	}
 
 	public void setAcct1tp(BigDecimal acct1tp) {
@@ -184,7 +183,7 @@ public class CtlaTab implements Serializable {
 	}
 
 	public BigDecimal getAcct2tp() {
-		return this.acct2tp;
+		return acct2tp;
 	}
 
 	public void setAcct2tp(BigDecimal acct2tp) {
@@ -192,7 +191,7 @@ public class CtlaTab implements Serializable {
 	}
 
 	public BigDecimal getAreject() {
-		return this.areject;
+		return areject;
 	}
 
 	public void setAreject(BigDecimal areject) {
@@ -200,7 +199,7 @@ public class CtlaTab implements Serializable {
 	}
 
 	public BigDecimal getClosed() {
-		return this.closed;
+		return closed;
 	}
 
 	public void setClosed(BigDecimal closed) {
@@ -208,7 +207,7 @@ public class CtlaTab implements Serializable {
 	}
 
 	public BigDecimal getCmdwt() {
-		return this.cmdwt;
+		return cmdwt;
 	}
 
 	public void setCmdwt(BigDecimal cmdwt) {
@@ -216,7 +215,7 @@ public class CtlaTab implements Serializable {
 	}
 
 	public BigDecimal getCtype() {
-		return this.ctype;
+		return ctype;
 	}
 
 	public void setCtype(BigDecimal ctype) {
@@ -224,7 +223,7 @@ public class CtlaTab implements Serializable {
 	}
 
 	public BigDecimal getDisab1() {
-		return this.disab1;
+		return disab1;
 	}
 
 	public void setDisab1(BigDecimal disab1) {
@@ -232,7 +231,7 @@ public class CtlaTab implements Serializable {
 	}
 
 	public BigDecimal getDisab2() {
-		return this.disab2;
+		return disab2;
 	}
 
 	public void setDisab2(BigDecimal disab2) {
@@ -240,7 +239,7 @@ public class CtlaTab implements Serializable {
 	}
 
 	public BigDecimal getHcmore() {
-		return this.hcmore;
+		return hcmore;
 	}
 
 	public void setHcmore(BigDecimal hcmore) {
@@ -248,7 +247,7 @@ public class CtlaTab implements Serializable {
 	}
 
 	public BigDecimal getHcsent() {
-		return this.hcsent;
+		return hcsent;
 	}
 
 	public void setHcsent(BigDecimal hcsent) {
@@ -256,7 +255,7 @@ public class CtlaTab implements Serializable {
 	}
 
 	public BigDecimal getHcstart() {
-		return this.hcstart;
+		return hcstart;
 	}
 
 	public void setHcstart(BigDecimal hcstart) {
@@ -264,7 +263,7 @@ public class CtlaTab implements Serializable {
 	}
 
 	public BigDecimal getHreject() {
-		return this.hreject;
+		return hreject;
 	}
 
 	public void setHreject(BigDecimal hreject) {
@@ -272,7 +271,7 @@ public class CtlaTab implements Serializable {
 	}
 
 	public String getLacc2() {
-		return this.lacc2;
+		return lacc2;
 	}
 
 	public void setLacc2(String lacc2) {
@@ -280,7 +279,7 @@ public class CtlaTab implements Serializable {
 	}
 
 	public String getLacci() {
-		return this.lacci;
+		return lacci;
 	}
 
 	public void setLacci(String lacci) {
@@ -288,7 +287,7 @@ public class CtlaTab implements Serializable {
 	}
 
 	public BigDecimal getLamt() {
-		return this.lamt;
+		return lamt;
 	}
 
 	public void setLamt(BigDecimal lamt) {
@@ -296,7 +295,7 @@ public class CtlaTab implements Serializable {
 	}
 
 	public BigDecimal getLauth() {
-		return this.lauth;
+		return lauth;
 	}
 
 	public void setLauth(BigDecimal lauth) {
@@ -304,7 +303,7 @@ public class CtlaTab implements Serializable {
 	}
 
 	public BigDecimal getLcardtype() {
-		return this.lcardtype;
+		return lcardtype;
 	}
 
 	public void setLcardtype(BigDecimal lcardtype) {
@@ -312,7 +311,7 @@ public class CtlaTab implements Serializable {
 	}
 
 	public BigDecimal getLdisp() {
-		return this.ldisp;
+		return ldisp;
 	}
 
 	public void setLdisp(BigDecimal ldisp) {
@@ -320,7 +319,7 @@ public class CtlaTab implements Serializable {
 	}
 
 	public String getLpani() {
-		return this.lpani;
+		return lpani;
 	}
 
 	public void setLpani(String lpani) {
@@ -328,7 +327,7 @@ public class CtlaTab implements Serializable {
 	}
 
 	public BigDecimal getLscreen() {
-		return this.lscreen;
+		return lscreen;
 	}
 
 	public void setLscreen(BigDecimal lscreen) {
@@ -336,79 +335,79 @@ public class CtlaTab implements Serializable {
 	}
 
 	public BigDecimal getLutrnno() {
-		return this.lutrnno;
+		return lutrnno;
 	}
 
 	public void setLutrnno(BigDecimal lutrnno) {
 		this.lutrnno = lutrnno;
 	}
 
-	public BigDecimal getMemNo() {
-		return this.memNo;
+	public BigDecimal getMem_no() {
+		return mem_no;
 	}
 
-	public void setMemNo(BigDecimal memNo) {
-		this.memNo = memNo;
+	public void setMem_no(BigDecimal mem_no) {
+		this.mem_no = mem_no;
 	}
 
-	public BigDecimal getMisFlag1() {
-		return this.misFlag1;
+	public BigDecimal getMis_flag1() {
+		return mis_flag1;
 	}
 
-	public void setMisFlag1(BigDecimal misFlag1) {
-		this.misFlag1 = misFlag1;
+	public void setMis_flag1(BigDecimal mis_flag1) {
+		this.mis_flag1 = mis_flag1;
 	}
 
-	public BigDecimal getMisFlag2() {
-		return this.misFlag2;
+	public BigDecimal getMis_flag2() {
+		return mis_flag2;
 	}
 
-	public void setMisFlag2(BigDecimal misFlag2) {
-		this.misFlag2 = misFlag2;
+	public void setMis_flag2(BigDecimal mis_flag2) {
+		this.mis_flag2 = mis_flag2;
 	}
 
-	public BigDecimal getMisFld1() {
-		return this.misFld1;
+	public BigDecimal getMis_fld1() {
+		return mis_fld1;
 	}
 
-	public void setMisFld1(BigDecimal misFld1) {
-		this.misFld1 = misFld1;
+	public void setMis_fld1(BigDecimal mis_fld1) {
+		this.mis_fld1 = mis_fld1;
 	}
 
-	public BigDecimal getMisFld2() {
-		return this.misFld2;
+	public BigDecimal getMis_fld2() {
+		return mis_fld2;
 	}
 
-	public void setMisFld2(BigDecimal misFld2) {
-		this.misFld2 = misFld2;
+	public void setMis_fld2(BigDecimal mis_fld2) {
+		this.mis_fld2 = mis_fld2;
 	}
 
 	public BigDecimal getMiserr() {
-		return this.miserr;
+		return miserr;
 	}
 
 	public void setMiserr(BigDecimal miserr) {
 		this.miserr = miserr;
 	}
 
-	public String getMsgCoordNum() {
-		return this.msgCoordNum;
+	public String getMsg_coord_num() {
+		return msg_coord_num;
 	}
 
-	public void setMsgCoordNum(String msgCoordNum) {
-		this.msgCoordNum = msgCoordNum;
+	public void setMsg_coord_num(String msg_coord_num) {
+		this.msg_coord_num = msg_coord_num;
 	}
 
-	public BigDecimal getNonReadies() {
-		return this.nonReadies;
+	public BigDecimal getNon_readies() {
+		return non_readies;
 	}
 
-	public void setNonReadies(BigDecimal nonReadies) {
-		this.nonReadies = nonReadies;
+	public void setNon_readies(BigDecimal non_readies) {
+		this.non_readies = non_readies;
 	}
 
 	public BigDecimal getNtrans() {
-		return this.ntrans;
+		return ntrans;
 	}
 
 	public void setNtrans(BigDecimal ntrans) {
@@ -416,7 +415,7 @@ public class CtlaTab implements Serializable {
 	}
 
 	public BigDecimal getOprob() {
-		return this.oprob;
+		return oprob;
 	}
 
 	public void setOprob(BigDecimal oprob) {
@@ -424,7 +423,7 @@ public class CtlaTab implements Serializable {
 	}
 
 	public BigDecimal getOpstat() {
-		return this.opstat;
+		return opstat;
 	}
 
 	public void setOpstat(BigDecimal opstat) {
@@ -432,7 +431,7 @@ public class CtlaTab implements Serializable {
 	}
 
 	public BigDecimal getOutctr() {
-		return this.outctr;
+		return outctr;
 	}
 
 	public void setOutctr(BigDecimal outctr) {
@@ -440,7 +439,7 @@ public class CtlaTab implements Serializable {
 	}
 
 	public BigDecimal getOuttot() {
-		return this.outtot;
+		return outtot;
 	}
 
 	public void setOuttot(BigDecimal outtot) {
@@ -448,7 +447,7 @@ public class CtlaTab implements Serializable {
 	}
 
 	public BigDecimal getProcstat() {
-		return this.procstat;
+		return procstat;
 	}
 
 	public void setProcstat(BigDecimal procstat) {
@@ -456,7 +455,7 @@ public class CtlaTab implements Serializable {
 	}
 
 	public BigDecimal getRencon() {
-		return this.rencon;
+		return rencon;
 	}
 
 	public void setRencon(BigDecimal rencon) {
@@ -464,167 +463,167 @@ public class CtlaTab implements Serializable {
 	}
 
 	public BigDecimal getRespno() {
-		return this.respno;
+		return respno;
 	}
 
 	public void setRespno(BigDecimal respno) {
 		this.respno = respno;
 	}
 
-	public BigDecimal getStat11() {
-		return this.stat11;
+	public BigDecimal getStat1_1() {
+		return stat1_1;
 	}
 
-	public void setStat11(BigDecimal stat11) {
-		this.stat11 = stat11;
+	public void setStat1_1(BigDecimal stat1_1) {
+		this.stat1_1 = stat1_1;
 	}
 
-	public BigDecimal getStat110() {
-		return this.stat110;
+	public BigDecimal getStat1_10() {
+		return stat1_10;
 	}
 
-	public void setStat110(BigDecimal stat110) {
-		this.stat110 = stat110;
+	public void setStat1_10(BigDecimal stat1_10) {
+		this.stat1_10 = stat1_10;
 	}
 
-	public BigDecimal getStat12() {
-		return this.stat12;
+	public BigDecimal getStat1_2() {
+		return stat1_2;
 	}
 
-	public void setStat12(BigDecimal stat12) {
-		this.stat12 = stat12;
+	public void setStat1_2(BigDecimal stat1_2) {
+		this.stat1_2 = stat1_2;
 	}
 
-	public BigDecimal getStat13() {
-		return this.stat13;
+	public BigDecimal getStat1_3() {
+		return stat1_3;
 	}
 
-	public void setStat13(BigDecimal stat13) {
-		this.stat13 = stat13;
+	public void setStat1_3(BigDecimal stat1_3) {
+		this.stat1_3 = stat1_3;
 	}
 
-	public BigDecimal getStat14() {
-		return this.stat14;
+	public BigDecimal getStat1_4() {
+		return stat1_4;
 	}
 
-	public void setStat14(BigDecimal stat14) {
-		this.stat14 = stat14;
+	public void setStat1_4(BigDecimal stat1_4) {
+		this.stat1_4 = stat1_4;
 	}
 
-	public BigDecimal getStat15() {
-		return this.stat15;
+	public BigDecimal getStat1_5() {
+		return stat1_5;
 	}
 
-	public void setStat15(BigDecimal stat15) {
-		this.stat15 = stat15;
+	public void setStat1_5(BigDecimal stat1_5) {
+		this.stat1_5 = stat1_5;
 	}
 
-	public BigDecimal getStat16() {
-		return this.stat16;
+	public BigDecimal getStat1_6() {
+		return stat1_6;
 	}
 
-	public void setStat16(BigDecimal stat16) {
-		this.stat16 = stat16;
+	public void setStat1_6(BigDecimal stat1_6) {
+		this.stat1_6 = stat1_6;
 	}
 
-	public BigDecimal getStat17() {
-		return this.stat17;
+	public BigDecimal getStat1_7() {
+		return stat1_7;
 	}
 
-	public void setStat17(BigDecimal stat17) {
-		this.stat17 = stat17;
+	public void setStat1_7(BigDecimal stat1_7) {
+		this.stat1_7 = stat1_7;
 	}
 
-	public BigDecimal getStat18() {
-		return this.stat18;
+	public BigDecimal getStat1_8() {
+		return stat1_8;
 	}
 
-	public void setStat18(BigDecimal stat18) {
-		this.stat18 = stat18;
+	public void setStat1_8(BigDecimal stat1_8) {
+		this.stat1_8 = stat1_8;
 	}
 
-	public BigDecimal getStat19() {
-		return this.stat19;
+	public BigDecimal getStat1_9() {
+		return stat1_9;
 	}
 
-	public void setStat19(BigDecimal stat19) {
-		this.stat19 = stat19;
+	public void setStat1_9(BigDecimal stat1_9) {
+		this.stat1_9 = stat1_9;
 	}
 
-	public BigDecimal getStat21() {
-		return this.stat21;
+	public BigDecimal getStat2_1() {
+		return stat2_1;
 	}
 
-	public void setStat21(BigDecimal stat21) {
-		this.stat21 = stat21;
+	public void setStat2_1(BigDecimal stat2_1) {
+		this.stat2_1 = stat2_1;
 	}
 
-	public BigDecimal getStat22() {
-		return this.stat22;
+	public BigDecimal getStat2_2() {
+		return stat2_2;
 	}
 
-	public void setStat22(BigDecimal stat22) {
-		this.stat22 = stat22;
+	public void setStat2_2(BigDecimal stat2_2) {
+		this.stat2_2 = stat2_2;
 	}
 
-	public String getStatusMsg() {
-		return this.statusMsg;
+	public String getStatus_msg() {
+		return status_msg;
 	}
 
-	public void setStatusMsg(String statusMsg) {
-		this.statusMsg = statusMsg;
+	public void setStatus_msg(String status_msg) {
+		this.status_msg = status_msg;
 	}
 
-	public BigDecimal getSwConfig() {
-		return this.swConfig;
+	public BigDecimal getSw_config() {
+		return sw_config;
 	}
 
-	public void setSwConfig(BigDecimal swConfig) {
-		this.swConfig = swConfig;
+	public void setSw_config(BigDecimal sw_config) {
+		this.sw_config = sw_config;
 	}
 
-	public BigDecimal getSwEkey() {
-		return this.swEkey;
+	public BigDecimal getSw_ekey() {
+		return sw_ekey;
 	}
 
-	public void setSwEkey(BigDecimal swEkey) {
-		this.swEkey = swEkey;
+	public void setSw_ekey(BigDecimal sw_ekey) {
+		this.sw_ekey = sw_ekey;
 	}
 
-	public BigDecimal getSwLskey() {
-		return this.swLskey;
+	public BigDecimal getSw_lskey() {
+		return sw_lskey;
 	}
 
-	public void setSwLskey(BigDecimal swLskey) {
-		this.swLskey = swLskey;
+	public void setSw_lskey(BigDecimal sw_lskey) {
+		this.sw_lskey = sw_lskey;
 	}
 
-	public BigDecimal getSwReq() {
-		return this.swReq;
+	public BigDecimal getSw_req() {
+		return sw_req;
 	}
 
-	public void setSwReq(BigDecimal swReq) {
-		this.swReq = swReq;
+	public void setSw_req(BigDecimal sw_req) {
+		this.sw_req = sw_req;
 	}
 
-	public BigDecimal getSwSkey() {
-		return this.swSkey;
+	public BigDecimal getSw_skey() {
+		return sw_skey;
 	}
 
-	public void setSwSkey(BigDecimal swSkey) {
-		this.swSkey = swSkey;
+	public void setSw_skey(BigDecimal sw_skey) {
+		this.sw_skey = sw_skey;
 	}
 
-	public BigDecimal getSwTab() {
-		return this.swTab;
+	public BigDecimal getSw_tab() {
+		return sw_tab;
 	}
 
-	public void setSwTab(BigDecimal swTab) {
-		this.swTab = swTab;
+	public void setSw_tab(BigDecimal sw_tab) {
+		this.sw_tab = sw_tab;
 	}
 
 	public BigDecimal getTto() {
-		return this.tto;
+		return tto;
 	}
 
 	public void setTto(BigDecimal tto) {
@@ -632,7 +631,7 @@ public class CtlaTab implements Serializable {
 	}
 
 	public BigDecimal getTtype() {
-		return this.ttype;
+		return ttype;
 	}
 
 	public void setTtype(BigDecimal ttype) {
@@ -640,7 +639,7 @@ public class CtlaTab implements Serializable {
 	}
 
 	public BigDecimal getWarn1() {
-		return this.warn1;
+		return warn1;
 	}
 
 	public void setWarn1(BigDecimal warn1) {
@@ -648,11 +647,15 @@ public class CtlaTab implements Serializable {
 	}
 
 	public BigDecimal getWarn2() {
-		return this.warn2;
+		return warn2;
 	}
 
 	public void setWarn2(BigDecimal warn2) {
 		this.warn2 = warn2;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 
 }

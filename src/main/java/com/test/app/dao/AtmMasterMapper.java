@@ -9,9 +9,11 @@ import org.springframework.stereotype.Repository;
 import com.test.app.config.MyBatisUtil;
 import com.test.app.dto.AtmMaster;
 import com.test.app.dto.ViewAtmDto;
+import com.test.app.entity.CtlaTab;
 import com.test.app.entity.CtrTab;
 import com.test.app.entity.DefTab;
 import com.test.app.entity.RtTab;
+import com.test.app.entity.TcpTab;
 
 @Repository
 public class AtmMasterMapper implements IAtmMasterMapper {
@@ -71,6 +73,8 @@ public class AtmMasterMapper implements IAtmMasterMapper {
 			CtrTab ctrtab = session.selectOne("xyz", pid);
 			DefTab deftab = session.selectOne("select_deftab_by_id", pid);
 			RtTab rttab = session.selectOne("select_rttab_by_pid", pid);
+			CtlaTab ctlatab = session.selectOne("test_ctla", pid);
+			TcpTab tcptab = session.selectOne("tcptest", pid);
 			
 			temp.setRttab(rttab);
 			temp.setCtrtab(ctrtab);

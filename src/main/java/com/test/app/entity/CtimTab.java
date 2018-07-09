@@ -4,25 +4,24 @@ import java.io.Serializable;
 import javax.persistence.*;
 import java.math.BigDecimal;
 
-
 /**
  * The persistent class for the CTIM_TAB database table.
  * 
  */
 @Entity
-@Table(name="CTIM_TAB")
-//@NamedQuery(name="CtimTab.findAll", query="SELECT c FROM CtimTab c")
+@Table(name = "CTIM_TAB")
+// @NamedQuery(name="CtimTab.findAll", query="SELECT c FROM CtimTab c")
 public class CtimTab implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	private long pid;
 
-	@Column(name="TIMR_LEN")
-	private BigDecimal timrLen;
+	@Column(name = "TIMR_LEN")
+	private BigDecimal timr_len;
 
-	@Column(name="TIMR_NO")
-	private BigDecimal timrNo;
+	@Column(name = "TIMR_NO")
+	private BigDecimal timr_no;
 
 	public CtimTab() {
 	}
@@ -35,20 +34,20 @@ public class CtimTab implements Serializable {
 		this.pid = pid;
 	}
 
-	public BigDecimal getTimrLen() {
-		return this.timrLen;
+	public BigDecimal getTimr_len() {
+		return timr_len;
 	}
 
-	public void setTimrLen(BigDecimal timrLen) {
-		this.timrLen = timrLen;
+	public void setTimr_len(BigDecimal timr_len) {
+		this.timr_len = timr_len;
 	}
 
-	public BigDecimal getTimrNo() {
-		return this.timrNo;
+	public BigDecimal getTimr_no() {
+		return timr_no;
 	}
 
-	public void setTimrNo(BigDecimal timrNo) {
-		this.timrNo = timrNo;
+	public void setTimr_no(BigDecimal timr_no) {
+		this.timr_no = timr_no;
 	}
 
 }

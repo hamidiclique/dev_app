@@ -4,43 +4,42 @@ import java.io.Serializable;
 import javax.persistence.*;
 import java.math.BigDecimal;
 
-
 /**
  * The persistent class for the TCP_TAB database table.
  * 
  */
 @Entity
-@Table(name="TCP_TAB")
-//@NamedQuery(name="TcpTab.findAll", query="SELECT t FROM TcpTab t")
+@Table(name = "TCP_TAB")
+// @NamedQuery(name="TcpTab.findAll", query="SELECT t FROM TcpTab t")
 public class TcpTab implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	private long pid;
 
-	@Column(name="DEPENDS_ON")
-	private BigDecimal dependsOn;
+	@Column(name = "DEPENDS_ON")
+	private BigDecimal depends_on;
 
 	private String format;
 
-	@Column(name="HEADER_LEN")
-	private BigDecimal headerLen;
+	@Column(name = "HEADER_LEN")
+	private BigDecimal header_len;
 
 	private String initiator;
 
-	@Column(name="LOCAL_PORT")
-	private String localPort;
+	@Column(name = "LOCAL_PORT")
+	private String local_port;
 
 	private String machine;
 
-	@Column(name="PING_CHECK")
-	private BigDecimal pingCheck;
+	@Column(name = "PING_CHECK")
+	private BigDecimal ping_check;
 
-	@Column(name="REMOTE_ADDRESS")
-	private String remoteAddress;
+	@Column(name = "REMOTE_ADDRESS")
+	private String remote_address;
 
-	@Column(name="REMOTE_PORT")
-	private String remotePort;
+	@Column(name = "REMOTE_PORT")
+	private String remote_port;
 
 	public TcpTab() {
 	}
@@ -49,80 +48,80 @@ public class TcpTab implements Serializable {
 		return this.pid;
 	}
 
-	public void setPid(long pid) {
-		this.pid = pid;
+	public BigDecimal getDepends_on() {
+		return depends_on;
 	}
 
-	public BigDecimal getDependsOn() {
-		return this.dependsOn;
-	}
-
-	public void setDependsOn(BigDecimal dependsOn) {
-		this.dependsOn = dependsOn;
+	public void setDepends_on(BigDecimal depends_on) {
+		this.depends_on = depends_on;
 	}
 
 	public String getFormat() {
-		return this.format;
+		return format;
 	}
 
 	public void setFormat(String format) {
 		this.format = format;
 	}
 
-	public BigDecimal getHeaderLen() {
-		return this.headerLen;
+	public BigDecimal getHeader_len() {
+		return header_len;
 	}
 
-	public void setHeaderLen(BigDecimal headerLen) {
-		this.headerLen = headerLen;
+	public void setHeader_len(BigDecimal header_len) {
+		this.header_len = header_len;
 	}
 
 	public String getInitiator() {
-		return this.initiator;
+		return initiator;
 	}
 
 	public void setInitiator(String initiator) {
 		this.initiator = initiator;
 	}
 
-	public String getLocalPort() {
-		return this.localPort;
+	public String getLocal_port() {
+		return local_port;
 	}
 
-	public void setLocalPort(String localPort) {
-		this.localPort = localPort;
+	public void setLocal_port(String local_port) {
+		this.local_port = local_port;
 	}
 
 	public String getMachine() {
-		return this.machine;
+		return machine;
 	}
 
 	public void setMachine(String machine) {
 		this.machine = machine;
 	}
 
-	public BigDecimal getPingCheck() {
-		return this.pingCheck;
+	public BigDecimal getPing_check() {
+		return ping_check;
 	}
 
-	public void setPingCheck(BigDecimal pingCheck) {
-		this.pingCheck = pingCheck;
+	public void setPing_check(BigDecimal ping_check) {
+		this.ping_check = ping_check;
 	}
 
-	public String getRemoteAddress() {
-		return this.remoteAddress;
+	public String getRemote_address() {
+		return remote_address;
 	}
 
-	public void setRemoteAddress(String remoteAddress) {
-		this.remoteAddress = remoteAddress;
+	public void setRemote_address(String remote_address) {
+		this.remote_address = remote_address;
 	}
 
-	public String getRemotePort() {
-		return this.remotePort;
+	public String getRemote_port() {
+		return remote_port;
 	}
 
-	public void setRemotePort(String remotePort) {
-		this.remotePort = remotePort;
+	public void setRemote_port(String remote_port) {
+		this.remote_port = remote_port;
+	}
+
+	public void setPid(long pid) {
+		this.pid = pid;
 	}
 
 }

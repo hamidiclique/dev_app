@@ -549,7 +549,7 @@ public class CoreConfigurationController {
 						model.addAttribute("funlist", funList);
 					}
 					atmMasterService.findAtmMasterInfoByPid(pid);
-					
+
 					model.addAttribute("funlist", funList);
 					model.addAttribute("btnList", vadto.getBtnList());
 					model.addAttribute("function", fid);
@@ -643,8 +643,8 @@ public class CoreConfigurationController {
 							// show only ATM closing option in disabled state
 							cmdcodemap.replace("2-Close ATM", 2);
 							break;
-						//case 2:
-						default:	
+						// case 2:
+						default:
 							System.out.println("Closed ATM");
 							// show all options in disabled state
 							cmdcodemap.replace("1-Open ATM", 2);
@@ -664,9 +664,9 @@ public class CoreConfigurationController {
 							cmdcodemap.replace("52-Request ATM To Send Enhanced Supply Counters", 2);
 							cmdcodemap.replace("53-Request ATM To Run Self-Test", 2);
 							break;
-/*						default:
-							System.out.println("Invalid Code");
-							break;*/
+						/*
+						 * default: System.out.println("Invalid Code"); break;
+						 */
 						}
 						break;
 					case 2:
@@ -678,8 +678,8 @@ public class CoreConfigurationController {
 							// show only ATM closing option
 							cmdcodemap.replace("2-Close ATM", 1);
 							break;
-						//case 2:
-						default:	
+						// case 2:
+						default:
 							System.out.println("Closed ATM");
 							// show all options
 							cmdcodemap.replace("1-Open ATM", 1);
@@ -699,9 +699,9 @@ public class CoreConfigurationController {
 							cmdcodemap.replace("52-Request ATM To Send Enhanced Supply Counters", 1);
 							cmdcodemap.replace("53-Request ATM To Run Self-Test", 1);
 							break;
-						/*default:
-							System.out.println("Invalid Code");
-							break;*/
+						/*
+						 * default: System.out.println("Invalid Code"); break;
+						 */
 						}
 						break;
 					default:
@@ -881,7 +881,7 @@ public class CoreConfigurationController {
 			// TODO: handle exception
 			e.toString();
 		}
-		if (nora > 0) 
+		if (nora > 0)
 			return "200";
 		else
 			return "500";
@@ -953,9 +953,9 @@ public class CoreConfigurationController {
 	private DevKeyTab populateDevKeyTab(AtmDefDto atmdef, Long pid) {
 		// TODO Auto-generated method stub
 		DevKeyTab devKeyTab = new DevKeyTab();
-		devKeyTab.setPciCompliant(new BigDecimal(atmdef.getPciCompliant()));
-		devKeyTab.setPinblkFmt(atmdef.getPinblkFmt());
-		devKeyTab.setKeyLength(new BigDecimal(32));
+		devKeyTab.setPci_compliant(new BigDecimal(atmdef.getPciCompliant()));
+		devKeyTab.setPinblk_fmt(atmdef.getPinblkFmt());
+		devKeyTab.setKey_length(new BigDecimal(32));
 		devKeyTab.setPid(pid);
 		devKeyTab.setDirection("-");
 		return devKeyTab;
@@ -996,7 +996,7 @@ public class CoreConfigurationController {
 	private EcfopTab createEcfopObj(int eop_no, int eopt, Long pid) {
 		// TODO Auto-generated method stub
 		EcfopTab ecfoptabvar = new EcfopTab();
-		ecfoptabvar.setEopNo(new BigDecimal(eop_no));
+		ecfoptabvar.setEop_no(new BigDecimal(eop_no));
 		ecfoptabvar.setEopt(new BigDecimal(eopt));
 		ecfoptabvar.setPid(pid);
 		return ecfoptabvar;
@@ -1010,8 +1010,8 @@ public class CoreConfigurationController {
 		for (int i = 1; i < num_rows; i++) {
 			atmCurrencyTab = new AtmCurrencyTab();
 			atmCurrencyTab.setPid(pid);
-			atmCurrencyTab.setCanisterType(new BigDecimal(i));
-			atmCurrencyTab.setIsoCurrencyType(new BigDecimal(50));
+			atmCurrencyTab.setCanister_type(new BigDecimal(i));
+			atmCurrencyTab.setIso_currency_type(new BigDecimal(50));
 			atmcurrtablst.add(atmCurrencyTab);
 		}
 		return atmcurrtablst;
@@ -1029,52 +1029,52 @@ public class CoreConfigurationController {
 			case 2:
 				ctimtab = new CtimTab();
 				ctimtab.setPid(pid);
-				ctimtab.setTimrLen(new BigDecimal(15));
-				ctimtab.setTimrNo(new BigDecimal(i));
+				ctimtab.setTimr_len(new BigDecimal(15));
+				ctimtab.setTimr_no(new BigDecimal(i));
 				ctimtablst.add(ctimtab);
 				break;
 			case 3:
 			case 4:
 				ctimtab = new CtimTab();
 				ctimtab.setPid(pid);
-				ctimtab.setTimrLen(new BigDecimal(60));
-				ctimtab.setTimrNo(new BigDecimal(i));
+				ctimtab.setTimr_len(new BigDecimal(60));
+				ctimtab.setTimr_no(new BigDecimal(i));
 				ctimtablst.add(ctimtab);
 				break;
 			case 5:
 				ctimtab = new CtimTab();
 				ctimtab.setPid(pid);
-				ctimtab.setTimrLen(new BigDecimal(20));
-				ctimtab.setTimrNo(new BigDecimal(i));
+				ctimtab.setTimr_len(new BigDecimal(20));
+				ctimtab.setTimr_no(new BigDecimal(i));
 				ctimtablst.add(ctimtab);
 				break;
 			case 6:
 				ctimtab = new CtimTab();
 				ctimtab.setPid(pid);
-				ctimtab.setTimrLen(new BigDecimal(10));
-				ctimtab.setTimrNo(new BigDecimal(i));
+				ctimtab.setTimr_len(new BigDecimal(10));
+				ctimtab.setTimr_no(new BigDecimal(i));
 				ctimtablst.add(ctimtab);
 				break;
 			case 7:
 				ctimtab = new CtimTab();
 				ctimtab.setPid(pid);
-				ctimtab.setTimrLen(new BigDecimal(1));
-				ctimtab.setTimrNo(new BigDecimal(i));
+				ctimtab.setTimr_len(new BigDecimal(1));
+				ctimtab.setTimr_no(new BigDecimal(i));
 				ctimtablst.add(ctimtab);
 				break;
 			case 8:
 			case 9:
 				ctimtab = new CtimTab();
 				ctimtab.setPid(pid);
-				ctimtab.setTimrLen(new BigDecimal(30));
-				ctimtab.setTimrNo(new BigDecimal(i));
+				ctimtab.setTimr_len(new BigDecimal(30));
+				ctimtab.setTimr_no(new BigDecimal(i));
 				ctimtablst.add(ctimtab);
 				break;
 			default:
 				ctimtab = new CtimTab();
 				ctimtab.setPid(pid);
-				ctimtab.setTimrLen(new BigDecimal(0));
-				ctimtab.setTimrNo(new BigDecimal(i));
+				ctimtab.setTimr_len(new BigDecimal(0));
+				ctimtab.setTimr_no(new BigDecimal(i));
 				ctimtablst.add(ctimtab);
 				break;
 			}
@@ -1087,56 +1087,56 @@ public class CoreConfigurationController {
 		CtrTab ctrtab = new CtrTab();
 		try {
 			BigDecimal zero = new BigDecimal(0);
-			ctrtab.setC1StartBills(zero);
-			ctrtab.setC2StartBills(zero);
-			ctrtab.setC3StartBills(zero);
-			ctrtab.setC4StartBills(zero);
-			ctrtab.setCC1bills(zero);
-			ctrtab.setCC1brej(zero);
-			ctrtab.setCC2bills(zero);
-			ctrtab.setCC2brej(zero);
-			ctrtab.setCC3bills(zero);
-			ctrtab.setCC3brej(zero);
-			ctrtab.setCC4bills(zero);
-			ctrtab.setCC4brej(zero);
-			ctrtab.setCCacsha(zero);
-			ctrtab.setCCainq(zero);
-			ctrtab.setCCaxfer(zero);
-			ctrtab.setCCcapt(zero);
-			ctrtab.setCCckbk(zero);
-			ctrtab.setCCdep(zero);
-			ctrtab.setCCdepac(zero);
-			ctrtab.setCCfrf("0");
-			ctrtab.setCCfseg(zero);
-			ctrtab.setCCicsha(zero);
-			ctrtab.setCCiinq(zero);
-			ctrtab.setCCinq(zero);
-			ctrtab.setCCixfer(zero);
-			ctrtab.setCCpmt(zero);
-			ctrtab.setCCrect(zero);
-			ctrtab.setCCsvcload(zero);
-			ctrtab.setCCsvcunload(zero);
-			ctrtab.setCCtrans(zero);
-			ctrtab.setCCwdlLoc(zero);
-			ctrtab.setCCwdlUs(zero);
-			ctrtab.setCCxfer(zero);
-			ctrtab.setCTacshaLoc(zero);
-			ctrtab.setCTacshaUs(zero);
-			ctrtab.setCTdep(zero);
-			ctrtab.setCTdepc(zero);
-			ctrtab.setCTdeps(zero);
-			ctrtab.setCTicsha(zero);
-			ctrtab.setCTpmt(zero);
-			ctrtab.setCTpmtl(zero);
-			ctrtab.setCTpmtmc(zero);
-			ctrtab.setCTsvcload(zero);
-			ctrtab.setCTsvcunload(zero);
-			ctrtab.setCTwdlcLoc(zero);
-			ctrtab.setCTwdlcUs(zero);
-			ctrtab.setCTwdlLoc(zero);
-			ctrtab.setCTwdlsLoc(zero);
-			ctrtab.setCTwdlsUs(zero);
-			ctrtab.setCTwdlUs(zero);
+			ctrtab.setC1_start_bills(zero);
+			ctrtab.setC2_start_bills(zero);
+			ctrtab.setC3_start_bills(zero);
+			ctrtab.setC4_start_bills(zero);
+			ctrtab.setC_c1bills(zero);
+			ctrtab.setC_c1brej(zero);
+			ctrtab.setC_c2bills(zero);
+			ctrtab.setC_c2brej(zero);
+			ctrtab.setC_c3bills(zero);
+			ctrtab.setC_c3brej(zero);
+			ctrtab.setC_c4bills(zero);
+			ctrtab.setC_c4brej(zero);
+			ctrtab.setC_cacsha(zero);
+			ctrtab.setC_cainq(zero);
+			ctrtab.setC_caxfer(zero);
+			ctrtab.setC_ccapt(zero);
+			ctrtab.setC_cckbk(zero);
+			ctrtab.setC_cdep(zero);
+			ctrtab.setC_cdepac(zero);
+			ctrtab.setC_cfrf("0");
+			ctrtab.setC_cfseg(zero);
+			ctrtab.setC_cicsha(zero);
+			ctrtab.setC_ciinq(zero);
+			ctrtab.setC_cinq(zero);
+			ctrtab.setC_cixfer(zero);
+			ctrtab.setC_cpmt(zero);
+			ctrtab.setC_crect(zero);
+			ctrtab.setC_csvcload(zero);
+			ctrtab.setC_csvcunload(zero);
+			ctrtab.setC_ctrans(zero);
+			ctrtab.setC_cwdl_loc(zero);
+			ctrtab.setC_cwdl_us(zero);
+			ctrtab.setC_cxfer(zero);
+			ctrtab.setC_tacsha_loc(zero);
+			ctrtab.setC_tacsha_us(zero);
+			ctrtab.setC_tdep(zero);
+			ctrtab.setC_tdepc(zero);
+			ctrtab.setC_tdeps(zero);
+			ctrtab.setC_ticsha(zero);
+			ctrtab.setC_tpmt(zero);
+			ctrtab.setC_tpmtl(zero);
+			ctrtab.setC_tpmtmc(zero);
+			ctrtab.setC_tsvcload(zero);
+			ctrtab.setC_tsvcunload(zero);
+			ctrtab.setC_twdlc_loc(zero);
+			ctrtab.setC_twdlc_us(zero);
+			ctrtab.setC_twdl_loc(zero);
+			ctrtab.setC_twdls_loc(zero);
+			ctrtab.setC_twdls_us(zero);
+			ctrtab.setC_twdl_us(zero);
 			ctrtab.setPid(pid);
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -1171,14 +1171,14 @@ public class CoreConfigurationController {
 			// ctlatab.setLpani();
 			ctlatab.setLscreen(zero);
 			ctlatab.setLutrnno(zero);
-			ctlatab.setMemNo(zero);
+			ctlatab.setMem_no(zero);
 			ctlatab.setMiserr(zero);
-			ctlatab.setMisFlag1(zero);
-			ctlatab.setMisFlag2(zero);
-			ctlatab.setMisFld1(zero);
-			ctlatab.setMisFld2(zero);
+			ctlatab.setMis_flag1(zero);
+			ctlatab.setMis_flag2(zero);
+			ctlatab.setMis_fld1(zero);
+			ctlatab.setMis_fld2(zero);
 			// ctlatab.setMsgCoordNum();
-			ctlatab.setNonReadies(zero);
+			ctlatab.setNon_readies(zero);
 			ctlatab.setNtrans(zero);
 			ctlatab.setOprob(zero);
 			ctlatab.setOpstat(new BigDecimal(128));
@@ -1188,25 +1188,25 @@ public class CoreConfigurationController {
 			ctlatab.setProcstat(zero);
 			ctlatab.setRencon(zero);
 			ctlatab.setRespno(zero);
-			ctlatab.setSwTab(new BigDecimal(7));
-			ctlatab.setSwSkey(zero);
-			ctlatab.setSwReq(new BigDecimal(2));
-			ctlatab.setSwLskey(new BigDecimal(999));
-			ctlatab.setSwEkey(zero);
-			ctlatab.setSwConfig(zero);
-			ctlatab.setStatusMsg("OPEN");
-			ctlatab.setStat22(zero);
-			ctlatab.setStat21(zero);
-			ctlatab.setStat19(zero);
-			ctlatab.setStat18(zero);
-			ctlatab.setStat17(zero);
-			ctlatab.setStat16(zero);
-			ctlatab.setStat15(zero);
-			ctlatab.setStat14(zero);
-			ctlatab.setStat13(zero);
-			ctlatab.setStat12(zero);
-			ctlatab.setStat110(zero);
-			ctlatab.setStat11(zero);
+			ctlatab.setSw_tab(new BigDecimal(7));
+			ctlatab.setSw_skey(zero);
+			ctlatab.setSw_req(new BigDecimal(2));
+			ctlatab.setSw_lskey(new BigDecimal(999));
+			ctlatab.setSw_ekey(zero);
+			ctlatab.setSw_config(zero);
+			ctlatab.setStatus_msg("OPEN");
+			ctlatab.setStat1_1(zero);
+			ctlatab.setStat1_2(zero);
+			ctlatab.setStat1_3(zero);
+			ctlatab.setStat1_4(zero);
+			ctlatab.setStat1_5(zero);
+			ctlatab.setStat1_6(zero);
+			ctlatab.setStat1_7(zero);
+			ctlatab.setStat1_8(zero);
+			ctlatab.setStat1_9(zero);
+			ctlatab.setStat1_10(zero);
+			ctlatab.setStat2_1(zero);
+			ctlatab.setStat2_2(zero);
 			ctlatab.setTtype(zero);
 			ctlatab.setTto(zero);
 			ctlatab.setWarn1(zero);
@@ -1241,7 +1241,7 @@ public class CoreConfigurationController {
 			deftab.setD4val(new BigDecimal(atmdef.getD4val()));
 			deftab.setDwarn(new BigDecimal(100));
 			deftab.setEcp("Y");
-			deftab.setGmtOffset(new BigDecimal(6));
+			deftab.setGmt_offset(new BigDecimal(6));
 			deftab.setId(pid);
 			deftab.setLoader(atmdef.getLoader());
 			deftab.setLuno(new BigDecimal(788));
@@ -1250,7 +1250,7 @@ public class CoreConfigurationController {
 			deftab.setRec(new BigDecimal(0));
 			deftab.setRjwarn(new BigDecimal(100));
 			deftab.setRwarn(new BigDecimal(50));
-			deftab.setSecurityMod(new BigDecimal(1));
+			deftab.setSecurity_mod(new BigDecimal(1));
 			deftab.setState(atmdef.getState());
 			deftab.setStreet(atmdef.getStreet());
 			deftab.setTchar(atmdef.getTchar());
@@ -1272,15 +1272,15 @@ public class CoreConfigurationController {
 		TcpTab tcptab = new TcpTab();
 		try {
 			tcptab.setPid(pid);
-			tcptab.setDependsOn(new BigDecimal(-1));
+			tcptab.setDepends_on(new BigDecimal(-1));
 			tcptab.setFormat(atmdef.getFormat());
-			tcptab.setHeaderLen(new BigDecimal(4));
+			tcptab.setHeader_len(new BigDecimal(4));
 			tcptab.setInitiator(atmdef.getInitiator());
-			tcptab.setLocalPort(atmdef.getLocalPort());
+			tcptab.setLocal_port(atmdef.getLocalPort());
 			tcptab.setMachine(atmdef.getMachine());
-			tcptab.setPingCheck(new BigDecimal(1));
-			tcptab.setRemoteAddress(atmdef.getRemoteAddress());
-			tcptab.setRemotePort(atmdef.getRemotePort());
+			tcptab.setPing_check(new BigDecimal(1));
+			tcptab.setRemote_address(atmdef.getRemoteAddress());
+			tcptab.setRemote_port(atmdef.getRemotePort());
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.toString();
