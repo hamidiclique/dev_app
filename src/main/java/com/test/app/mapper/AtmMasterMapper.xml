@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.test.app.dao.SomeMapper">
+<mapper namespace="com.test.app.dao.AtmMasterMapper">
 
 	<resultMap type="viewatmdto" id="result">
 		<result property="pid" column="PID" />
@@ -19,19 +19,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		rt.PID, tcp.MACHINE, tcp.REMOTE_ADDRESS, mstbrn.BRANCH_NAME,
 		def.STREET, def.CITY, mststt.NAME
 		FROM RT_TAB rt
-		INNER JOIN TCP_TAB tcp ON rt.PID=tcp.PID
+		INNER JOIN TCP_TAB tcp
+		ON rt.PID=tcp.PID
 		INNER JOIN DEF_TAB def ON rt.PID=def.ID
-		INNER JOIN BRANCH_TAB mstbrn ON def.BRANCH=mstbrn.BRANCH_ID
-		INNER JOIN MST_STATE mststt ON def.STATE=mststt.ID ORDER BY rt.PID
+		INNER JOIN
+		BRANCH_TAB mstbrn ON def.BRANCH=mstbrn.BRANCH_ID
+		INNER JOIN MST_STATE
+		mststt ON def.STATE=mststt.ID ORDER BY rt.PID
 	</select>
 
-	<!-- <insert id="insert_rttab" parameterType="rttab" keyProperty="pid">
-		INSERT INTO RT_TAB(PID, ETYPE, OWNER, FORMATER, MONITOR, OFFLN,
-		DATAX,
-		PROTO) VALUES (#{pid}, #{etype}, #{owner}, #{formater},
-		#{monitor},
-		#{offln}, #{datax}, #{proto})
-	</insert> -->
+	<!-- <insert id="insert_rttab" parameterType="rttab" keyProperty="pid"> 
+		INSERT INTO RT_TAB(PID, ETYPE, OWNER, FORMATER, MONITOR, OFFLN, DATAX, PROTO) 
+		VALUES (#{pid}, #{etype}, #{owner}, #{formater}, #{monitor}, #{offln}, #{datax}, 
+		#{proto}) </insert> -->
 	<insert id="insert_rttab" parameterType="rttab" keyProperty="pid">
 		INSERT INTO RT_TAB(PID, ETYPE, OWNER, FORMATER, MONITOR, OFFLN, PROTO)
 		VALUES (#{pid}, #{etype}, #{owner}, #{formater}, #{monitor}, #{offln},
@@ -208,5 +208,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		INSERT INTO TMK_REQ_TAB(ORGDEV, BRANCHC, STATUS) VALUES
 		(#{orgdev}, #{branchc}, #{status})
 	</insert>
+	
+	<select id="select_rttab_by_pid" parameterType="String" resultType="rttab">
+		SELECT * FROM RT_TAB WHERE PID = #{pid}
+	</select>
+	
+	<select id="xyz" parameterType="String" resultType="ctrtab">
+		SELECT * FROM CTR_TAB WHERE PID = #{pid}
+	</select>
+	
+	<select id="select_deftab_by_id" parameterType="String" resultType="deftab">
+		SELECT * FROM DEF_TAB WHERE ID = #{id}
+	</select>
 
 </mapper>

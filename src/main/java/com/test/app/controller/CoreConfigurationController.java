@@ -50,6 +50,7 @@ import com.test.app.entity.TmkReqTab;
 import com.test.app.entity.User;
 import com.test.app.service.ActivityLogService;
 import com.test.app.service.AtmCmdService;
+import com.test.app.service.AtmMasterService;
 import com.test.app.service.BranchTabService;
 import com.test.app.service.FunctionService;
 import com.test.app.service.FunctiongrpService;
@@ -59,7 +60,6 @@ import com.test.app.service.ModuleService;
 import com.test.app.service.PIdSequenceService;
 import com.test.app.service.RoleFungrpMapService;
 import com.test.app.service.RoleService;
-import com.test.app.service.SomeService;
 import com.test.app.service.TmkCompSequenceService;
 import com.test.app.service.UserService;
 import com.test.app.util.DateUtil;
@@ -97,7 +97,7 @@ public class CoreConfigurationController {
 	@Autowired
 	TmkCompSequenceService tmkCompSeqService;
 	@Autowired
-	SomeService someService;
+	AtmMasterService atmMasterService;
 	@Autowired
 	AtmCmdService atmCmdService;
 	@Autowired
@@ -180,7 +180,7 @@ public class CoreConfigurationController {
 				retval = 0;
 				logger.debug(atmDef);
 				atmMaster = mapUserInputToAtmMaster(atmDef);
-				int nora = someService.addNewAtmMachine(atmMaster);
+				int nora = atmMasterService.addNewAtmMachine(atmMaster);
 				logger.debug(nora);
 				if (retval > 0) {
 					model.addAttribute("message", StringUtil.SCFG3100_SUCCESS);
@@ -520,7 +520,7 @@ public class CoreConfigurationController {
 	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/view-atm-details", method = RequestMethod.GET)
 	public String view_FCFG3500_SCFG3500V(ModelMap model, @RequestParam String mid, @RequestParam String fid,
-			@RequestParam String sid, RedirectAttributes red, HttpServletRequest request) {
+			@RequestParam String sid, @RequestParam String pid, RedirectAttributes red, HttpServletRequest request) {
 
 		Map<String, List<String>> funModMap = new HashMap<String, List<String>>();
 		List<String> funList = new ArrayList<String>(), tempfunlist;
@@ -548,6 +548,8 @@ public class CoreConfigurationController {
 						}
 						model.addAttribute("funlist", funList);
 					}
+					atmMasterService.findAtmMasterInfoByPid(pid);
+					
 					model.addAttribute("funlist", funList);
 					model.addAttribute("btnList", vadto.getBtnList());
 					model.addAttribute("function", fid);
@@ -744,7 +746,7 @@ public class CoreConfigurationController {
 			if (vadto.isAllowedAccess()) {
 				if (SessionUtil.sessionValid(request.getSession(false), red)
 						.equalsIgnoreCase(StringUtil.SESSION_VALID)) {
-					activeAtmList = someService.getAllActiveAtm();
+					activeAtmList = atmMasterService.getAllActiveAtm();
 					Function currentfunction = funService.getFunctionById(fid);
 					if (request.getSession(false).getAttribute(StringUtil.SESSION_FUN_MOD_MAP) != null) {
 						funModMap = (Map<String, List<String>>) request.getSession(false)

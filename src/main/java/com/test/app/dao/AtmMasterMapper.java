@@ -9,9 +9,12 @@ import org.springframework.stereotype.Repository;
 import com.test.app.config.MyBatisUtil;
 import com.test.app.dto.AtmMaster;
 import com.test.app.dto.ViewAtmDto;
+import com.test.app.entity.CtrTab;
+import com.test.app.entity.DefTab;
+import com.test.app.entity.RtTab;
 
 @Repository
-public class SomeMapper implements ISomeMapper {
+public class AtmMasterMapper implements IAtmMasterMapper {
 
 	@Override
 	public int storeNewAtmInfo(AtmMaster atmMaster) {
@@ -53,6 +56,31 @@ public class SomeMapper implements ISomeMapper {
 			ex.printStackTrace();
 			session.rollback();
 		} finally {
+			session.close();
+		}
+		return atmlist;
+	}
+
+	@Override
+	public AtmMaster getAtmMasterByPid(String pid) {
+		// TODO Auto-generated method stub
+		AtmMaster atmlist = new AtmMaster();
+		AtmMaster temp = new AtmMaster();
+		SqlSession session = MyBatisUtil.getSqlSessionFactory().openSession();
+		try {
+			CtrTab ctrtab = session.selectOne("xyz", pid);
+			DefTab deftab = session.selectOne("select_deftab_by_id", pid);
+			RtTab rttab = session.selectOne("select_rttab_by_pid", pid);
+			
+			temp.setRttab(rttab);
+			temp.setCtrtab(ctrtab);
+			temp.setDeftab(deftab);
+			session.commit();
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			session.rollback();
+		} finally {
+			atmlist = temp;
 			session.close();
 		}
 		return atmlist;

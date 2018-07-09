@@ -62,6 +62,6 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<mapper resource="com/test/app/mapper/PIdSequenceMapper.xml" />
 		<mapper resource="com/test/app/mapper/TmkCompSequenceMapper.xml" />
 		<mapper resource="com/test/app/mapper/AtmCmdMapper.xml" />
-		<mapper resource="com/test/app/mapper/SomeMapper.xml" />
+		<mapper resource="com/test/app/mapper/AtmMasterMapper.xml" />
 	</mappers>
 </configuration>

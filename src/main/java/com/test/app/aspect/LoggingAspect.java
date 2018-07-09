@@ -20,7 +20,7 @@ public class LoggingAspect {
 	 * @Before("execution(* com.test.app.dao.UserMapper.get*(..)) || execution(* com.test.app.dao.UserMapper.*(..))")
 	 */
 	@Before("execution(int com.test.app.dao.AtmCmdMapper.*(..)) || execution(int com.test.app.dao.FunctiongrpMapper.*(..)) || execution(int com.test.app.dao.FungrpFunMapper.*(..)) || "
-			+ "execution(int com.test.app.dao.RoleFungrpMapper.*(..)) || execution(int com.test.app.dao.RoleMapper.*(..)) || execution(int com.test.app.dao.UserMapper.*(..)) || execution(int com.test.app.dao.SomeMapper.*(..))")
+			+ "execution(int com.test.app.dao.RoleFungrpMapper.*(..)) || execution(int com.test.app.dao.RoleMapper.*(..)) || execution(int com.test.app.dao.UserMapper.*(..)) || execution(int com.test.app.dao.AtmMasterMapper.*(..))")
 	public void logBeforeACLModule(JoinPoint joinPoint) {
 		String classname = "";
 		System.out.println("logBefore() is running!");
