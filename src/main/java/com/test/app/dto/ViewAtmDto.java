@@ -4,8 +4,8 @@ public class ViewAtmDto {
 
 	private String pid;
 	private String machine;
-	private String remoteAddress;
-	private String branchName;
+	private String remote_address;
+	private String branch_name;
 	private String street;
 	private String city;
 	private String state;
@@ -26,20 +26,20 @@ public class ViewAtmDto {
 		this.machine = machine;
 	}
 
-	public String getRemoteAddress() {
-		return remoteAddress;
+	public String getRemote_address() {
+		return remote_address;
 	}
 
-	public void setRemoteAddress(String remoteAddress) {
-		this.remoteAddress = remoteAddress;
+	public void setRemote_address(String remote_address) {
+		this.remote_address = remote_address;
 	}
 
-	public String getBranchName() {
-		return branchName;
+	public String getBranch_name() {
+		return branch_name;
 	}
 
-	public void setBranchName(String branchName) {
-		this.branchName = branchName;
+	public void setBranch_name(String branch_name) {
+		this.branch_name = branch_name;
 	}
 
 	public String getStreet() {

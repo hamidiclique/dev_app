@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import com.test.app.config.MyBatisUtil;
 import com.test.app.dto.AtmMaster;
 import com.test.app.dto.ViewAtmDto;
+import com.test.app.entity.AtmCurrencyTab;
 import com.test.app.entity.CtlaTab;
 import com.test.app.entity.CtrTab;
 import com.test.app.entity.DefTab;
@@ -69,16 +70,19 @@ public class AtmMasterMapper implements IAtmMasterMapper {
 		AtmMaster atmlist = new AtmMaster();
 		AtmMaster temp = new AtmMaster();
 		SqlSession session = MyBatisUtil.getSqlSessionFactory().openSession();
-		try {
-			CtrTab ctrtab = session.selectOne("xyz", pid);
-			DefTab deftab = session.selectOne("select_deftab_by_id", pid);
-			RtTab rttab = session.selectOne("select_rttab_by_pid", pid);
-			CtlaTab ctlatab = session.selectOne("test_ctla", pid);
-			TcpTab tcptab = session.selectOne("tcptest", pid);
-			
+		try {			
+			RtTab rttab = session.selectOne("selRtByPid", pid);
 			temp.setRttab(rttab);
-			temp.setCtrtab(ctrtab);
+			TcpTab tcptab = session.selectOne("selTcpByPid", pid);
+			temp.setTcptab(tcptab);
+			DefTab deftab = session.selectOne("selDefByPid", pid);
 			temp.setDeftab(deftab);
+			CtlaTab ctlatab = session.selectOne("selCtlaByPid", pid);
+			temp.setCtlatab(ctlatab);
+			CtrTab ctrtab = session.selectOne("selCtrByPid", pid);
+			temp.setCtrtab(ctrtab);
+			List<AtmCurrencyTab> atmcurrlist = session.selectList("selAtmCurrByPid", pid);
+			temp.setAtmcurrtablist(atmcurrlist);
 			session.commit();
 		} catch (Exception ex) {
 			ex.printStackTrace();

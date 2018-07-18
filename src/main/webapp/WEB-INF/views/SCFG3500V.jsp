@@ -24,6 +24,14 @@
 </head>
 <body>
 	<c:set var="contextPath" value="${pageContext.request.contextPath}" />
+	<c:set var="rttab" scope="session" value="${mstatm.rttab}" />
+	<c:set var="tcptab" scope="session" value="${mstatm.tcptab}" />
+	<c:set var="deftab" scope="session" value="${mstatm.deftab}" />
+	<c:set var="ctlatab" scope="session" value="${mstatm.ctlatab}" />
+	<c:set var="ctrtab" scope="session" value="${mstatm.ctrtab}" />
+	<c:set var="atmcurrtablist" scope="session"
+		value="${mstatm.atmcurrtablist}" />
+
 	<div class="rightPart">
 		<table width="80%" align="center">
 			<tr>
@@ -89,6 +97,7 @@
 								<th>&nbsp;<u>Device Name</u></th>
 								<th align="center"><u>Status</u></th>
 								<th>&nbsp;<u>Device Name</u></th>
+
 								<th align="center"><u>Status</u></th>
 							</tr>
 							<tr>
@@ -223,17 +232,26 @@
 						</tr>
 						<tr>
 							<td>&nbsp;Currency</td>
-							<td>&nbsp;BDT</td>
-							<td>&nbsp;BDT</td>
-							<td>&nbsp;BDT</td>
-							<td>&nbsp;BDT</td>
+							<c:forEach items="${atmcurrtablist}" var="element">
+								<c:choose>
+									<c:when test="${element.iso_currency_type == 50}">
+										<td>&nbsp;BDT</td>
+									</c:when>
+									<c:when test="${element.iso_currency_type == 840}">
+										<td>&nbsp;USD</td>
+									</c:when>
+									<c:otherwise>
+										<td>&nbsp;Unknown</td>
+									</c:otherwise>
+								</c:choose>
+							</c:forEach>
 						</tr>
 						<tr>
 							<td>&nbsp;Denominations</td>
-							<td>&nbsp;500</td>
-							<td>&nbsp;1000</td>
-							<td>&nbsp;1000</td>
-							<td>&nbsp;1000</td>
+							<td>&nbsp;${deftab.d1val}</td>
+							<td>&nbsp;${deftab.d2val}</td>
+							<td>&nbsp;${deftab.d3val}</td>
+							<td>&nbsp;${deftab.d4val}</td>
 						</tr>
 						<tr>
 							<td>&nbsp;Threshold</td>
@@ -243,25 +261,35 @@
 							<td>&nbsp;50</td>
 						</tr>
 						<tr>
-							<td>&nbsp;Dispensed</td>
-							<td>&nbsp;0</td>
-							<td>&nbsp;21</td>
-							<td>&nbsp;43</td>
-							<td>&nbsp;0</td>
+							<td>&nbsp;Dispensed</td>							
+							<td>&nbsp;${ctrtab.c_c1bills}</td>
+							<td>&nbsp;${ctrtab.c_c2bills}</td>
+							<td>&nbsp;${ctrtab.c_c3bills}</td>
+							<td>&nbsp;${ctrtab.c_c4bills}</td>
+														
+							<%-- <td>&nbsp;${ctrtab.c1_start_bills - ctrtab.c_c1bills}</td>
+							<td>&nbsp;${ctrtab.c2_start_bills - ctrtab.c_c2bills}</td>
+							<td>&nbsp;${ctrtab.c3_start_bills - ctrtab.c_c3bills}</td>
+							<td>&nbsp;${ctrtab.c4_start_bills - ctrtab.c_c4bills}</td> --%>
 						</tr>
 						<tr>
 							<td>&nbsp;Rejected</td>
-							<td>&nbsp;1</td>
-							<td>&nbsp;10</td>
-							<td>&nbsp;2</td>
-							<td>&nbsp;2</td>
+							<td>&nbsp;${ctrtab.c_c1brej}</td>
+							<td>&nbsp;${ctrtab.c_c2brej}</td>
+							<td>&nbsp;${ctrtab.c_c3brej}</td>
+							<td>&nbsp;${ctrtab.c_c4brej}</td>
 						</tr>
 						<tr>
 							<td>&nbsp;Remaining</td>
-							<td>&nbsp;499</td>
-							<td>&nbsp;469</td>
-							<td>&nbsp;455</td>
-							<td>&nbsp;498</td>
+							<td>&nbsp;${ctrtab.c1_start_bills - (ctrtab.c_c1bills + ctrtab.c_c1brej)}</td>
+							<td>&nbsp;${ctrtab.c2_start_bills - (ctrtab.c_c2bills + ctrtab.c_c2brej)}</td>
+							<td>&nbsp;${ctrtab.c3_start_bills - (ctrtab.c_c3bills + ctrtab.c_c3brej)}</td>
+							<td>&nbsp;${ctrtab.c4_start_bills - (ctrtab.c_c4bills + ctrtab.c_c4brej)}</td>
+
+							<%-- <td>&nbsp;${ctrtab.c_c1bills - ctrtab.c_c1brej}</td>
+							<td>&nbsp;${ctrtab.c_c2bills - ctrtab.c_c2brej}</td>
+							<td>&nbsp;${ctrtab.c_c3bills - ctrtab.c_c3brej}</td>
+							<td>&nbsp;${ctrtab.c_c4bills - ctrtab.c_c4brej}</td> --%>
 						</tr>
 					</table>
 				</td>
@@ -297,7 +325,7 @@
 							<th colspan="4" class="FormTitleBGColor">Others</th>
 						</tr>
 						<tr>
-							<td>&nbsp;Cards Cpatured</td>
+							<td>&nbsp;Cards Captured</td>
 							<td>&nbsp;0</td>
 							<td>&nbsp;CPM Bin 2</td>
 							<td>&nbsp;0</td>

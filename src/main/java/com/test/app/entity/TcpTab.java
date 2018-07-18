@@ -45,7 +45,11 @@ public class TcpTab implements Serializable {
 	}
 
 	public long getPid() {
-		return this.pid;
+		return pid;
+	}
+
+	public void setPid(long pid) {
+		this.pid = pid;
 	}
 
 	public BigDecimal getDepends_on() {
@@ -118,10 +122,6 @@ public class TcpTab implements Serializable {
 
 	public void setRemote_port(String remote_port) {
 		this.remote_port = remote_port;
-	}
-
-	public void setPid(long pid) {
-		this.pid = pid;
 	}
 
 }

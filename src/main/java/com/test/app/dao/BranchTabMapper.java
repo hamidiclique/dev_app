@@ -48,4 +48,57 @@ public class BranchTabMapper implements IBranchTabMapper {
 		return brnch;
 	}
 
+	@Override
+	public int updateExistingBranch(BranchTab branchTab) {
+		// TODO Auto-generated method stub
+		int nora = 0;
+		SqlSession session = MyBatisUtil.getSqlSessionFactory().openSession();
+		try {
+			nora = session.update("updateBranchById", branchTab);
+			session.commit();
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.toString();
+			session.rollback();
+		} finally {
+			session.close();
+		}
+		return nora;
+	}
+
+	@Override
+	public int getNextBranchId() {
+		// TODO Auto-generated method stub
+		int val = 0;
+		SqlSession session = MyBatisUtil.getSqlSessionFactory().openSession();
+		try {
+			val = session.selectOne("getNextBranchId");
+			session.commit();
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.toString();
+			session.rollback();
+		} finally {
+			session.close();
+		}
+		return val;
+	}
+
+	@Override
+	public int saveNewBranchInfo(BranchTab branchTab) {
+		// TODO Auto-generated method stub
+		int nora = 0;
+		SqlSession session = MyBatisUtil.getSqlSessionFactory().openSession();
+		try {
+			nora = session.insert("insertNewBranch", branchTab);
+			session.commit();
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			session.rollback();
+		} finally {
+			session.close();
+		}
+		return nora;
+	}
+
 }

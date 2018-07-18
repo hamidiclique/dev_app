@@ -5,9 +5,10 @@
 <html>
 <head>
 <link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/css/table.css">
+	href="${pageContext.request.contextPath}/resources/css/atm.css">
+
 <script
-	src="${pageContext.request.contextPath}/resources/js/SCFG3100.js"></script>
+	src="${pageContext.request.contextPath}/resources/js/SCFG3200.js"></script>
 <script>
 	$(document).ready(function() {
 		$("#atmInstallDate").datepicker();
@@ -21,6 +22,14 @@
 #side ul {
 	height: 815px;
 }
+
+#table-two {
+	border: 0px solid #DCDCDC;
+}
+
+/* #table-three {
+	border: 2px solid #DCDCDC;
+} */
 </style>
 </head>
 <body>
@@ -34,147 +43,289 @@
 					</tr>
 				</table>
 				<br>
-				<input id="checkPasswdValid" type="hidden" readonly="readonly"
-					value="${testPasswdValid}">
-				<input id="minpwdlen" type="hidden" readonly="readonly"
-					value="${passMinSize}">
-				<input id="maxpwdlen" type="hidden" readonly="readonly"
-					value="${passMaxSize}">
 
-				<form:form action="submit-add-new-atm" modelAttribute="atmDef">
-					<table class="TableContent" width="80%" align="center">
-						<%-- <tr>
-							<th class="FormCellBGColor"><span class="required">*</span>ATM
-								ID:</th>
-							<td class="FormInputColor"><form:input type="text"
-									name="pid" path="pid" required="true"></form:input></td>
-						</tr> --%>
+				<form:form action="" modelAttribute="">
+					<table class="TableContent" width="80%" align="center"
+						id="table-one">
 						<tr>
-							<th class="FormCellBGColor"><span class="required">*</span>Hostname:</th>
-							<td class="FormInputColor"><form:input type="text"
-									maxlength="64" name="machine" path="machine" required="true"></form:input></td>
+							<th class="FormTitleBGColor" colspan="6">Basic Information</th>
+						</tr>
+						<tr>
+							<th><div class="shift-right">
+									<span class="required">*</span>ATM ID:
+								</div></th>
+							<td><input type="text" name="pid" required></input></td>
+
+							<th><div class="shift-right">
+									<span class="required">*</span>Location:
+								</div></th>
+							<td><input type="text" maxlength="18" name="street" required></input></td>
+
+							<th><div class="shift-right">
+									<span class="required">*</span>Branch:
+								</div></th>
+							<td><select>
+									<c:forEach var="item" items="${branchOptions}">
+										<option value="${item.key}"><c:out
+												value="${item.value}" /></option>
+									</c:forEach>
+							</select></td>
+						</tr>
+						<tr>
+							<th><div class="shift-right">
+									<span class="required">*</span>City:
+								</div></th>
+							<td><input type="text" maxlength="13" name="city" required></input></td>
+							<th><div class="shift-right">
+									<span class="required">*</span>IP Address:
+								</div></th>
+							<td><input type="text" maxlength="127" name="remoteAddress"
+								required></input></td>
+							<th><div class="shift-right">
+									<span class="required">*</span>Comms Type:
+								</div></th>
+							<td><select>
+									<c:forEach var="item" items="${protoOptions}">
+										<option value="${item.key}"><c:out
+												value="${item.value}" /></option>
+									</c:forEach>
+							</select></td>
+						</tr>
+						<tr>
+							<th><div class="shift-right">
+									<span class="required">*</span>Owner:
+								</div></th>
+							<td><input type="text" name="owner" required></input></td>
+							<th><div class="shift-right">
+									<span class="required">*</span>Make:
+								</div></th>
+							<td><select>
+									<option value="">--PLEASE SELECT--</option>
+							</select></td>
+							<th><div class="shift-right">
+									<span class="required">*</span>Model:
+								</div></th>
+							<td><input type="text" name="model" required></input></td>
+						</tr>
+						<tr>
+							<th><div class="shift-right">
+									<span class="required">*</span>Max Notes Presented:
+								</div></th>
+							<td><select>
+									<option value="">--PLEASE SELECT--</option>
+							</select></td>
+							<th><div class="shift-right">
+									<span class="required">*</span>ATM Installation Date:
+								</div></th>
+							<td><input id="atmInstallDate" name="atmInstallDate"></input></td>
+							<th></th>
+							<td></td>
+						</tr>
+						<tr>
+							<th colspan="6"></th>
+						</tr>
+						<tr>
+							<th class="FormTitleBGColor" colspan="6">Supervisor Info</th>
+						</tr>
+						<tr>
+							<th><div class="shift-right">
+									<span class="required">*</span>Supervisor Name:
+								</div></th>
+							<td><input type="text" name="model" required></input></td>
+							<th><div class="shift-right">
+									<span class="required">*</span>Contact:
+								</div></th>
+							<td><input type="text" name="model" required></input></td>
+							<th><div class="shift-right">
+									<span class="required">*</span>Email:
+								</div></th>
+							<td><input type="text" name="model" required></input></td>
+						</tr>
+						<tr>
+							<th></th>
+							<td></td>
+							<th></th>
+							<td></td>
+							<th></th>
+							<td>name@domain.com
 						</tr>
 
 						<tr>
-							<th class="FormCellBGColor"><span class="required">*</span>Branch:</th>
-							<td class="FormInputColor"><form:select path="branch">
-									<form:options items="${branchOptions}" />
-								</form:select></td>
+							<th class="FormTitleBGColor" colspan="6">Application /
+								Drivers</th>
 						</tr>
 						<tr>
-							<th class="FormCellBGColor"><span class="required">*</span>City:</th>
-							<td class="FormInputColor"><form:input type="text"
-									maxlength="13" name="city" path="city" required="true"></form:input></td>
+							<th><div class="shift-right">
+									<span class="required">*</span>Application Type:
+								</div></th>
+							<td><select>
+									<option value="">--PLEASE SELECT--</option>
+							</select></td>
+							<th><div class="shift-right">
+									<span class="required">*</span>Dowload Image:
+								</div></th>
+							<td><select>
+									<option value="">--PLEASE SELECT--</option>
+							</select></td>
+							<th></th>
+							<td></td>
 						</tr>
 						<tr>
-							<th class="FormCellBGColor"><span class="required">*</span>IP
-								Address:</th>
-							<td class="FormInputColor"><form:input type="text"
-									maxlength="127" name="remoteAddress" path="remoteAddress"
-									required="true"></form:input></td>
+							<th colspan="6"></th>
 						</tr>
 						<tr>
-							<th class="FormCellBGColor"><span class="required">*</span>Comms
-								Type:</th>
-							<td class="FormInputColor"><form:select path="proto">
-									<form:options items="${protoOptions}" />
-								</form:select></td>
+							<th class="FormTitleBGColor" colspan="6">Devices</th>
+						</tr>
+						<tr style="background-color: #FFF;">
+							<td colspan="6"><br></td>
 						</tr>
 						<tr>
-							<th class="FormCellBGColor"><span class="required">*</span>Remote
-								Port:</th>
-							<td class="FormInputColor"><form:select path="remotePort">
-									<form:options items="${remotePortOptions}" />
-								</form:select></td>
-						</tr>
-						<tr>
-							<th class="FormCellBGColor"><span class="required">*</span>Local
-								Port:</th>
-							<td class="FormInputColor"><form:select path="localPort">
-									<form:options items="${localPortOptions}" />
-								</form:select></td>
-						</tr>
-						<tr>
-							<th class="FormCellBGColor"><span class="required">*</span>Initiator:</th>
-							<td class="FormInputColor"><form:select path="initiator">
-									<form:options items="${initOptions}" />
-								</form:select></td>
-						</tr>
-						<tr>
-							<th class="FormCellBGColor"><span class="required">*</span>Format:</th>
-							<td class="FormInputColor"><form:select path="format">
-									<form:options items="${formatOptions}" />
-								</form:select></td>
-						</tr>
-						<tr>
-							<th class="FormCellBGColor"><span class="required">*</span>Denomination
-								Value:</th>
-							<td class="FormInputColor"><span>#1</span> <form:select
-									path="d1val">
-									<form:options items="${dvalOptions}" />
-								</form:select>&nbsp;&nbsp; <span>#2</span> <form:select path="d2val">
-									<form:options items="${dvalOptions}" />
-								</form:select>&nbsp;&nbsp; <span>#3</span> <form:select path="d3val">
-									<form:options items="${dvalOptions}" />
-								</form:select>&nbsp;&nbsp; <span>#4</span> <form:select path="d4val">
-									<form:options items="${dvalOptions}" />
-								</form:select></td>
-						</tr>
-						<tr>
-							<th class="FormCellBGColor"><span class="required">*</span>Street:</th>
-							<td class="FormInputColor"><form:input type="text"
-									maxlength="18" name="street" path="street" required="true"></form:input></td>
-						</tr>
-
-						<tr>
-							<th class="FormCellBGColor"><span class="required">*</span>State:</th>
-							<td class="FormInputColor"><form:select path="state">
-									<form:options items="${stateOptions}" />
-								</form:select></td>
-						</tr>
-						<tr>
-							<th class="FormCellBGColor"><span class="required">*</span>Circuit:</th>
-							<td class="FormInputColor"><form:select path="circuit">
-									<form:options items="${circuitOptions}" />
-								</form:select></td>
-						</tr>
-						<tr>
-							<th class="FormCellBGColor">A/C No:</th>
-							<td class="FormInputColor"><form:input type="text"
-									maxlength="16" name="acct" path="acct"></form:input></td>
-						</tr>
-						<tr>
-							<th class="FormCellBGColor"><span class="required">*</span>Tchar:</th>
-							<td class="FormInputColor"><form:select path="tchar">
-									<form:options items="${tcharOptions}" />
-								</form:select></td>
-						</tr>
-						<tr>
-							<th class="FormCellBGColor"><span class="required">*</span>Acquiring
-								BIN:</th>
-							<td class="FormInputColor"><form:input type="text"
-									maxlength="15" name="loader" path="loader" required="true"></form:input></td>
-						</tr>
-						<tr>
-							<th class="FormCellBGColor"><span class="required">*</span>Pin
-								Block Format:</th>
-							<td class="FormInputColor"><form:select path="pinblkFmt">
-									<form:options items="${pinblkFmtOptions}" />
-								</form:select></td>
-						</tr>
-						<tr>
-							<th class="FormCellBGColor"><span class="required">*</span>PCI
-								Compliant:</th>
-							<td class="FormInputColor"><form:select path="pciCompliant">
-									<form:options items="${pciCompliantOptions}" />
-								</form:select></td>
-						</tr>
-						<tr>
-							<th class="FormCellBGColor"><span class="required">*</span>Capture
-								Card:</th>
-							<td class="FormInputColor"><form:select path="attribute">
-									<form:options items="${cardCaptureOptions}" />
-								</form:select></td>
+							<th colspan="2">
+								<table align="center" width="100%" id="table-two">
+									<tr>
+										<th class="SubFormCellBGColor">Select</th>
+										<th class="SubFormCellBGColor">Device</th>
+										<th class="SubFormCellBGColor">Fatal</th>
+									</tr>
+									<tr>
+										<td class="SubFormInputColor"><input type="checkbox"
+											name="" value="" checked></td>
+										<td class="SubFormInputColor">Camera 1</td>
+										<td class="SubFormInputColor"><input type="checkbox"
+											name="" value=""></td>
+									</tr>
+									<tr>
+										<td class="SubFormInputColorEven"><input type="checkbox"
+											name="" value="" checked></td>
+										<td class="SubFormInputColorEven">Camera 2</td>
+										<td class="SubFormInputColorEven"><input type="checkbox"
+											name="" value=""></td>
+									</tr>
+									<tr>
+										<td class="SubFormInputColor"><input type="checkbox"
+											name="" value="" checked></td>
+										<td class="SubFormInputColor">Camera 3</td>
+										<td class="SubFormInputColor"><input type="checkbox"
+											name="" value=""></td>
+									</tr>
+									<tr>
+										<td class="SubFormInputColorEven"><input type="checkbox"
+											name="" value="" checked></td>
+										<td class="SubFormInputColorEven">Camera 4</td>
+										<td class="SubFormInputColorEven"><input type="checkbox"
+											name="" value=""></td>
+									</tr>
+									<tr>
+										<td class="SubFormInputColor"><input type="checkbox"
+											name="" value="" checked></td>
+										<td class="SubFormInputColor">Disk 1</td>
+										<td class="SubFormInputColor"><input type="checkbox"
+											name="" value=""></td>
+									</tr>
+								</table>
+							</th>
+							<th colspan="4">
+								<div>
+									<table align="center" width="40%" id="table-three">
+										<tr>
+											<th><input type="radio" name="transaction" value="wth" /><span
+												style="vertical-align: bottom;">&nbsp;Withdrawal</span></th>
+											<th><input type="radio" name="transaction" value="dep" /><span
+												style="vertical-align: bottom;">&nbsp;Deposit</span></th>
+										</tr>
+									</table>
+									<table align="center" width="100%" id="table-four">
+										<tr>
+											<th class="FormTitleBGColor"></th>
+											<th class="FormTitleBGColor">Currency</th>
+											<th class="FormTitleBGColor">Denomination</th>
+											<th class="FormTitleBGColor">Threshold</th>
+										</tr>
+										<tr>
+											<td class="SubFormInputColor"><div class="shift-right">
+													<span class="required">*</span>Cassette 1:
+												</div></td>
+											<td class="FormInputColor"><select>
+													<!-- <option value="">--PLEASE SELECT--</option> -->
+													<c:forEach var="pointer" items="${currencyOptions}">
+														<option value="${pointer.key}"><c:out
+																value="${pointer.value}" /></option>
+													</c:forEach>
+											</select></td>
+											<td class="FormInputColor"><select>
+													<!-- <option value="">--PLEASE SELECT--</option> -->
+													<c:forEach var="item" items="${dvalOptions}">
+														<option value="${item.key}"><c:out
+																value="${item.value}" /></option>
+													</c:forEach>
+											</select></td>
+											<td class="FormInputColor"><input type="text"
+												name="model" required></input></td>
+										</tr>
+										<tr>
+											<td class="SubFormInputColor"><div class="shift-right">
+													<span class="required">*</span>Cassette 2:
+												</div></td>
+											<td class="FormInputColor"><select>
+													<!-- <option value="">--PLEASE SELECT--</option> -->
+													<c:forEach var="pointer" items="${currencyOptions}">
+														<option value="${pointer.key}"><c:out
+																value="${pointer.value}" /></option>
+													</c:forEach>
+											</select></td>
+											<td class="FormInputColor"><select>
+													<!-- <option value="">--PLEASE SELECT--</option> -->
+													<c:forEach var="item" items="${dvalOptions}">
+														<option value="${item.key}"><c:out
+																value="${item.value}" /></option>
+													</c:forEach>
+											</select></td>
+											<td class="FormInputColor"><input type="text"
+												name="model" required></input></td>
+										</tr>
+										<tr>
+											<td class="SubFormInputColor"><div class="shift-right">
+													Cassette 3:</div></td>
+											<td class="FormInputColor"><select>
+													<!-- <option value="">--PLEASE SELECT--</option> -->
+													<c:forEach var="pointer" items="${currencyOptions}">
+														<option value="${pointer.key}"><c:out
+																value="${pointer.value}" /></option>
+													</c:forEach>
+											</select></td>
+											<td class="FormInputColor"><select>
+													<!-- <option value="">--PLEASE SELECT--</option> -->
+													<c:forEach var="item" items="${dvalOptions}">
+														<option value="${item.key}"><c:out
+																value="${item.value}" /></option>
+													</c:forEach>
+											</select></td>
+											<td class="FormInputColor"><input type="text"
+												name="model" required></input></td>
+										</tr>
+										<tr>
+											<td class="SubFormInputColor"><div class="shift-right">
+													Cassette 4:</div></td>
+											<td class="FormInputColor"><select>
+													<!-- <option value="">--PLEASE SELECT--</option> -->
+													<c:forEach var="pointer" items="${currencyOptions}">
+														<option value="${pointer.key}"><c:out
+																value="${pointer.value}" /></option>
+													</c:forEach>
+											</select></td>
+											<td class="FormInputColor"><select>
+													<!-- <option value="">--PLEASE SELECT--</option> -->
+													<c:forEach var="item" items="${dvalOptions}">
+														<option value="${item.key}"><c:out
+																value="${item.value}" /></option>
+													</c:forEach>
+											</select></td>
+											<td class="FormInputColor"><input type="text"
+												name="model" required></input></td>
+										</tr>
+									</table>
+								</div>
+							</th>
 						</tr>
 					</table>
 					<table align="center" width="80%">
@@ -183,8 +334,8 @@
 								<p>
 									<input type="submit" class="button" id="btnAddNewUser"
 										value="Add" /> <input type="reset" class="button"
-										value="Reset" /> <a href="${uponelvl}"><input
-										class="button" type="button" value="Return" /> </a>
+										value="Reset" /> <%-- <a href="${uponelvl}"><input
+										class="button" type="button" value="Return" /> </a> --%>
 								</p>
 							</td>
 						</tr>

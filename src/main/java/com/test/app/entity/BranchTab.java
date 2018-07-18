@@ -16,51 +16,51 @@ public class BranchTab implements Serializable {
 
 	@Id
 	@Column(name = "BRANCH_ID")
-	private long branchId;
+	private long branch_id;
 
 	@Column(name = "BRANCH_ADDR")
-	private String branchAddr;
+	private String branch_addr;
 
 	@Column(name = "BRANCH_ADDR2")
-	private String branchAddr2;
+	private String branch_addr2;
 
 	@Column(name = "BRANCH_CITY")
-	private String branchCity;
+	private String branch_city;
 
 	@Column(name = "BRANCH_EMAIL1")
-	private String branchEmail1;
+	private String branch_email1;
 
 	@Column(name = "BRANCH_EMAIL2")
-	private String branchEmail2;
+	private String branch_email2;
 
 	@Column(name = "BRANCH_MOBILE")
-	private String branchMobile;
+	private String branch_mobile;
 
 	@Column(name = "BRANCH_NAME")
-	private String branchName;
+	private String branch_name;
 
 	@Column(name = "BRANCH_PHONE")
-	private String branchPhone;
+	private String branch_phone;
 
 	private String iso;
 
 	@Column(name = "KEY_CUSTODIAN1_NAME")
-	private String keyCustodian1Name;
+	private String key_custodian1_name;
 
 	@Column(name = "KEY_CUSTODIAN1_TITLE")
-	private String keyCustodian1Title;
+	private String key_custodian1_title;
 
 	@Column(name = "KEY_CUSTODIAN2_NAME")
-	private String keyCustodian2Name;
+	private String key_custodian2_name;
 
 	@Column(name = "KEY_CUSTODIAN2_TITLE")
-	private String keyCustodian2Title;
+	private String key_custodian2_title;
 
 	@Column(name = "OFFICER_NAME1")
-	private String officerName1;
+	private String officer_name1;
 
 	@Column(name = "OFFICER_NAME2")
-	private String officerName2;
+	private String officer_name2;
 
 	private BigDecimal region;
 
@@ -68,81 +68,81 @@ public class BranchTab implements Serializable {
 	private BigDecimal sequence;
 
 	@Column(name = "SEQUENCE_LEN")
-	private BigDecimal sequenceLen;
+	private BigDecimal sequence_len;
 
 	public BranchTab() {
 	}
 
-	public long getBranchId() {
-		return branchId;
+	public long getBranch_id() {
+		return branch_id;
 	}
 
-	public void setBranchId(long branchId) {
-		this.branchId = branchId;
+	public void setBranch_id(long branch_id) {
+		this.branch_id = branch_id;
 	}
 
-	public String getBranchAddr() {
-		return branchAddr;
+	public String getBranch_addr() {
+		return branch_addr;
 	}
 
-	public void setBranchAddr(String branchAddr) {
-		this.branchAddr = branchAddr;
+	public void setBranch_addr(String branch_addr) {
+		this.branch_addr = branch_addr;
 	}
 
-	public String getBranchAddr2() {
-		return branchAddr2;
+	public String getBranch_addr2() {
+		return branch_addr2;
 	}
 
-	public void setBranchAddr2(String branchAddr2) {
-		this.branchAddr2 = branchAddr2;
+	public void setBranch_addr2(String branch_addr2) {
+		this.branch_addr2 = branch_addr2;
 	}
 
-	public String getBranchCity() {
-		return branchCity;
+	public String getBranch_city() {
+		return branch_city;
 	}
 
-	public void setBranchCity(String branchCity) {
-		this.branchCity = branchCity;
+	public void setBranch_city(String branch_city) {
+		this.branch_city = branch_city;
 	}
 
-	public String getBranchEmail1() {
-		return branchEmail1;
+	public String getBranch_email1() {
+		return branch_email1;
 	}
 
-	public void setBranchEmail1(String branchEmail1) {
-		this.branchEmail1 = branchEmail1;
+	public void setBranch_email1(String branch_email1) {
+		this.branch_email1 = branch_email1;
 	}
 
-	public String getBranchEmail2() {
-		return branchEmail2;
+	public String getBranch_email2() {
+		return branch_email2;
 	}
 
-	public void setBranchEmail2(String branchEmail2) {
-		this.branchEmail2 = branchEmail2;
+	public void setBranch_email2(String branch_email2) {
+		this.branch_email2 = branch_email2;
 	}
 
-	public String getBranchMobile() {
-		return branchMobile;
+	public String getBranch_mobile() {
+		return branch_mobile;
 	}
 
-	public void setBranchMobile(String branchMobile) {
-		this.branchMobile = branchMobile;
+	public void setBranch_mobile(String branch_mobile) {
+		this.branch_mobile = branch_mobile;
 	}
 
-	public String getBranchName() {
-		return branchName;
+	public String getBranch_name() {
+		return branch_name;
 	}
 
-	public void setBranchName(String branchName) {
-		this.branchName = branchName;
+	public void setBranch_name(String branch_name) {
+		this.branch_name = branch_name;
 	}
 
-	public String getBranchPhone() {
-		return branchPhone;
+	public String getBranch_phone() {
+		return branch_phone;
 	}
 
-	public void setBranchPhone(String branchPhone) {
-		this.branchPhone = branchPhone;
+	public void setBranch_phone(String branch_phone) {
+		this.branch_phone = branch_phone;
 	}
 
 	public String getIso() {
@@ -153,52 +153,52 @@ public class BranchTab implements Serializable {
 		this.iso = iso;
 	}
 
-	public String getKeyCustodian1Name() {
-		return keyCustodian1Name;
+	public String getKey_custodian1_name() {
+		return key_custodian1_name;
 	}
 
-	public void setKeyCustodian1Name(String keyCustodian1Name) {
-		this.keyCustodian1Name = keyCustodian1Name;
+	public void setKey_custodian1_name(String key_custodian1_name) {
+		this.key_custodian1_name = key_custodian1_name;
 	}
 
-	public String getKeyCustodian1Title() {
-		return keyCustodian1Title;
+	public String getKey_custodian1_title() {
+		return key_custodian1_title;
 	}
 
-	public void setKeyCustodian1Title(String keyCustodian1Title) {
-		this.keyCustodian1Title = keyCustodian1Title;
+	public void setKey_custodian1_title(String key_custodian1_title) {
+		this.key_custodian1_title = key_custodian1_title;
 	}
 
-	public String getKeyCustodian2Name() {
-		return keyCustodian2Name;
+	public String getKey_custodian2_name() {
+		return key_custodian2_name;
 	}
 
-	public void setKeyCustodian2Name(String keyCustodian2Name) {
-		this.keyCustodian2Name = keyCustodian2Name;
+	public void setKey_custodian2_name(String key_custodian2_name) {
+		this.key_custodian2_name = key_custodian2_name;
 	}
 
-	public String getKeyCustodian2Title() {
-		return keyCustodian2Title;
+	public String getKey_custodian2_title() {
+		return key_custodian2_title;
 	}
 
-	public void setKeyCustodian2Title(String keyCustodian2Title) {
-		this.keyCustodian2Title = keyCustodian2Title;
+	public void setKey_custodian2_title(String key_custodian2_title) {
+		this.key_custodian2_title = key_custodian2_title;
 	}
 
-	public String getOfficerName1() {
-		return officerName1;
+	public String getOfficer_name1() {
+		return officer_name1;
 	}
 
-	public void setOfficerName1(String officerName1) {
-		this.officerName1 = officerName1;
+	public void setOfficer_name1(String officer_name1) {
+		this.officer_name1 = officer_name1;
 	}
 
-	public String getOfficerName2() {
-		return officerName2;
+	public String getOfficer_name2() {
+		return officer_name2;
 	}
 
-	public void setOfficerName2(String officerName2) {
-		this.officerName2 = officerName2;
+	public void setOfficer_name2(String officer_name2) {
+		this.officer_name2 = officer_name2;
 	}
 
 	public BigDecimal getRegion() {
@@ -217,12 +217,12 @@ public class BranchTab implements Serializable {
 		this.sequence = sequence;
 	}
 
-	public BigDecimal getSequenceLen() {
-		return sequenceLen;
+	public BigDecimal getSequence_len() {
+		return sequence_len;
 	}
 
-	public void setSequenceLen(BigDecimal sequenceLen) {
-		this.sequenceLen = sequenceLen;
+	public void setSequence_len(BigDecimal sequence_len) {
+		this.sequence_len = sequence_len;
 	}
 
 }

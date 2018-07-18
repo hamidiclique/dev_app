@@ -6,8 +6,14 @@ import com.test.app.entity.BranchTab;
 
 public interface IBranchTabMapper {
 
-	List<BranchTab> listAllBranches();
+	public List<BranchTab> listAllBranches();
 
-	BranchTab getBranchById(String bid);
+	public BranchTab getBranchById(String bid);
+
+	public int updateExistingBranch(BranchTab branchTab);
+
+	public int getNextBranchId();
+
+	public int saveNewBranchInfo(BranchTab branchTab);
 
 }

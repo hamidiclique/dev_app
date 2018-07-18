@@ -29,6 +29,8 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<typeAlias alias="tmkcomptab" type="com.test.app.entity.TmkCompTab" />
 		<typeAlias alias="tmkreqtab" type="com.test.app.entity.TmkReqTab" />
 		<typeAlias alias="atmcmdtab" type="com.test.app.entity.AtmCmdTab" />
+		<typeAlias alias="atmcurrtab" type="com.test.app.entity.AtmCurrencyTab" />
+		<typeAlias alias="mstcurr" type="com.test.app.entity.MstCurrIso" />
 		<typeAlias alias="viewatmdto" type="com.test.app.dto.ViewAtmDto" />
 	</typeAliases>
 
@@ -63,5 +65,6 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<mapper resource="com/test/app/mapper/TmkCompSequenceMapper.xml" />
 		<mapper resource="com/test/app/mapper/AtmCmdMapper.xml" />
 		<mapper resource="com/test/app/mapper/AtmMasterMapper.xml" />
+		<mapper resource="com/test/app/mapper/MstCurrencyMapper.xml" />
 	</mappers>
 </configuration>

@@ -5,26 +5,26 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="com.test.app.dao.BranchTabMapper">
 
 	<resultMap type="branch" id="result">
-		<id property="branchId" column="BRANCH_ID" />
-		<result property="branchAddr" column="BRANCH_ADDR" />
-		<result property="branchAddr2" column="BRANCH_ADDR2" />
-		<result property="branchCity" column="BRANCH_CITY" />
-		<result property="branchEmail1" column="BRANCH_EMAIL1" />
-		<result property="branchEmail2" column="BRANCH_EMAIL2" />
-		<result property="branchMobile" column="BRANCH_MOBILE" />
-		<result property="branchName" column="BRANCH_NAME" />
-		<result property="branchPhone" column="BRANCH_PHONE" />
+		<id property="branch_id" column="BRANCH_ID" />
+		<result property="branch_addr" column="BRANCH_ADDR" />
+		<result property="branch_addr2" column="BRANCH_ADDR2" />
+		<result property="branch_city" column="BRANCH_CITY" />
+		<result property="branch_email1" column="BRANCH_EMAIL1" />
+		<result property="branch_email2" column="BRANCH_EMAIL2" />
+		<result property="branch_mobile" column="BRANCH_MOBILE" />
+		<result property="branch_name" column="BRANCH_NAME" />
+		<result property="branch_phone" column="BRANCH_PHONE" />
 		<result property="iso" column="ISO" />
-		<result property="keyCustodian1Name" column="KEY_CUSTODIAN1_NAME" />
-		<result property="keyCustodian1Title" column="KEY_CUSTODIAN1_TITLE" />
-		<result property="keyCustodian2Name" column="KEY_CUSTODIAN2_NAME" />	
-		<result property="keyCustodian2Title" column="KEY_CUSTODIAN2_TITLE" />
-		<result property="officerName1" column="OFFICER_NAME1" />
-		<result property="officerName2" column="OFFICER_NAME2" />
+		<result property="key_custodian1_name" column="KEY_CUSTODIAN1_NAME" />
+		<result property="key_custodian1_title" column="KEY_CUSTODIAN1_TITLE" />
+		<result property="key_custodian2_name" column="KEY_CUSTODIAN2_NAME" />
+		<result property="key_custodian2_title" column="KEY_CUSTODIAN2_TITLE" />
+		<result property="officer_name1" column="OFFICER_NAME1" />
+		<result property="officer_name2" column="OFFICER_NAME2" />
 		<result property="region" column="REGION" />
 		<result property="sequence" column="SEQUENCE" />
-		<result property="sequenceLen" column="SEQUENCE_LEN" />
-		
+		<result property="sequence_len" column="SEQUENCE_LEN" />
+
 	</resultMap>
 
 	<select id="getAllBranches" resultType="branch" resultMap="result">
@@ -33,6 +33,43 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<select id="findBranchById" parameterType="String" resultType="branch"
 		resultMap="result">
-		SELECT * FROM BRANCH_TAB WHERE BRANCH_ID = #{branchId} ORDER BY BRANCH_NAME
+		SELECT * FROM BRANCH_TAB WHERE BRANCH_ID = #{branch_id} ORDER
+		BY BRANCH_NAME
 	</select>
+
+	<update id="updateBranchById" parameterType="branch">
+		UPDATE BRANCH_TAB
+		SET
+		BRANCH_ADDR = #{branch_addr}, BRANCH_ADDR2 = #{branch_addr2},
+		BRANCH_CITY = #{branch_city},
+		BRANCH_EMAIL1 = #{branch_email1},
+		BRANCH_EMAIL2 = #{branch_email2}, BRANCH_MOBILE = #{branch_mobile},
+		BRANCH_NAME = #{branch_name},
+		BRANCH_PHONE = #{branch_phone}, ISO =
+		#{iso}, KEY_CUSTODIAN1_NAME = #{key_custodian1_name},
+		KEY_CUSTODIAN2_NAME = #{key_custodian2_name},
+		KEY_CUSTODIAN1_TITLE =
+		#{key_custodian1_title}, KEY_CUSTODIAN2_TITLE = #{key_custodian2_title},
+		OFFICER_NAME1 = #{officer_name1},
+		OFFICER_NAME2 = #{officer_name2},
+		REGION = #{region}, SEQUENCE = #{sequence}, SEQUENCE_LEN =
+		#{sequence_len} WHERE BRANCH_ID = #{branch_id}
+	</update>
+
+	<select id="getNextBranchId" resultType="int">
+		SELECT
+		BRANCH_ID_SEQ.NEXTVAL FROM DUAL
+	</select>
+
+	<insert id="insertNewBranch" parameterType="branch" keyProperty="branchId">
+		INSERT INTO BRANCH_TAB (BRANCH_ID, BRANCH_ADDR, BRANCH_ADDR2, BRANCH_CITY, BRANCH_EMAIL1, BRANCH_EMAIL2,
+		BRANCH_MOBILE, BRANCH_NAME, BRANCH_PHONE, ISO, KEY_CUSTODIAN1_NAME,	KEY_CUSTODIAN2_NAME, 
+		KEY_CUSTODIAN1_TITLE, KEY_CUSTODIAN2_TITLE, OFFICER_NAME1, OFFICER_NAME2, 
+		REGION, SEQUENCE, SEQUENCE_LEN) VALUES(
+		#{branch_id}, #{branch_addr}, #{branch_addr2}, #{branch_city}, #{branch_email1}, #{branch_email2},
+		#{branch_mobile}, #{branch_name}, #{branch_phone}, #{iso}, #{key_custodian1_name}, #{key_custodian2_name},
+		#{key_custodian1_title}, #{key_custodian2_title}, #{officer_name1}, #{officer_name2}, 
+		#{region}, #{sequence}, #{sequence_len})
+	</insert>
+
 </mapper>

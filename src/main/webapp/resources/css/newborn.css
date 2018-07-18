@@ -1,0 +1,132 @@
+.TableContent {
+	background-color: #DCDCDC;
+}
+
+.DeviceContent {
+	background-color: #F1F1F1;
+	border: 1px solid #DCDCDC;
+}
+
+.CassetteContent {
+	background-color: #E5E5E5;
+}
+
+th.FormTitleBGColor {
+	font-size: 13px;
+	color: #f5f5f5;
+	font-family: Arial;
+	font-weight: bold;
+	height: 25px;
+	background-color: #618CB6;
+	text-align: left;
+	padding-left: 4px;
+	padding-top: 2px;
+	padding-bottom: 2px;
+}
+
+td.FormInputColor {
+	font-size: 11px;
+	font-family: Verdana;
+	height: 25px;
+	background-color: #f5f5f5;
+	padding-left: 4px;
+	padding-top: 2px;
+	padding-bottom: 4px;
+	padding-right: 4px;
+	border-top: 1px solid white;
+	border-bottom: 1px solid white;
+	border-left: 1px solid white;
+	border-right: 1px solid #E5E5E5;
+}
+
+th.FormCellBGColor {
+	font-size: 12px;
+	color: #333333;
+	font-family: Arial;
+	font-weight: bold;
+	height: 25px;
+	background-color: #F1F1F1;
+	text-align: left;
+	padding-left: 4px;
+	padding-top: 2px;
+	padding-bottom: 4px;
+	padding-right: 4px;
+	border-left: 1px solid #FFFFFF;
+	border-top: 1px solid #FFFFFF;
+	border-bottom: 1px solid #666666;
+	border-right: 1px solid #666666;
+}
+
+th.NestedFormCellBGColor {
+	font-size: 12px;
+	color: #333333;
+	font-family: Arial;
+	font-weight: bold;
+	height: 25px;
+	background-color: #FDFDFD;
+	text-align: left;
+	padding-left: 4px;
+	padding-top: 2px;
+	padding-bottom: 4px;
+	padding-right: 4px;
+	border-left: 1px solid #FFFFFF;
+	border-top: 1px solid #FFFFFF;
+	border-bottom: 1px solid #666666;
+	border-right: 1px solid #666666;
+}
+
+a {
+	text-decoration: none;
+	color: #262626;
+}
+
+.button {
+	font-family: Arial;
+	font-size: 12px;
+	font-weight: normal;
+	text-decoration: none;
+	text-transform: uppercase;
+	background-color: #436D96;
+	color: #FFFFFF;
+	text-align: center;
+	border-left: 2px solid #95B0CB;
+	border-top: 2px solid #BCD1E7;
+	border-right: 2px solid #2D547A;
+	border-bottom: 2px solid #2D547A;
+}
+
+.PageHeader {
+	font-family: Arial;
+	font-size: 16px;
+	font-weight: bold;
+	color: #006699;
+	text-transform: uppercase;
+}
+
+th.NestedFormTitleBGColor {
+	font-size: 12px;
+	color: #f5f5f5;
+	font-family: Arial;
+	font-weight: bold;
+	height: 20px;
+	background-color: #618CB6;
+	text-align: left;
+	padding-left: 4px;
+	padding-top: 2px;
+	padding-bottom: 2px;
+}
+
+td.NestedFormInpColor {
+	font-size: 11px;
+	font-family: Verdana;
+	height: 20px;
+	background-color: #FDFDFD;
+	padding-left: 4px;
+	padding-top: 2px;
+	padding-bottom: 4px;
+	padding-right: 4px;
+}
+
+/* .CassetteContent tr:nth-child(even) {
+	background-color: #F3FAFD;
+} */

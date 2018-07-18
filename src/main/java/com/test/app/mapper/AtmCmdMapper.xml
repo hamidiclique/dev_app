@@ -6,11 +6,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<resultMap type="atmcmdtab" id="result">
 		<id property="pid" column="PID" />
-		<result property="cmdCode" column="CMD_CODE" />
-		<result property="cmdDatetime" column="CMD_DATETIME" />
-		<result property="cmdIssuer" column="CMD_ISSUER" />
-		<result property="cmdProcessedOn" column="CMD_PROCESSED_ON" />
-		<result property="cmdStatus" column="CMD_STATUS" />
+		<result property="cmd_code" column="CMD_CODE" />
+		<result property="cmd_datetime" column="CMD_DATETIME" />
+		<result property="cmd_issuer" column="CMD_ISSUER" />
+		<result property="cmd_processed_on" column="CMD_PROCESSED_ON" />
+		<result property="cmd_status" column="CMD_STATUS" />
 	</resultMap>
 
 	<select id="findAtmCmdById" parameterType="String" resultType="atmcmdtab"
@@ -19,7 +19,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<update id="updateAtmCmdByPid" parameterType="atmcmdtab">
-		UPDATE ATM_CMD_TAB SET CMD_DATETIME = #{cmdDatetime}, CMD_ISSUER = #{cmdIssuer}, CMD_CODE = #{cmdCode}, CMD_STATUS = #{cmdStatus} WHERE PID = #{pid}
+		UPDATE ATM_CMD_TAB SET CMD_DATETIME = #{cmd_datetime}, CMD_ISSUER = #{cmd_issuer}, CMD_CODE = #{cmd_code}, CMD_STATUS = #{cmd_status} WHERE PID = #{pid}
 	</update>
 
 	<!-- <insert id="insertHotel" parameterType="hotel" keyProperty="hotelId" 

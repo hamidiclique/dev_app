@@ -57,7 +57,9 @@ public class StringUtil {
 	public static final String SACL3000D_SUCCESS = "USER DELETED SUCCESSFULLY";
 	public static final String SACL4000U_SUCCESS = "SYSTEM LOGIN PARAMETERS UPDATED SUCCESSFULLY";
 	public static final String SACL6000_SUCCESS = "FORCEFUL USER(S) LOGOUT SUCCESSFUL";
-	public static final String SCFG3100_SUCCESS = "NEW ATM ADDED SUCCESSFULLY";
+	public static final String SCFG3200_SUCCESS = "NEW ATM ADDED SUCCESSFULLY";
+	public static final String SCFG3700A_SUCCESS = "NEW BRANCH ADDED SUCCESSFULLY";
+	public static final String SCFG3700U_SUCCESS = "BRANCH INFO UPDATED SUCCESSFULLY";
 	
 	/* Decision Parameters */
 	public static final String PASSWORD_EXPIRED_OPTIONS = "PWD_EXP_OPT";	

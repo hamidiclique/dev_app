@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.test.app.dao.MstCurrencyMapper">
+
+	<resultMap type="mstcurr" id="result">
+		<id property="iso_num" column="ISO_NUM" />
+		<result property="country" column="COUNTRY" />
+		<result property="country_iso" column="COUNTRY_ISO" />
+		<result property="currency" column="CURRENCY" />
+		<result property="iso_code" column="ISO_CODE" />
+	</resultMap>
+
+	<select id="getCurrencyList" resultType="mstcurr" resultMap="result">
+		SELECT * FROM MST_CURR_ISO
+	</select>
+
+</mapper>

@@ -12,34 +12,45 @@
 <link
 	href="${pageContext.request.contextPath}/resources/css/login_page.css"
 	rel="stylesheet">
-
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <style>
-.error {
-	color: red;
-	text-align: center;
+body, html {
+	height: 100%;
+	margin: 0px;
 }
 </style>
 </head>
-<body>	
-		<table width="60%" align="center">
-			<tr>
-				<td class="TitleHeader" >Login</td>
-			</tr>			
-		</table>
-		<form:form action="authLogin" modelAttribute="credentials">
-			<div class="login-block">
+<body>
+	<div id="login-bg">
+		<div id="login-element">
+			<!-- <table width="60%" align="center">
+				<tr>
+					<td class="TitleHeader">Login</td>
+				</tr>
+			</table> -->
+			<div>
+				<form:form action="authLogin" modelAttribute="credentials">
+					<div class="login-block">
 
-				<form:input type="text" id="userId" path="userId"
-					placeholder="Username"></form:input>
+						<div id="login-elem-title">Account Login</div>
+						<form:input type="text" id="userId" path="userId"
+							placeholder="Username"></form:input>
 
-				<form:input type="password" id="password" placeholder="Password"
-					path="password"></form:input>
+						<form:input type="password" id="password" placeholder="Password"
+							path="password"></form:input>
 
-				<button type="submit" value="Submit">Submit</button>
+						<button type="submit" value="Submit">Submit</button>
 
-				<p class="error">${cause}</p>
+						<c:if test="${not empty cause}">
+							<div class="error"><i class="fa fa-warning"></i>&nbsp;${cause}</div>
+						</c:if>
+						
 
+					</div>
+				</form:form>
 			</div>
-		</form:form>	
+		</div>
+	</div>
 </body>
 </html>

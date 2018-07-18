@@ -7,8 +7,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<resultMap type="viewatmdto" id="result">
 		<result property="pid" column="PID" />
 		<result property="machine" column="MACHINE" />
-		<result property="remoteAddress" column="REMOTE_ADDRESS" />
-		<result property="branchName" column="BRANCH_NAME" />
+		<result property="remote_address" column="REMOTE_ADDRESS" />
+		<result property="branch_name" column="BRANCH_NAME" />
 		<result property="street" column="STREET" />
 		<result property="city" column="CITY" />
 		<result property="state" column="NAME" />
@@ -16,14 +16,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<select id="listAllActiveAtm" resultType="viewatmdto" resultMap="result">
 		SELECT
-		rt.PID, tcp.MACHINE, tcp.REMOTE_ADDRESS, mstbrn.BRANCH_NAME,
+		rt.PID, tcp.MACHINE, tcp.REMOTE_ADDRESS, branch.BRANCH_NAME,
 		def.STREET, def.CITY, mststt.NAME
 		FROM RT_TAB rt
 		INNER JOIN TCP_TAB tcp
 		ON rt.PID=tcp.PID
 		INNER JOIN DEF_TAB def ON rt.PID=def.ID
 		INNER JOIN
-		BRANCH_TAB mstbrn ON def.BRANCH=mstbrn.BRANCH_ID
+		BRANCH_TAB branch ON def.BRANCH=branch.BRANCH_ID
 		INNER JOIN MST_STATE
 		mststt ON def.STATE=mststt.ID ORDER BY rt.PID
 	</select>
@@ -43,9 +43,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		REMOTE_PORT,
 		LOCAL_PORT, INITIATOR, DEPENDS_ON, FORMAT, HEADER_LEN,
 		PING_CHECK)
-		VALUES (#{machine}, #{pid}, #{remoteAddress}, #{remotePort},
-		#{localPort}, #{initiator}, #{dependsOn}, #{format}, #{headerLen},
-		#{pingCheck})
+		VALUES (#{machine}, #{pid}, #{remote_address}, #{remote_port},
+		#{local_port}, #{initiator}, #{depends_on}, #{format}, #{header_len},
+		#{ping_check})
 	</insert>
 
 	<insert id="insert_deftab" parameterType="deftab" keyProperty="id">
@@ -68,8 +68,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		#{time3}, #{time4}, #{termchar},
 		#{street}, #{city}, #{state},
 		#{circuit}, #{acct}, #{tchar},
-		#{luno}, #{gmtOffset}, #{macing},
-		#{securityMod}, #{ecp}, #{loader})
+		#{luno}, #{gmt_offset}, #{macing},
+		#{security_mod}, #{ecp}, #{loader})
 	</insert>
 
 	<insert id="insert_ctlatab" parameterType="ctlatab" keyProperty="pid">
@@ -99,56 +99,52 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		#{acct2tp}, #{opstat}, #{procstat}, #{hcmore},
 		#{disab1}, #{disab2},
 		#{oprob}, #{warn1},
-		#{warn2}, #{cmdwt}, #{memNo},
-		#{misFld1},
-		#{misFld2},
-		#{lcardtype}, #{hreject}, #{areject}, #{closed}, #{miserr},
-		#{stat11}, #{stat12},
-		#{stat13},
-		#{stat14}, #{stat15}, #{stat16},
-		#{stat17}, #{stat18},
-		#{stat19}, #{stat110}, #{stat21},
-		#{stat22},
-		#{swTab}, #{swSkey},
-		#{swLskey}, #{swEkey}, #{swReq}, #{swConfig},
-		#{misFlag1},
-		#{misFlag2}, #{lutrnno}, #{nonReadies}, #{statusMsg})
+		#{warn2}, #{cmdwt}, #{mem_no},
+		#{mis_fld1},
+		#{mis_fld2},
+		#{lcardtype}, #{hreject}, #{areject}, #{closed},
+		#{miserr},
+		#{stat1_1}, #{stat1_2},
+		#{stat1_3},
+		#{stat1_4}, #{stat1_5},
+		#{stat1_6},
+		#{stat1_7}, #{stat1_8},
+		#{stat1_9}, #{stat1_10}, #{stat2_1},
+		#{stat2_2},
+		#{sw_tab}, #{sw_skey},
+		#{sw_lskey}, #{sw_ekey}, #{sw_req},
+		#{sw_config},
+		#{mis_flag1},
+		#{mis_flag2}, #{lutrnno}, #{non_readies},
+		#{status_msg})
 	</insert>
 
 	<insert id="insert_ctrtab" parameterType="ctrtab" keyProperty="pid">
 		INSERT INTO CTR_TAB (PID, C1_START_BILLS, C2_START_BILLS,
-		C3_START_BILLS, C4_START_BILLS,
-		C_CTRANS, C_C1BILLS, C_C2BILLS,
+		C3_START_BILLS, C4_START_BILLS, C_CTRANS, C_C1BILLS, C_C2BILLS,
 		C_C3BILLS, C_C4BILLS, C_CWDL_LOC, C_CWDL_US,
-		C_CDEP, C_CPMT, C_CINQ,
-		C_CCKBK, C_CXFER, C_CCAPT, C_CRECT,
-		C_C1BREJ, C_C2BREJ, C_C3BREJ,
-		C_C4BREJ, C_CDEPAC, C_CACSHA, C_CAXFER,
-		C_CAINQ, C_CICSHA, C_CIXFER,
-		C_CIINQ, C_TWDL_LOC, C_TWDL_US, C_TWDLC_LOC,
-		C_TWDLC_US, C_TWDLS_LOC,
-		C_TWDLS_US, C_TACSHA_LOC, C_TACSHA_US,
-		C_TICSHA, C_TDEP,
-		C_TDEPC,
-		C_TDEPS, C_TPMT, C_TPMTL, C_TPMTMC, C_CFSEG, C_CFRF,
-		C_CSVCLOAD,
-		C_TSVCLOAD, C_CSVCUNLOAD, C_TSVCUNLOAD) VALUES
+		C_CDEP, C_CPMT, C_CINQ, C_CCKBK, C_CXFER, C_CCAPT, C_CRECT, C_C1BREJ,
+		C_C2BREJ, C_C3BREJ, C_C4BREJ, C_CDEPAC, C_CACSHA, C_CAXFER, C_CAINQ,
+		C_CICSHA, C_CIXFER,
+		C_CIINQ, C_TWDL_LOC, C_TWDL_US, C_TWDLC_LOC, C_TWDLC_US, C_TWDLS_LOC,
+		C_TWDLS_US, C_TACSHA_LOC, C_TACSHA_US, C_TICSHA, C_TDEP, C_TDEPC,
+		C_TDEPS, C_TPMT, C_TPMTL,
+		C_TPMTMC, C_CFSEG, C_CFRF, C_CSVCLOAD, C_TSVCLOAD, C_CSVCUNLOAD, C_TSVCUNLOAD)
+		VALUES
 		(#{pid},
-		#{c1StartBills}, #{c2StartBills}, #{c3StartBills}, #{c4StartBills},
-		#{cCtrans}, #{cC1bills}, #{cC2bills}, #{cC3bills}, #{cC4bills},
-		#{cCwdlLoc}, #{cCwdlUs},
-		#{cCdep}, #{cCpmt}, #{cCinq}, #{cCckbk},
-		#{cCxfer}, #{cCcapt}, #{cCrect},
-		#{cC1brej}, #{cC2brej}, #{cC3brej},
-		#{cC4brej}, #{cCdepac}, #{cCacsha}, #{cCaxfer},
-		#{cCainq}, #{cCicsha},
-		#{cCixfer}, #{cCiinq}, #{cTwdlLoc}, #{cTwdlUs}, #{cTwdlcLoc},
-		#{cTwdlcUs}, #{cTwdlsLoc}, #{cTwdlsUs}, #{cTacshaLoc}, #{cTacshaUs},
-		#{cTicsha}, #{cTdep},
-		#{cTdepc}, #{cTdeps}, #{cTpmt}, #{cTpmtl},
-		#{cTpmtmc}, #{cCfseg}, #{cCfrf},
-		#{cCsvcload}, #{cTsvcload},
-		#{cCsvcunload}, #{cTsvcunload})
+		#{c1_start_bills}, #{c2_start_bills}, #{c3_start_bills}, #{c4_start_bills}, #{c_ctrans},
+		#{c_c1bills}, #{c_c2bills}, #{c_c3bills}, #{c_c4bills}, #{c_cwdl_loc},
+		#{c_cwdl_us},
+		#{c_cdep}, #{c_cpmt}, #{c_cinq}, #{c_cckbk}, #{c_cxfer}, #{c_ccapt}, #{c_crect},
+		#{c_c1brej}, #{c_c2brej}, #{c_c3brej}, #{c_c4brej}, #{c_cdepac},
+		#{c_cacsha}, #{c_caxfer}, #{c_cainq}, #{c_cicsha}, #{c_cixfer},
+		#{c_ciinq}, #{c_twdl_loc}, #{c_twdl_us}, #{c_twdlc_loc},
+		#{c_twdlc_us}, #{c_twdls_loc}, #{c_twdls_us}, #{c_tacsha_loc},
+		#{c_tacsha_us}, #{c_ticsha}, #{c_tdep}, #{c_tdepc}, #{c_tdeps},
+		#{c_tpmt}, #{c_tpmtl},
+		#{c_tpmtmc}, #{c_cfseg}, #{c_cfrf}, #{c_csvcload}, #{c_tsvcload}, #{c_csvcunload},
+		#{c_tsvcunload})
+
 	</insert>
 
 	<insert id="insert_ctimtab" parameterType="list">
@@ -156,8 +152,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<foreach collection="list" item="elem" index="index">
 			INTO
 			CTIM_TAB(TIMR_NO, TIMR_LEN, PID) VALUES
-			(#{elem.timrNo},
-			#{elem.timrLen}, #{elem.pid})
+			(#{elem.timr_no},
+			#{elem.timr_len}, #{elem.pid})
 		</foreach>
 		select * from dual
 	</insert>
@@ -167,7 +163,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<foreach collection="list" item="elem" index="index">
 			INTO
 			ATM_CURRENCY_TAB(ISO_CURRENCY_TYPE, CANISTER_TYPE, PID) VALUES
-			(#{elem.isoCurrencyType}, #{elem.canisterType}, #{elem.pid})
+			(#{elem.iso_currency_type}, #{elem.canister_type}, #{elem.pid})
 		</foreach>
 		select * from dual
 	</insert>
@@ -177,7 +173,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<foreach collection="list" item="elem" index="index">
 			INTO
 			ECFOP_TAB(EOP_NO, EOPT, PID) VALUES
-			(#{elem.eopNo}, #{elem.eopt},
+			(#{elem.eop_no}, #{elem.eopt},
 			#{elem.pid})
 		</foreach>
 		select * from dual
@@ -193,8 +189,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		keyProperty="pid">
 		INSERT INTO DEV_KEY_TAB(PID, DIRECTION, KEY_LENGTH,
 		PCI_COMPLIANT, PINBLK_FMT)
-		VALUES (#{pid}, #{direction}, #{keyLength},
-		#{pciCompliant}, #{pinblkFmt})
+		VALUES (#{pid}, #{direction}, #{key_length},
+		#{pci_compliant}, #{pinblk_fmt})
 	</insert>
 
 	<insert id="insert_tmkcomptab" parameterType="tmkcomptab"
@@ -208,25 +204,26 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		INSERT INTO TMK_REQ_TAB(ORGDEV, BRANCHC, STATUS) VALUES
 		(#{orgdev}, #{branchc}, #{status})
 	</insert>
-	
-	<select id="select_rttab_by_pid" parameterType="String" resultType="rttab">
+
+	<select id="selRtByPid" parameterType="String" resultType="rttab">
 		SELECT * FROM RT_TAB WHERE PID = #{pid}
 	</select>
-	
-	<select id="xyz" parameterType="String" resultType="ctrtab">
-		SELECT * FROM CTR_TAB WHERE PID = #{pid}
-	</select>
-	
-	<select id="select_deftab_by_id" parameterType="String" resultType="deftab">
-		SELECT * FROM DEF_TAB WHERE ID = #{id}
-	</select>
-	
-	<select id="test_ctla" parameterType="String" resultType="ctlatab">
-		SELECT * FROM CTLA_TAB WHERE PID = #{pid}
-	</select>
-	
-	<select id="tcptest" parameterType="String" resultType="tcptab">
+	<select id="selTcpByPid" parameterType="String" resultType="tcptab">
 		SELECT * FROM TCP_TAB WHERE PID = #{pid}
 	</select>
+	<select id="selDefByPid" parameterType="String" resultType="deftab">
+		SELECT * FROM DEF_TAB WHERE ID = #{id}
+	</select>
+	<select id="selCtlaByPid" parameterType="String" resultType="ctlatab">
+		SELECT * FROM CTLA_TAB WHERE PID = #{pid}
+	</select>
+	<select id="selCtrByPid" parameterType="String" resultType="ctrtab">
+		SELECT * FROM CTR_TAB WHERE PID = #{pid}
+	</select>
+	<select id="selAtmCurrByPid" parameterType="String" resultType="atmcurrtab">
+		SELECT * FROM ATM_CURRENCY_TAB WHERE PID = #{pid}
+	</select>
+
+
 
 </mapper>

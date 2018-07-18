@@ -10,4 +10,10 @@ public interface BranchTabService {
 
 	public BranchTab findBranchById(String bid);
 
+	public int editBranchInfo(BranchTab branchTab);
+
+	public int generateBranchId();
+
+	public int addNewBranch(BranchTab branchTab);
+
 }

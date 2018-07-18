@@ -4,34 +4,33 @@ import java.io.Serializable;
 import javax.persistence.*;
 import java.math.BigDecimal;
 
-
 /**
  * The persistent class for the ATM_CMD_TAB database table.
  * 
  */
 @Entity
-@Table(name="ATM_CMD_TAB")
-//@NamedQuery(name="AtmCmdTab.findAll", query="SELECT a FROM AtmCmdTab a")
+@Table(name = "ATM_CMD_TAB")
+// @NamedQuery(name="AtmCmdTab.findAll", query="SELECT a FROM AtmCmdTab a")
 public class AtmCmdTab implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	private long pid;
 
-	@Column(name="CMD_CODE")
-	private BigDecimal cmdCode;
+	@Column(name = "CMD_CODE")
+	private BigDecimal cmd_code;
 
-	@Column(name="CMD_DATETIME")
-	private String cmdDatetime;
+	@Column(name = "CMD_DATETIME")
+	private String cmd_datetime;
 
-	@Column(name="CMD_ISSUER")
-	private String cmdIssuer;
+	@Column(name = "CMD_ISSUER")
+	private String cmd_issuer;
 
-	@Column(name="CMD_PROCESSED_ON")
-	private String cmdProcessedOn;
+	@Column(name = "CMD_PROCESSED_ON")
+	private String cmd_processed_on;
 
-	@Column(name="CMD_STATUS")
-	private BigDecimal cmdStatus;
+	@Column(name = "CMD_STATUS")
+	private BigDecimal cmd_status;
 
 	public AtmCmdTab() {
 	}
@@ -44,44 +43,44 @@ public class AtmCmdTab implements Serializable {
 		this.pid = pid;
 	}
 
-	public BigDecimal getCmdCode() {
-		return this.cmdCode;
+	public BigDecimal getCmd_code() {
+		return cmd_code;
 	}
 
-	public void setCmdCode(BigDecimal cmdCode) {
-		this.cmdCode = cmdCode;
+	public void setCmd_code(BigDecimal cmd_code) {
+		this.cmd_code = cmd_code;
 	}
 
-	public String getCmdDatetime() {
-		return this.cmdDatetime;
+	public String getCmd_datetime() {
+		return cmd_datetime;
 	}
 
-	public void setCmdDatetime(String cmdDatetime) {
-		this.cmdDatetime = cmdDatetime;
+	public void setCmd_datetime(String cmd_datetime) {
+		this.cmd_datetime = cmd_datetime;
 	}
 
-	public String getCmdIssuer() {
-		return this.cmdIssuer;
+	public String getCmd_issuer() {
+		return cmd_issuer;
 	}
 
-	public void setCmdIssuer(String cmdIssuer) {
-		this.cmdIssuer = cmdIssuer;
+	public void setCmd_issuer(String cmd_issuer) {
+		this.cmd_issuer = cmd_issuer;
 	}
 
-	public String getCmdProcessedOn() {
-		return this.cmdProcessedOn;
+	public String getCmd_processed_on() {
+		return cmd_processed_on;
 	}
 
-	public void setCmdProcessedOn(String cmdProcessedOn) {
-		this.cmdProcessedOn = cmdProcessedOn;
+	public void setCmd_processed_on(String cmd_processed_on) {
+		this.cmd_processed_on = cmd_processed_on;
 	}
 
-	public BigDecimal getCmdStatus() {
-		return this.cmdStatus;
+	public BigDecimal getCmd_status() {
+		return cmd_status;
 	}
 
-	public void setCmdStatus(BigDecimal cmdStatus) {
-		this.cmdStatus = cmdStatus;
+	public void setCmd_status(BigDecimal cmd_status) {
+		this.cmd_status = cmd_status;
 	}
 
 }

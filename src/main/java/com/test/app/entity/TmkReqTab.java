@@ -24,6 +24,17 @@ public class TmkReqTab implements Serializable {
 	@Column(name = "ENC_KEY")
 	private String enc_key;
 
+	private String status;
+
+	@Column(name = "XOR_KCV")
+	private String xor_kcv;
+
+	@Column(name = "XOR_KEY")
+	private String xor_key;
+
+	public TmkReqTab() {
+	}
+
 	public long getOrgdev() {
 		return orgdev;
 	}
@@ -78,17 +89,6 @@ public class TmkReqTab implements Serializable {
 
 	public void setXor_key(String xor_key) {
 		this.xor_key = xor_key;
-	}
-
-	private String status;
-
-	@Column(name = "XOR_KCV")
-	private String xor_kcv;
-
-	@Column(name = "XOR_KEY")
-	private String xor_key;
-
-	public TmkReqTab() {
 	}
 
 }

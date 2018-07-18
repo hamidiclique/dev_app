@@ -8,6 +8,8 @@
 	href="${pageContext.request.contextPath}/resources/css/table.css">
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/box.css">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/resources/css/modal.css">
 <script type="text/javascript">
 	$(function(){
 		console.log( "document loaded" );
@@ -23,8 +25,10 @@
 							var b = document.getElementById(${btn.buttonDef});
 							b.href = "${pageContext.request.contextPath}/common?mid=${module}&fid=${function}&sid=${btn.resultPage}&pid="+$(this).val();
 						</c:otherwise>
-					</c:choose>	
-				</c:forEach>				
+					</c:choose>
+				</c:forEach>
+				var atmcbtn = document.getElementById("atmc");
+				$("#pid").val($(this).val());
 		    }
 		  });
 		});
@@ -51,12 +55,13 @@
 			<tr>
 				<th class="HeaderTableData">Select</th>
 				<th class="HeaderTableData">ATM ID</th>
-				<th class="HeaderTableData" style="display:  none;">MACHINE</th>
-				<th class="HeaderTableData" style="display:  none;">REMOTE ADDRESS</th>
-				<th class="HeaderTableData" style="display:  none;">BRANCH</th>
-				<th class="HeaderTableData" style="display:  none;">STREET</th>
-				<th class="HeaderTableData" style="display:  none;">CITY</th>
-				<th class="HeaderTableData" style="display:  none;">STATE</th>
+				<th class="HeaderTableData" style="display: none;">MACHINE</th>
+				<th class="HeaderTableData" style="display: none;">REMOTE
+					ADDRESS</th>
+				<th class="HeaderTableData" style="display: none;">BRANCH</th>
+				<th class="HeaderTableData" style="display: none;">STREET</th>
+				<th class="HeaderTableData" style="display: none;">CITY</th>
+				<th class="HeaderTableData" style="display: none;">STATE</th>
 				<th class="HeaderTableData">MAKE</th>
 				<th class="HeaderTableData">LOCATION</th>
 				<th class="HeaderTableData">STATE</th>
@@ -74,18 +79,20 @@
 					<c:param name="userId" value="${usr.userId}" />
 				</c:url> --%>
 				<tr>
-					<td class="CellClassCustom" align="center"><input type="radio" name="actvAtmRadio"
-						value="${actvatm.pid}"></td>
+					<td class="CellClassCustom" align="center"><input type="radio"
+						name="actvAtmRadio" value="${actvatm.pid}"></td>
 					<td class="CellClassCustom">${actvatm.pid}</td>
-					<td class="CellClassCustom" style="display:  none;">${actvatm.machine}</td>
-					<td class="CellClassCustom" style="display:  none;">${actvatm.remoteAddress}</td>
-					<td class="CellClassCustom" style="display:  none;">${actvatm.branchName}</td>
-					<td class="CellClassCustom" style="display:  none;">${actvatm.street}</td>
-					<td class="CellClassCustom" style="display:  none;">${actvatm.city}</td>
-					<td class="CellClassCustom" style="display:  none;">${actvatm.state}</td>
+					<td class="CellClassCustom" style="display: none;">${actvatm.machine}</td>
+					<td class="CellClassCustom" style="display: none;">${actvatm.remote_address}</td>
+					<td class="CellClassCustom" style="display: none;">${actvatm.branch_name}</td>
+					<td class="CellClassCustom" style="display: none;">${actvatm.street}</td>
+					<td class="CellClassCustom" style="display: none;">${actvatm.city}</td>
+					<td class="CellClassCustom" style="display: none;">${actvatm.state}</td>
 					<td class="CellClassCustom">NCR</td>
-					<td class="CellClassCustom">${actvatm.branchName}, ${actvatm.street}, ${actvatm.city}, ${actvatm.state}</td>
-					<td class="CellClassCustom" align="center"><div id="maroon-box"></div></td>
+					<td class="CellClassCustom">${actvatm.branch_name},
+						${actvatm.street}, ${actvatm.city}, ${actvatm.state}</td>
+					<td class="CellClassCustom" align="center"><div
+							id="maroon-box"></div></td>
 					<td class="CellClassCustom" align="center"><div id="red-box"></div></td>
 					<td class="CellClassCustom" align="center"><div id="red-box"></div></td>
 					<td class="CellClassCustom" align="center"><div id="green-box"></div></td>
@@ -112,12 +119,120 @@
 								</a>
 							</c:otherwise>
 						</c:choose>
-					</c:forEach> 
+					</c:forEach> <a id="atmc"><input class="button" type="button"
+						value="ATMC Options" /></a> <!-- <button id="atmc">Open Modal</button> -->
 					<%-- <a href="${uponelvl}"><input class="button" type="button" value="Return" /></a> --%>
 				</td>
 			</tr>
 		</table>
+
+		<div id="atmcModal" class="modal">
+
+			<!-- Modal content -->
+			<div class="modal-content">
+				<div class="modal-header">
+					<span class="close">&times;</span>
+					<p>ATMC Options</p>
+				</div>
+				<div class="modal-body">
+					<div style="display: none">
+						<input type="text" id="pid" value="0">
+					</div>
+					<div id="grid-container"></div>
+				</div>
+			</div>
+
+		</div>
+
+
 	</div>
+
+	<script type="text/javascript">
+		// Get the modal
+		var modal = document.getElementById('atmcModal');			
+		// Get the <span> element that closes the modal
+		var span = document.getElementsByClassName("close")[0];
+		// When the user clicks on <span> (x), close the modal
+		span.onclick = function() {
+		    modal.style.display = "none";
+		}		
+		// When the user clicks anywhere outside of the modal, close it
+		window.onclick = function(event) {
+		    if (event.target == modal) {		    	
+		    	modal.style.display = "none";		        
+		    }
+		}
+		$("#atmc").click(function() {
+			var selpid = $("#pid").val();
+			if (selpid > 100) {
+			    //alert("selected ATM ID:" + selpid);
+			    $.ajax({
+	        		type: "POST",
+	        		url: "${pageContext.request.contextPath}/getCmdStatusForSelectedATM",
+	        		data: { pid: selpid },
+	        		dataType: "json",
+	            	success: function(data){	            		
+	            		$('#grid-container').html("");
+		            	var testhtml = '';
+		            	$.each(data, function (index, value) {
+		            		var res = index.split("-");
+		            		var cmd_id = res[0].trim();
+		            		var cmd_desc = res[1].trim();
+		            		var cmdstatus = value;
+		            		switch(cmdstatus) {
+		            		    case 1:
+		            		    	testhtml += '<div class="pending">'
+		            		        testhtml += '<a id="'+cmd_id+'" class="selcmd">'+cmd_desc+'</a><br>';
+		            		        testhtml += '</div>'
+		            		        break;
+		            		    case 2:
+		            		    	testhtml += '<div class="done">'
+		            		    	testhtml += '<span id="'+cmd_id+'" class="deactivated">'+cmd_desc+'</span><br>';
+		            		    	testhtml += '</div>'
+		            		    	break;		            		    
+		            		    default:
+		            		    	break;
+		            		}
+		            	});
+		            	$('#grid-container').append(testhtml);
+	            		modal.style.display = "block";
+	            	},
+	            	error: function(jqXHR, textStatus, errorThrown) {
+	                	alert(errorThrown);
+	            	}
+	        	}); 			    
+			}
+			else {
+				alert("You must select an ATM to view ATMC Options, Please try again.");
+			}
+		});
+		$('#grid-container').on('click', '.selcmd', function(e){
+		    //alert("clicked");
+			var selpid = $("#pid").val();
+			var cmd_code = this.id;			
+	        var command = this.text;
+			$.ajax({
+	        	type: "POST",
+	        	url: "${pageContext.request.contextPath}/updateCmdStatusForSelectedATM",
+	        	data: { cmdcode: cmd_code, pid: selpid },
+	        	dataType: "text",
+	            success: function(data) {
+	            	if (data.trim() == "200") {
+	            		alert(command + "Request for ATM ID: " + selpid + " has been successfully submitted, Please note ATMC options for this ATM will remain disabled unitl request completed.")
+	            		setTimeout(function() {// wait for 5 secs(2)
+		            		location.reload(); // then reload the page.(3)
+		            	}, 1000);
+	            	}
+	            	else {
+	            		alert("Something went wrong while updating CMD status for this ATM, Please try again.");
+	            	}
+	            },
+	            error: function(jqXHR, textStatus, errorThrown) {
+	                alert(errorThrown);
+	            }
+	        });
+		});
+	</script>
 
 </body>
 </html>

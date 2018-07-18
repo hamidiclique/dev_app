@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.google.gson.Gson;
 import com.test.app.dto.AtmDefDto;
 import com.test.app.dto.AtmMaster;
 import com.test.app.dto.TerminalEvent;
@@ -42,6 +43,7 @@ import com.test.app.entity.DevAttribute;
 import com.test.app.entity.DevKeyTab;
 import com.test.app.entity.EcfopTab;
 import com.test.app.entity.Function;
+import com.test.app.entity.MstCurrIso;
 import com.test.app.entity.RtTab;
 import com.test.app.entity.TcpTab;
 import com.test.app.entity.TmkCompTab;
@@ -57,6 +59,7 @@ import com.test.app.service.FunctiongrpService;
 import com.test.app.service.FungrpFunMapSercice;
 import com.test.app.service.LoginParamService;
 import com.test.app.service.ModuleService;
+import com.test.app.service.MstCurrencyService;
 import com.test.app.service.PIdSequenceService;
 import com.test.app.service.RoleFungrpMapService;
 import com.test.app.service.RoleService;
@@ -100,6 +103,8 @@ public class CoreConfigurationController {
 	AtmMasterService atmMasterService;
 	@Autowired
 	AtmCmdService atmCmdService;
+	@Autowired
+	MstCurrencyService mstCurrencyService;
 	@Autowired
 	private Environment env;
 
@@ -173,19 +178,77 @@ public class CoreConfigurationController {
 	@RequestMapping(value = "/submit-add-new-atm", method = RequestMethod.POST)
 	public String handle_FCFG3200_SCFG3200(@ModelAttribute("atmDef") AtmDefDto atmDef, BindingResult result,
 			ModelMap model, HttpServletRequest req, RedirectAttributes red) {
-		int retval = 0;
+		int nora = 0;
 		AtmMaster atmMaster;
 		try {
-			if (SessionUtil.sessionValid(req.getSession(), red).equalsIgnoreCase(StringUtil.SESSION_VALID)) {
-				retval = 0;
+			if (SessionUtil.sessionValid(req.getSession(), red).equalsIgnoreCase(StringUtil.SESSION_VALID)) {				
 				logger.debug(atmDef);
 				atmMaster = mapUserInputToAtmMaster(atmDef);
-				int nora = atmMasterService.addNewAtmMachine(atmMaster);
+				nora = atmMasterService.addNewAtmMachine(atmMaster);
 				logger.debug(nora);
-				if (retval > 0) {
-					model.addAttribute("message", StringUtil.SCFG3100_SUCCESS);
+				if (nora >= 32) {
+					model.addAttribute("message", StringUtil.SCFG3200_SUCCESS);
 				} else {
-					logger.debug("ERROR : INSERT USER OPERATION WAS NOT SUCCESSFUL");
+					logger.debug("ERROR : INSERT ATM OPERATION WAS NOT SUCCESSFUL");
+					model.addAttribute("message", StringUtil.FAILURE);
+				}
+			} else {
+				return "redirect:login";
+			}
+
+		} catch (Exception ex) {
+			logger.debug(ex.toString());
+			red.addFlashAttribute("cause", StringUtil.UNKNOW_REASON);
+			return "redirect:login";
+		}
+		return "common_result";
+	}
+
+	@RequestMapping(value = "/submit-branch-maintenance-update", method = RequestMethod.POST)
+	public String handle_FCFG3700_SCFG3700U(@ModelAttribute("branch") BranchTab branchTab, BindingResult result,
+			ModelMap model, HttpServletRequest req, RedirectAttributes red) {
+		int nora = 0;
+		try {
+			if (SessionUtil.sessionValid(req.getSession(), red).equalsIgnoreCase(StringUtil.SESSION_VALID)) {
+				logger.debug(branchTab);
+				nora = branchService.editBranchInfo(branchTab);
+				logger.debug(nora);
+				if (nora > 0) {
+					model.addAttribute("message", StringUtil.SCFG3700U_SUCCESS);
+				} else {
+					logger.debug("ERROR : BRANCH UPDATE OPERATION WAS NOT SUCCESSFUL");
+					model.addAttribute("message", StringUtil.FAILURE);
+				}
+			} else {
+				return "redirect:login";
+			}
+
+		} catch (Exception ex) {
+			logger.debug(ex.toString());
+			red.addFlashAttribute("cause", StringUtil.UNKNOW_REASON);
+			return "redirect:login";
+		}
+		return "common_result";
+	}
+
+	@RequestMapping(value = "/submit-branch-maintenance-add", method = RequestMethod.POST)
+	public String handle_FCFG3700_SCFG3700A(@ModelAttribute("branch") BranchTab branchTab, BindingResult result,
+			ModelMap model, HttpServletRequest req, RedirectAttributes red) {
+		int nora = 0;
+		try {
+			if (SessionUtil.sessionValid(req.getSession(), red).equalsIgnoreCase(StringUtil.SESSION_VALID)) {
+				logger.debug(branchTab);
+				int branchId = branchService.generateBranchId();
+				branchTab.setBranch_id(new Long(branchId));
+				branchTab.setIso("555555");
+				branchTab.setSequence(new BigDecimal(0));
+				branchTab.setSequence_len(new BigDecimal(0));
+				nora = branchService.addNewBranch(branchTab);
+				logger.debug(nora);
+				if (nora > 0) {
+					model.addAttribute("message", StringUtil.SCFG3700U_SUCCESS);
+				} else {
+					logger.debug("ERROR : BRANCH UPDATE OPERATION WAS NOT SUCCESSFUL");
 					model.addAttribute("message", StringUtil.FAILURE);
 				}
 			} else {
@@ -241,6 +304,202 @@ public class CoreConfigurationController {
 					model.addAttribute("module", mid);
 					model.addAttribute("parentfunction", parentfunction);
 					model.addAttribute("functionDesc", currentfunction.getFunctionDesc());
+					model.addAttribute("funmap", funHashmap);
+				} else {
+					return "redirect:login";
+				}
+			} else {
+				logger.debug(StringUtil.NO_ACCESS_TOKEN);
+				red.addFlashAttribute("msg", StringUtil.NO_PERMISSION_FOR_SCREEN);
+				return "redirect:notAuthorized";
+			}
+		} catch (Exception e) {
+			logger.debug(e.toString());
+			red.addFlashAttribute("cause", StringUtil.UNKNOW_REASON);
+			return "redirect:login";
+		}
+		return sid;
+	}
+
+	@SuppressWarnings("unchecked")
+	@RequestMapping(value = "/branch-maintenance", method = RequestMethod.GET)
+	public String view_FCFG3700_SCFG3700(ModelMap model, @RequestParam String mid, @RequestParam String fid,
+			@RequestParam String sid, RedirectAttributes red, HttpServletRequest request) {
+		List<BranchTab> branchList = new ArrayList<BranchTab>();
+		Map<String, List<String>> funModMap = new HashMap<String, List<String>>();
+		List<String> funList = new ArrayList<String>();
+		try {
+			ViewAuthDto vadto = ViewAuthUtil.isRequestValid(request, fid, sid);
+			if (vadto.isAllowedAccess()) {
+				if (SessionUtil.sessionValid(request.getSession(false), red)
+						.equalsIgnoreCase(StringUtil.SESSION_VALID)) {
+					branchList = branchService.getAllBranches();
+					Function currentfunction = funService.getFunctionById(fid);
+					if (request.getSession(false).getAttribute(StringUtil.SESSION_FUN_MOD_MAP) != null) {
+						funModMap = (Map<String, List<String>>) request.getSession(false)
+								.getAttribute(StringUtil.SESSION_FUN_MOD_MAP);
+						funList = funModMap.get(mid);
+						Iterator<String> funIterator = funList.iterator();
+						while (funIterator.hasNext()) {
+							String element = funIterator.next();
+							if (element.length() > 8) {
+								funIterator.remove();
+							}
+						}
+					}
+					model.addAttribute("funlist", funList);
+					model.addAttribute("branchList", branchList);
+					model.addAttribute("listsize", branchList.size());
+					model.addAttribute("btnList", vadto.getBtnList());
+					model.addAttribute("function", fid);
+					model.addAttribute("module", mid);
+					model.addAttribute("functionDesc", currentfunction.getFunctionDesc());
+					model.addAttribute("funmap", funHashmap);
+				} else {
+					return "redirect:login";
+				}
+			} else {
+				logger.debug(StringUtil.NO_ACCESS_TOKEN);
+				red.addFlashAttribute("msg", StringUtil.NO_PERMISSION_FOR_SCREEN);
+				return "redirect:notAuthorized";
+			}
+		} catch (Exception e) {
+			logger.debug(e.toString());
+			red.addFlashAttribute("cause", StringUtil.UNKNOW_REASON);
+			return "redirect:login";
+		}
+		return sid;
+	}
+
+	@SuppressWarnings("unchecked")
+	@RequestMapping(value = "/branch-maintenance-add", method = RequestMethod.GET)
+	public String view_FCFG3700_SCFG3700A(ModelMap model, @RequestParam String mid, @RequestParam String fid,
+			@RequestParam String sid, RedirectAttributes red, HttpServletRequest request) {
+		BranchTab branch = new BranchTab();
+		Map<String, List<String>> funModMap = new HashMap<String, List<String>>();
+		List<String> funList = new ArrayList<String>();
+		try {
+			ViewAuthDto vadto = ViewAuthUtil.isRequestValid(request, fid, sid);
+			if (vadto.isAllowedAccess()) {
+				if (SessionUtil.sessionValid(request.getSession(false), red)
+						.equalsIgnoreCase(StringUtil.SESSION_VALID)) {
+					Function currentfunction = funService.getFunctionById(fid);
+					if (request.getSession(false).getAttribute(StringUtil.SESSION_FUN_MOD_MAP) != null) {
+						funModMap = (Map<String, List<String>>) request.getSession(false)
+								.getAttribute(StringUtil.SESSION_FUN_MOD_MAP);
+						funList = funModMap.get(mid);
+						Iterator<String> funIterator = funList.iterator();
+						while (funIterator.hasNext()) {
+							String element = funIterator.next();
+							if (element.length() > 8) {
+								funIterator.remove();
+							}
+						}
+					}
+					model.addAttribute("funlist", funList);
+					model.addAttribute("branch", branch);
+					model.addAttribute("btnList", vadto.getBtnList());
+					model.addAttribute("function", fid);
+					model.addAttribute("module", mid);
+					model.addAttribute("functionDesc", currentfunction.getFunctionDesc() + " - ADD");
+					model.addAttribute("funmap", funHashmap);
+				} else {
+					return "redirect:login";
+				}
+			} else {
+				logger.debug(StringUtil.NO_ACCESS_TOKEN);
+				red.addFlashAttribute("msg", StringUtil.NO_PERMISSION_FOR_SCREEN);
+				return "redirect:notAuthorized";
+			}
+		} catch (Exception e) {
+			logger.debug(e.toString());
+			red.addFlashAttribute("cause", StringUtil.UNKNOW_REASON);
+			return "redirect:login";
+		}
+		return sid;
+	}
+
+	@SuppressWarnings("unchecked")
+	@RequestMapping(value = "/branch-maintenance-enquiry", method = RequestMethod.GET)
+	public String view_FCFG3700_SCFG3700E(ModelMap model, @RequestParam String mid, @RequestParam String fid,
+			@RequestParam String sid, @RequestParam String pid, RedirectAttributes red, HttpServletRequest request) {
+		BranchTab branch = new BranchTab();
+		Map<String, List<String>> funModMap = new HashMap<String, List<String>>();
+		List<String> funList = new ArrayList<String>();
+		try {
+			ViewAuthDto vadto = ViewAuthUtil.isRequestValid(request, fid, sid);
+			if (vadto.isAllowedAccess()) {
+				if (SessionUtil.sessionValid(request.getSession(false), red)
+						.equalsIgnoreCase(StringUtil.SESSION_VALID)) {
+					Function currentfunction = funService.getFunctionById(fid);
+					if (request.getSession(false).getAttribute(StringUtil.SESSION_FUN_MOD_MAP) != null) {
+						funModMap = (Map<String, List<String>>) request.getSession(false)
+								.getAttribute(StringUtil.SESSION_FUN_MOD_MAP);
+						funList = funModMap.get(mid);
+						Iterator<String> funIterator = funList.iterator();
+						while (funIterator.hasNext()) {
+							String element = funIterator.next();
+							if (element.length() > 8) {
+								funIterator.remove();
+							}
+						}
+					}
+					branch = branchService.findBranchById(pid);
+					model.addAttribute("funlist", funList);
+					model.addAttribute("branch", branch);
+					model.addAttribute("btnList", vadto.getBtnList());
+					model.addAttribute("function", fid);
+					model.addAttribute("module", mid);
+					model.addAttribute("functionDesc", currentfunction.getFunctionDesc() + " - ENQUIRY");
+					model.addAttribute("funmap", funHashmap);
+				} else {
+					return "redirect:login";
+				}
+			} else {
+				logger.debug(StringUtil.NO_ACCESS_TOKEN);
+				red.addFlashAttribute("msg", StringUtil.NO_PERMISSION_FOR_SCREEN);
+				return "redirect:notAuthorized";
+			}
+		} catch (Exception e) {
+			logger.debug(e.toString());
+			red.addFlashAttribute("cause", StringUtil.UNKNOW_REASON);
+			return "redirect:login";
+		}
+		return sid;
+	}
+
+	@SuppressWarnings("unchecked")
+	@RequestMapping(value = "/branch-maintenance-update", method = RequestMethod.GET)
+	public String view_FCFG3700_SCFG3700U(ModelMap model, @RequestParam String mid, @RequestParam String fid,
+			@RequestParam String sid, @RequestParam String pid, RedirectAttributes red, HttpServletRequest request) {
+		BranchTab branch = new BranchTab();
+		Map<String, List<String>> funModMap = new HashMap<String, List<String>>();
+		List<String> funList = new ArrayList<String>();
+		try {
+			ViewAuthDto vadto = ViewAuthUtil.isRequestValid(request, fid, sid);
+			if (vadto.isAllowedAccess()) {
+				if (SessionUtil.sessionValid(request.getSession(false), red)
+						.equalsIgnoreCase(StringUtil.SESSION_VALID)) {
+					Function currentfunction = funService.getFunctionById(fid);
+					if (request.getSession(false).getAttribute(StringUtil.SESSION_FUN_MOD_MAP) != null) {
+						funModMap = (Map<String, List<String>>) request.getSession(false)
+								.getAttribute(StringUtil.SESSION_FUN_MOD_MAP);
+						funList = funModMap.get(mid);
+						Iterator<String> funIterator = funList.iterator();
+						while (funIterator.hasNext()) {
+							String element = funIterator.next();
+							if (element.length() > 8) {
+								funIterator.remove();
+							}
+						}
+					}
+					branch = branchService.findBranchById(pid);
+					model.addAttribute("funlist", funList);
+					model.addAttribute("branch", branch);
+					model.addAttribute("btnList", vadto.getBtnList());
+					model.addAttribute("function", fid);
+					model.addAttribute("module", mid);
+					model.addAttribute("functionDesc", currentfunction.getFunctionDesc() + " - UPDATE");
 					model.addAttribute("funmap", funHashmap);
 				} else {
 					return "redirect:login";
@@ -521,7 +780,7 @@ public class CoreConfigurationController {
 	@RequestMapping(value = "/view-atm-details", method = RequestMethod.GET)
 	public String view_FCFG3500_SCFG3500V(ModelMap model, @RequestParam String mid, @RequestParam String fid,
 			@RequestParam String sid, @RequestParam String pid, RedirectAttributes red, HttpServletRequest request) {
-
+		AtmMaster mstatmdto;
 		Map<String, List<String>> funModMap = new HashMap<String, List<String>>();
 		List<String> funList = new ArrayList<String>(), tempfunlist;
 		List<Function> funListDb = new ArrayList<Function>();
@@ -548,7 +807,8 @@ public class CoreConfigurationController {
 						}
 						model.addAttribute("funlist", funList);
 					}
-					atmMasterService.findAtmMasterInfoByPid(pid);
+					mstatmdto = atmMasterService.findAtmMasterInfoByPid(pid);
+					model.addAttribute("mstatm", mstatmdto);
 
 					model.addAttribute("funlist", funList);
 					model.addAttribute("btnList", vadto.getBtnList());
@@ -576,7 +836,7 @@ public class CoreConfigurationController {
 	@RequestMapping(value = "/update-atm-details", method = RequestMethod.GET)
 	public String view_FCFG3500_SCFG3500U(ModelMap model, @RequestParam String mid, @RequestParam String fid,
 			@RequestParam String sid, @RequestParam String pid, RedirectAttributes red, HttpServletRequest request) {
-
+		AtmMaster mstatmdto;
 		Map<String, List<String>> funModMap = new HashMap<String, List<String>>();
 		List<String> funList = new ArrayList<String>(), tempfunlist;
 		List<Function> funListDb = new ArrayList<Function>();
@@ -604,110 +864,9 @@ public class CoreConfigurationController {
 						model.addAttribute("funlist", funList);
 					}
 
-					// retrieve relevant atm row
-					// first check the cmd status
-					// if cmd status is 0 / 1, then command is yet to be completed
-					// in such case options (based on cmd_code) should be disabled
-					// if cmd status is 2, then given command is successful
-					// options can be visible
-
-					LinkedHashMap<String, Integer> cmdcodemap = new LinkedHashMap<String, Integer>();
-					cmdcodemap.put("1-Open ATM", 0);
-					cmdcodemap.put("2-Close ATM", 0);
-					cmdcodemap.put("3-Load Formats", 0);
-					cmdcodemap.put("4-Load States", 0);
-					cmdcodemap.put("5-Load Screens", 0);
-					cmdcodemap.put("6-Load configuration parameters", 0);
-					cmdcodemap.put("7-Load FIT Table", 0);
-					cmdcodemap.put("9-Load New TPK", 0);
-					cmdcodemap.put("11-Load Current Date and Time", 0);
-					cmdcodemap.put("38-Load EMV AID Table", 0);
-					cmdcodemap.put("39-Load EMV Currency Table", 0);
-					cmdcodemap.put("40-Load EMV Transaction Type Table", 0);
-					cmdcodemap.put("41-Load EMV Terminal Data", 0);
-					cmdcodemap.put("63-Load EJ Options and Timers", 0);
-					cmdcodemap.put("13-Request ATM To Send Supply Counters", 0);
-					cmdcodemap.put("52-Request ATM To Send Enhanced Supply Counters", 0);
-					cmdcodemap.put("53-Request ATM To Run Self-Test", 0);
-					int code;
-					AtmCmdTab atmcmdobj = atmCmdService.getAtmCmdDetailsByPid(pid);
-					int status = atmcmdobj.getCmdStatus().intValue();
-					switch (status) {
-					case 0:
-					case 1:
-						System.out.println("Command request submitted/ Command sent to ATM");
-						code = atmcmdobj.getCmdCode().intValue();
-						switch (code) {
-						case 1:
-							System.out.println("Open ATM");
-							// show only ATM closing option in disabled state
-							cmdcodemap.replace("2-Close ATM", 2);
-							break;
-						// case 2:
-						default:
-							System.out.println("Closed ATM");
-							// show all options in disabled state
-							cmdcodemap.replace("1-Open ATM", 2);
-							cmdcodemap.replace("3-Load Formats", 2);
-							cmdcodemap.replace("4-Load States", 2);
-							cmdcodemap.replace("5-Load Screens", 2);
-							cmdcodemap.replace("6-Load configuration parameters", 2);
-							cmdcodemap.replace("7-Load FIT Table", 2);
-							cmdcodemap.replace("9-Load New TPK", 2);
-							cmdcodemap.replace("11-Load Current Date and Time", 2);
-							cmdcodemap.replace("38-Load EMV AID Table", 2);
-							cmdcodemap.replace("39-Load EMV Currency Table", 2);
-							cmdcodemap.replace("40-Load EMV Transaction Type Table", 2);
-							cmdcodemap.replace("41-Load EMV Terminal Data", 2);
-							cmdcodemap.replace("63-Load EJ Options and Timers", 2);
-							cmdcodemap.replace("13-Request ATM To Send Supply Counters", 2);
-							cmdcodemap.replace("52-Request ATM To Send Enhanced Supply Counters", 2);
-							cmdcodemap.replace("53-Request ATM To Run Self-Test", 2);
-							break;
-						/*
-						 * default: System.out.println("Invalid Code"); break;
-						 */
-						}
-						break;
-					case 2:
-						System.out.println("Command completed");
-						code = atmcmdobj.getCmdCode().intValue();
-						switch (code) {
-						case 1:
-							System.out.println("Open ATM");
-							// show only ATM closing option
-							cmdcodemap.replace("2-Close ATM", 1);
-							break;
-						// case 2:
-						default:
-							System.out.println("Closed ATM");
-							// show all options
-							cmdcodemap.replace("1-Open ATM", 1);
-							cmdcodemap.replace("3-Load Formats", 1);
-							cmdcodemap.replace("4-Load States", 1);
-							cmdcodemap.replace("5-Load Screens", 1);
-							cmdcodemap.replace("6-Load configuration parameters", 1);
-							cmdcodemap.replace("7-Load FIT Table", 1);
-							cmdcodemap.replace("9-Load New TPK", 1);
-							cmdcodemap.replace("11-Load Current Date and Time", 1);
-							cmdcodemap.replace("38-Load EMV AID Table", 1);
-							cmdcodemap.replace("39-Load EMV Currency Table", 1);
-							cmdcodemap.replace("40-Load EMV Transaction Type Table", 1);
-							cmdcodemap.replace("41-Load EMV Terminal Data", 1);
-							cmdcodemap.replace("63-Load EJ Options and Timers", 1);
-							cmdcodemap.replace("13-Request ATM To Send Supply Counters", 1);
-							cmdcodemap.replace("52-Request ATM To Send Enhanced Supply Counters", 1);
-							cmdcodemap.replace("53-Request ATM To Run Self-Test", 1);
-							break;
-						/*
-						 * default: System.out.println("Invalid Code"); break;
-						 */
-						}
-						break;
-					default:
-						System.out.println("Invalid");
-						break;
-					}
+					mstatmdto = atmMasterService.findAtmMasterInfoByPid(pid);
+					model.addAttribute("mstatm", mstatmdto);
+					LinkedHashMap<String, Integer> cmdcodemap = cmdStatusMapForAtm(pid);
 					model.addAttribute("cmdcodemap", cmdcodemap);
 
 					model.addAttribute("funlist", funList);
@@ -850,7 +1009,17 @@ public class CoreConfigurationController {
 			red.addFlashAttribute("cause", StringUtil.UNKNOW_REASON);
 			return "redirect:login";
 		}
-		return sid;
+		// return sid;
+		return "SCFG3201";
+	}
+
+	@RequestMapping(value = "/getCmdStatusForSelectedATM", method = RequestMethod.POST)
+	@ResponseBody
+	public String ajaxcall_method_SCFG3500(@RequestParam("pid") String pid, HttpServletRequest request) {
+		logger.debug("pid: " + pid);
+		LinkedHashMap<String, Integer> cmdcodemap = cmdStatusMapForAtm(pid);
+		String jsonString = new Gson().toJson(cmdcodemap);
+		return jsonString;
 	}
 
 	@RequestMapping(value = "/updateCmdStatusForSelectedATM", method = RequestMethod.POST)
@@ -869,10 +1038,10 @@ public class CoreConfigurationController {
 		String timestamp = DateUtil.getCurrentTimestampToString();
 		AtmCmdTab atmcmd = new AtmCmdTab();
 		atmcmd.setPid(new Long(pid));
-		atmcmd.setCmdDatetime(timestamp);
-		atmcmd.setCmdIssuer(username);
-		atmcmd.setCmdCode(new BigDecimal(cmdcode));
-		atmcmd.setCmdStatus(new BigDecimal(0));
+		atmcmd.setCmd_datetime(timestamp);
+		atmcmd.setCmd_issuer(username);
+		atmcmd.setCmd_code(new BigDecimal(cmdcode));
+		atmcmd.setCmd_status(new BigDecimal(0));
 
 		int nora = 0;
 		try {
@@ -885,6 +1054,113 @@ public class CoreConfigurationController {
 			return "200";
 		else
 			return "500";
+	}
+
+	private LinkedHashMap<String, Integer> cmdStatusMapForAtm(String pid) {
+		// retrieve relevant atm row
+		// first check the cmd status
+		// if cmd status is 0 / 1, then command is yet to be completed
+		// in such case options (based on cmd_code) should be disabled
+		// if cmd status is 2, then given command is successful
+		// options can be visible
+		LinkedHashMap<String, Integer> cmdcodemaptemp = new LinkedHashMap<String, Integer>();
+		cmdcodemaptemp.put("1-Open ATM", 0);
+		cmdcodemaptemp.put("2-Close ATM", 0);
+		cmdcodemaptemp.put("3-Load Formats", 0);
+		cmdcodemaptemp.put("4-Load States", 0);
+		cmdcodemaptemp.put("5-Load Screens", 0);
+		cmdcodemaptemp.put("6-Load configuration parameters", 0);
+		cmdcodemaptemp.put("7-Load FIT Table", 0);
+		cmdcodemaptemp.put("9-Load New TPK", 0);
+		cmdcodemaptemp.put("11-Load Current Date and Time", 0);
+		cmdcodemaptemp.put("38-Load EMV AID Table", 0);
+		cmdcodemaptemp.put("39-Load EMV Currency Table", 0);
+		cmdcodemaptemp.put("40-Load EMV Transaction Type Table", 0);
+		cmdcodemaptemp.put("41-Load EMV Terminal Data", 0);
+		cmdcodemaptemp.put("63-Load EJ Options and Timers", 0);
+		cmdcodemaptemp.put("13-Request ATM To Send Supply Counters", 0);
+		cmdcodemaptemp.put("52-Request ATM To Send Enhanced Supply Counters", 0);
+		cmdcodemaptemp.put("53-Request ATM To Run Self-Test", 0);
+		int code;
+		AtmCmdTab atmcmdobj = atmCmdService.getAtmCmdDetailsByPid(pid);
+		int status = atmcmdobj.getCmd_status().intValue();
+		switch (status) {
+		case 0:
+		case 1:
+			System.out.println("Command request submitted/ Command sent to ATM");
+			code = atmcmdobj.getCmd_code().intValue();
+			switch (code) {
+			case 1:
+				System.out.println("Open ATM");
+				// show only ATM closing option in disabled state
+				cmdcodemaptemp.replace("2-Close ATM", 2);
+				break;
+			// case 2:
+			default:
+				System.out.println("Closed ATM");
+				// show all options in disabled state
+				cmdcodemaptemp.replace("1-Open ATM", 2);
+				cmdcodemaptemp.replace("3-Load Formats", 2);
+				cmdcodemaptemp.replace("4-Load States", 2);
+				cmdcodemaptemp.replace("5-Load Screens", 2);
+				cmdcodemaptemp.replace("6-Load configuration parameters", 2);
+				cmdcodemaptemp.replace("7-Load FIT Table", 2);
+				cmdcodemaptemp.replace("9-Load New TPK", 2);
+				cmdcodemaptemp.replace("11-Load Current Date and Time", 2);
+				cmdcodemaptemp.replace("38-Load EMV AID Table", 2);
+				cmdcodemaptemp.replace("39-Load EMV Currency Table", 2);
+				cmdcodemaptemp.replace("40-Load EMV Transaction Type Table", 2);
+				cmdcodemaptemp.replace("41-Load EMV Terminal Data", 2);
+				cmdcodemaptemp.replace("63-Load EJ Options and Timers", 2);
+				cmdcodemaptemp.replace("13-Request ATM To Send Supply Counters", 2);
+				cmdcodemaptemp.replace("52-Request ATM To Send Enhanced Supply Counters", 2);
+				cmdcodemaptemp.replace("53-Request ATM To Run Self-Test", 2);
+				break;
+			/*
+			 * default: System.out.println("Invalid Code"); break;
+			 */
+			}
+			break;
+		case 2:
+			System.out.println("Command completed");
+			code = atmcmdobj.getCmd_code().intValue();
+			switch (code) {
+			case 1:
+				System.out.println("Open ATM");
+				// show only ATM closing option
+				cmdcodemaptemp.replace("2-Close ATM", 1);
+				break;
+			// case 2:
+			default:
+				System.out.println("Closed ATM");
+				// show all options
+				cmdcodemaptemp.replace("1-Open ATM", 1);
+				cmdcodemaptemp.replace("3-Load Formats", 1);
+				cmdcodemaptemp.replace("4-Load States", 1);
+				cmdcodemaptemp.replace("5-Load Screens", 1);
+				cmdcodemaptemp.replace("6-Load configuration parameters", 1);
+				cmdcodemaptemp.replace("7-Load FIT Table", 1);
+				cmdcodemaptemp.replace("9-Load New TPK", 1);
+				cmdcodemaptemp.replace("11-Load Current Date and Time", 1);
+				cmdcodemaptemp.replace("38-Load EMV AID Table", 1);
+				cmdcodemaptemp.replace("39-Load EMV Currency Table", 1);
+				cmdcodemaptemp.replace("40-Load EMV Transaction Type Table", 1);
+				cmdcodemaptemp.replace("41-Load EMV Terminal Data", 1);
+				cmdcodemaptemp.replace("63-Load EJ Options and Timers", 1);
+				cmdcodemaptemp.replace("13-Request ATM To Send Supply Counters", 1);
+				cmdcodemaptemp.replace("52-Request ATM To Send Enhanced Supply Counters", 1);
+				cmdcodemaptemp.replace("53-Request ATM To Run Self-Test", 1);
+				break;
+			/*
+			 * default: System.out.println("Invalid Code"); break;
+			 */
+			}
+			break;
+		default:
+			System.out.println("Invalid");
+			break;
+		}
+		return cmdcodemaptemp;
 	}
 
 	private AtmMaster mapUserInputToAtmMaster(AtmDefDto atmDef) {
@@ -1011,7 +1287,23 @@ public class CoreConfigurationController {
 			atmCurrencyTab = new AtmCurrencyTab();
 			atmCurrencyTab.setPid(pid);
 			atmCurrencyTab.setCanister_type(new BigDecimal(i));
-			atmCurrencyTab.setIso_currency_type(new BigDecimal(50));
+			switch (i) {
+			case 1:
+				atmCurrencyTab.setIso_currency_type(new BigDecimal(atmdef.getD1curr()));
+				break;
+			case 2:
+				atmCurrencyTab.setIso_currency_type(new BigDecimal(atmdef.getD2curr()));
+				break;
+			case 3:
+				atmCurrencyTab.setIso_currency_type(new BigDecimal(atmdef.getD3curr()));
+				break;
+			case 4:
+				atmCurrencyTab.setIso_currency_type(new BigDecimal(atmdef.getD4curr()));
+				break;
+			default:
+				logger.debug("Index not valid");
+			}
+			
 			atmcurrtablst.add(atmCurrencyTab);
 		}
 		return atmcurrtablst;
@@ -1429,12 +1721,45 @@ public class CoreConfigurationController {
 			brnchList = branchService.getAllBranches();
 			for (BranchTab branch : brnchList) {
 				// if(branch.getBranchId() < 52)
-				branchOptions.put(String.valueOf(branch.getBranchId()), branch.getBranchName());
+				branchOptions.put(String.valueOf(branch.getBranch_id()), branch.getBranch_name());
 			}
 			return branchOptions;
 		} catch (Exception e) {
 			// TODO: handle exception
 			return branchOptions;
+		}
+	}
+
+	@ModelAttribute("currencyOptions")
+	protected Map<String, String> getCurrencyOptions() {
+		List<MstCurrIso> currencyList = new ArrayList<MstCurrIso>();
+		Map<String, String> currencyOptions = new LinkedHashMap<String, String>();
+		try {
+			currencyList = mstCurrencyService.getCurrencyList();
+			for (MstCurrIso currency : currencyList) {
+				// if(branch.getBranchId() < 52)
+				currencyOptions.put(String.valueOf(currency.getIso_num()), currency.getIso_code());
+			}
+			return currencyOptions;
+		} catch (Exception e) {
+			// TODO: handle exception
+			return currencyOptions;
+		}
+	}
+
+	@ModelAttribute("deviceList")
+	protected Map<String, String> getDeviceList() {
+		Map<String, String> deviceOptions = new LinkedHashMap<String, String>();
+		try {
+			deviceOptions.put("C1", "Camera 1");
+			deviceOptions.put("C2", "Camera 2");
+			deviceOptions.put("C3", "Camera 3");
+			deviceOptions.put("C4", "Camera 4");
+			deviceOptions.put("D1", "Disk 1");
+			return deviceOptions;
+		} catch (Exception e) {
+			// TODO: handle exception
+			return deviceOptions;
 		}
 	}
 

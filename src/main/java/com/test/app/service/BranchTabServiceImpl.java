@@ -43,4 +43,44 @@ public class BranchTabServiceImpl implements BranchTabService {
 		return brnch;
 	}
 
+	@Override
+	public int editBranchInfo(BranchTab branchTab) {
+		// TODO Auto-generated method stub
+		int nora = 0;
+		try {
+			nora = branchMapper.updateExistingBranch(branchTab);
+		} 
+		catch (Exception e) {
+			// TODO: handle exception
+			e.toString();
+		}
+		return nora;
+	}
+
+	@Override
+	public int generateBranchId() {
+		// TODO Auto-generated method stub
+		int branchId = 0;
+		try {
+			branchId = branchMapper.getNextBranchId();
+		} catch (Exception ex) {
+			ex.toString();
+			return branchId;
+		}
+		return branchId;
+	}
+
+	@Override
+	public int addNewBranch(BranchTab branchTab) {
+		// TODO Auto-generated method stub
+		int nora = 0;
+		try {
+			nora = branchMapper.saveNewBranchInfo(branchTab);
+		}
+		catch(Exception ex) {
+			ex.toString();
+		}
+		return nora;
+	}
+
 }
