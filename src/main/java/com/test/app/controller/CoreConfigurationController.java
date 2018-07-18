@@ -1009,8 +1009,8 @@ public class CoreConfigurationController {
 			red.addFlashAttribute("cause", StringUtil.UNKNOW_REASON);
 			return "redirect:login";
 		}
-		// return sid;
-		return "SCFG3201";
+		return sid;
+		/*return "SCFG3201";*/
 	}
 
 	@RequestMapping(value = "/getCmdStatusForSelectedATM", method = RequestMethod.POST)
